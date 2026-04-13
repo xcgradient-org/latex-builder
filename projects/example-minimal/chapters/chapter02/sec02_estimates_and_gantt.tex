@@ -1,0 +1,40 @@
+\section{Estimates and the Gantt Chart}
+\label{sec:estimates-and-the-gantt-chart}
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{@{}lcc@{}}
+    \toprule
+    Task & Estimated Hours & Output \\
+    \midrule
+    Analyze reference structure & 4 & Formatting notes \\
+    Create LaTeX scaffold & 6 & Reusable project template \\
+    Validate build chain & 2 & Working PDF generation \\
+    \bottomrule
+  \end{tabular}
+  \caption{Illustrative task summary. \textit{Source: Compiled by the author.}}
+  \label{tab:task-summary}
+\end{table}
+
+\begin{landscape}
+\begin{figure}[p]
+  \centering
+  \begin{ganttchart}[
+    x unit=0.7cm,
+    y unit chart=0.8cm,
+    vgrid,
+    hgrid,
+    title height=1,
+    bar/.style={fill=upcblue!60},
+    title/.style={fill=upcblue!10}
+  ]{1}{6}
+    \gantttitle{Illustrative Work Plan}{6} \\
+    \gantttitlelist{1,...,6}{1} \\
+    \ganttbar{Structure analysis}{1}{2} \\
+    \ganttbar{Project scaffolding}{3}{5} \\
+    \ganttbar{Compilation validation}{6}{6}
+  \end{ganttchart}
+  \caption{Illustrative Gantt chart included to preserve the same planning-oriented package stack as the reference report. \textit{Source: Compiled by the author.}}
+  \label{fig:gantt-chart}
+\end{figure}
+\end{landscape}

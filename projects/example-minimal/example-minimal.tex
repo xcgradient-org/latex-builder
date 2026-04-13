@@ -1,0 +1,231 @@
+%% ============================================================
+%%  example-minimal.tex — Root document
+%%  Build:  latexmk -pdf example-minimal.tex
+%% ============================================================
+\documentclass[12pt, a4paper, twoside]{report}
+
+%% ── Encoding & fonts ─────────────────────────────────────────
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{siunitx}
+
+%% ── Language ─────────────────────────────────────────────────
+\usepackage[english]{babel}
+
+%% ── Page geometry ────────────────────────────────────────────
+\usepackage[
+  top=2.5cm, bottom=2.5cm,
+  inner=3cm,  outer=2cm
+]{geometry}
+
+%% ── Graphics ─────────────────────────────────────────────────
+\usepackage{graphicx}
+\graphicspath{
+  {./}
+  {chapters/chapter01/figures/}
+  {chapters/chapter02/figures/}
+  {chapters/chapter03/figures/}
+  {chapters/chapter04/figures/}
+  {chapters/chapter05/figures/}
+  {chapters/chapter06/figures/}
+  {chapters/chapter07/figures/}
+}
+
+%% ── Miscellaneous utilities ──────────────────────────────────
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage[nopatch=footnote]{microtype}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta}
+\usepackage{float}
+\usepackage{pgfgantt}
+\usepackage{pdflscape}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage[official]{eurosym}
+\usepackage{setspace}
+
+\setstretch{1.2}
+\setlength{\parskip}{0.6em plus 0.2em minus 0.1em}
+\setlength{\parindent}{17pt}
+
+%% ── Chapter formatting (titlesec) ────────────────────────────
+\usepackage{xcolor}
+\usepackage{titlesec}
+
+\definecolor{chaptergray}{gray}{0.75}
+\definecolor{upcblue}{RGB}{0,51,153}
+\definecolor{fibred}{RGB}{190,30,45}
+\definecolor{linkblue}{RGB}{0,84,166}
+
+\titleformat{\chapter}[hang]
+  {\Huge\bfseries}
+  {\thechapter\hspace{15pt}\textcolor{chaptergray}{|}\hspace{15pt}}
+  {0pt}
+  {\Huge\bfseries}
+
+\titlespacing*{\chapter}{0pt}{-20pt}{30pt}
+
+%% ── Header / footer (fancyhdr) ───────────────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{14.5pt}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyhead[LE]{\nouppercase{\scshape\leftmark}}
+\fancyhead[LO]{\nouppercase{\scshape\rightmark}}
+\fancyhead[RE,RO]{UPC-FIB}
+\fancyfoot[C]{\textbf{\thepage}}
+
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\textbf{\thepage}}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+%% ── Bibliography (biblatex + biber) ──────────────────────────
+\usepackage{csquotes}
+\usepackage[
+  backend  = biber,
+  style    = ieee,
+  sorting  = none
+]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{amsthm}
+\usepackage{thmtools}
+
+%% ── Hyperlinks ───────────────────────────────────────────────
+\usepackage[
+  colorlinks = true,
+  linkcolor  = blue,
+  citecolor  = blue,
+  urlcolor   = blue
+]{hyperref}
+
+\usepackage{cleveref}
+
+\declaretheoremstyle[
+  headfont=\bfseries,
+  bodyfont=\normalfont,
+  spaceabove=6pt,
+  spacebelow=6pt,
+  notefont=\normalfont\small\itshape,
+  notebraces={}{},
+]{thmstyle}
+
+\declaretheorem[style=thmstyle, name=Theorem,
+  refname={theorem,theorems},
+  Refname={Theorem,Theorems}]{theorem}
+\declaretheorem[style=thmstyle, name=Proposition, sibling=theorem]{proposition}
+\declaretheorem[style=thmstyle, name=Lemma, sibling=theorem]{lemma}
+\declaretheorem[style=thmstyle, name=Corollary, sibling=theorem]{corollary}
+\declaretheorem[style=thmstyle, name=Definition, sibling=theorem]{definition}
+
+\newcommand{\DocumentTitle}{Example Minimal}
+\newcommand{\DocumentAuthor}{Student Name}
+\newcommand{\ThesisSupervisor}{Supervisor Name}
+\newcommand{\GeTutorNames}{Tutor Name}
+\newcommand{\DocumentDate}{\today}
+
+%% ============================================================
+\begin{document}
+
+\begin{titlepage}
+  \thispagestyle{empty}
+  \newgeometry{top=2cm, bottom=2cm, left=2.5cm, right=2.5cm}
+
+  \noindent
+  \begin{minipage}[c]{0.62\textwidth}
+    \includegraphics[height=2cm]{logo}
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[c]{0.3\textwidth}
+    \raggedleft
+  \end{minipage}
+
+  \vspace{0.35cm}
+  {\color{upcblue}\noindent\rule{\linewidth}{1.2pt}}
+  \vspace{0.1cm}
+
+  \vfill
+
+  \begin{center}
+    {\LARGE\bfseries \DocumentTitle\par}
+  \end{center}
+
+  \vspace{2.2cm}
+
+  \begin{center}
+    {\large\bfseries \DocumentAuthor\par}
+  \end{center}
+
+  \vfill
+
+  \begin{center}
+    {\small Thesis supervisor\par}
+    \vspace{2pt}
+    {\small\textcolor{upcblue}{\ThesisSupervisor}\par}
+
+    \vspace{10pt}
+
+    {\small GEP tutor(s)\par}
+    \vspace{2pt}
+    {\small\textcolor{upcblue}{\GeTutorNames}\par}
+
+    \vspace{10pt}
+
+    {\small Degree\par}
+    \vspace{2pt}
+    {\small{Bachelor's Degree in Informatics Engineering (Computing)}\par}
+  \end{center}
+
+  \vspace{1.2cm}
+
+  \begin{center}
+    {\normalsize\bfseries GEP Final Deliverable: Project Management Report\par
+      \vspace{0.3cm}
+      \DocumentDate\par
+    }
+  \end{center}
+
+  \vfill
+
+  {\color{upcblue}\noindent\rule{\linewidth}{0.6pt}}
+  \vspace{0.3cm}
+
+  \begin{center}
+    {\normalsize\bfseries
+      Facultat d'Inform\\`atica de Barcelona (FIB)\\[2pt]
+      Universitat Polit\\`ecnica de Catalunya (UPC) --- BarcelonaTech\par}
+  \end{center}
+
+  \restoregeometry
+\end{titlepage}
+
+\pagenumbering{roman}
+\tableofcontents
+\listoffigures
+\listoftables
+
+\DeclareRobustCommand{\loesource}[1]{\newline \textit{\small #1}}
+\listoftheorems
+\DeclareRobustCommand{\loesource}[1]{}
+
+\clearpage
+\pagenumbering{arabic}
+
+\include{chapters/chapter01/chapter01}
+\include{chapters/chapter02/chapter02}
+\include{chapters/chapter03/chapter03}
+%\include{chapters/chapter04/chapter04}
+%\include{chapters/chapter05/chapter05}
+%\include{chapters/chapter06/chapter06}
+%\include{chapters/chapter07/chapter07}
+
+\printbibliography[heading=bibintoc]
+
+\end{document}

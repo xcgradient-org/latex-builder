@@ -1,0 +1,14 @@
+{
+  "name": "latex-builder",
+  "version": "1.0.0",
+  "description": "Scaffold and build chaptered academic LaTeX projects",
+  "main": "scripts/scaffold-project.js",
+  "scripts": {
+    "new": "node scripts/scaffold-project.js",
+    "build": "make build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

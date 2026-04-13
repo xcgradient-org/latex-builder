@@ -1,0 +1,122 @@
+\chapter{Avaluaci\'o}
+\label{chap:avaluacio}
+
+\section{Estructura de la nota}
+
+La nota final del curs es calcula a partir de \textbf{4 components principals} i, addicionalment, de \textbf{punts extra opcionals} obtinguts al llarg del curs. La ponderaci\'o dels quatre components principals \'es la seg\"uent:
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{p{10cm}c}
+    \toprule
+    \textbf{Component} & \textbf{Pes sobre la nota final} \\
+    \midrule
+    Lliurable 1: Document LaTeX & 20\% \\
+    Lliurable 2: Torneig de Bots & 25\% \\
+    Lliurable 3: Problemes Setmanals & 25\% \\
+    Lliurable 4: Projecte Final (per determinar) & 30\% \\
+    \midrule
+    \textbf{Total} & \textbf{100\%} \\
+    \bottomrule
+  \end{tabular}
+  \caption{Ponderaci\'o dels components principals de l'avaluaci\'o.}
+  \label{tab:pesos}
+\end{table}
+
+\section{Punts extra}
+
+Al llarg del curs hi haur\`a disponibles \textbf{fins a 2 punts extra}. D'una banda, es podr\`a obtenir \textbf{+1 punt extra} associat al \textbf{Lliurable 2 (Torneig de Bots)}, en funci\'o del rendiment mostrat en la fase competitiva final. De l'altra, hi haur\`a \textbf{+1 punt extra} associat al \textbf{Lliurable 4 (Projecte Final)}, d'acord amb uns criteris que es definiran i es comunicaran oportunament en el document espec\'ific corresponent.
+
+Aquests punts s'afegeixen a la nota bruta calculada a partir dels quatre components principals. En cap cas no substitueixen l'assoliment ordinari dels objectius de cada activitat, sin\'o que actuen com a mecanisme de compensaci\'o i reconeixement del rendiment destacat.
+
+En el cas del \textbf{Torneig de Bots}, l'assignaci\'o del punt extra seguir\`a un mecanisme progressiu. Els alumnes que \textbf{no hagin superat el llindar m\'inim dels 3 nivells} no accediran a la fase competitiva final i rebran directament \textbf{0 punts extra}. Entre els alumnes classificats, el bonus seguir\`a una \textbf{regressi\'o lineal de 0 a 1}: el \textbf{top 4} rep \textbf{1 punt extra}, i la resta de posicions classificades reben un valor estrictament compr\`es entre 0 i 1.
+
+\paragraph{Definici\'o general en funci\'o de \(K\) i \(W\).}
+Per formalitzar-ho, definim:
+\[
+K = \{\, i \mid \text{l'alumne } i \text{ supera el llindar dels 3 nivells i accedeix al torneig} \,\}
+\]
+\[
+W = \{\, i \in K \mid \text{l'alumne } i \text{ acaba classificat dins del top 4} \,\}
+\]
+
+Per tant, \(W \subseteq K\) i, per construcci\'o, \(|W|=4\). Si \(r(i)\) denota la posici\'o final de l'alumne \(i\) dins del torneig, el bonus del Lliurable 2 es pot escriure com:
+\[
+b(i)=
+\begin{cases}
+0, & \text{si } i \notin K, \\
+1, & \text{si } i \in W, \\
+\dfrac{|K|-r(i)+1}{|K|-|W|+1}, & \text{si } i \in K \setminus W.
+\end{cases}
+\]
+
+Aquesta expressi\'o mostra que el tram intermedi es pot descriure de manera compacta amb LaTeX mitjan\c{c}ant una funci\'o definida a trossos. Aix\'i, l'\'ultim classificat que encara pertany a \(K\) rep un valor estrictament positiu, mentre que el primer alumne fora de \(K\) rep valor \(0\). D'aquesta manera, els valors extrems queden reservats, respectivament, per als alumnes no classificats i per als del conjunt \(W\).
+
+\paragraph{Exemple particular amb \(\lvert K \rvert = 15\) i \(\lvert W \rvert = 4\).}
+Si en una edici\'o concreta del curs hi ha \(15\) alumnes classificats al torneig, aleshores \(|K|=15\) i \(|W|=4\). En aquest cas, la f\'ormula anterior es redueix a:
+\[
+b(i)=
+\begin{cases}
+0, & \text{si } i \notin K, \\
+1, & \text{si } i \in W, \\
+\dfrac{16-r(i)}{12}, & \text{si } i \in K \setminus W.
+\end{cases}
+\]
+
+Per tant, la posici\'o \(15\) rep \(\tfrac{1}{12}\), la posici\'o \(10\) rep \(\tfrac{1}{2}\) i la posici\'o \(5\) rep \(\tfrac{11}{12}\), mentre que les quatre primeres posicions reben directament el valor \(1\).
+
+Operativament, els participants classificats s'enfrontaran successivament entre ells i, a cada ronda, s'eliminar\`a un bot en funci\'o del rendiment agregat. Quan nom\'es en quedin \textbf{4}, es disputaran unes \textbf{semifinals} per establir la classificaci\'o final del torneig.
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{cc}
+    \toprule
+    \textbf{Posici\'o final} & \textbf{Punt extra de l'exemple} \\
+    \midrule
+    1--4 & +1.000 \\
+    5 & +0.917 \\
+    6 & +0.833 \\
+    7 & +0.750 \\
+    8 & +0.667 \\
+    9 & +0.583 \\
+    10 & +0.500 \\
+    11 & +0.417 \\
+    12 & +0.333 \\
+    13 & +0.250 \\
+    14 & +0.167 \\
+    15 & +0.083 \\
+    16--18 & +0.000 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Exemple il\textperiodcentered lustratiu de repartiment del bonus si hi ha 18 alumnes en total, \(|K|=15\) alumnes classificats al torneig i \(|W|=4\).}
+  \label{tab:bonus-torneig-exemple}
+\end{table}
+
+\section{F\'ormula de la nota final}
+
+La \textbf{nota bruta} \'es la suma ponderada dels quatre components principals m\'es els punts extra obtinguts. Per tant, la nota bruta pot arribar fins a un m\`axim de \textbf{12 punts}. La \textbf{nota final}, que \'es la qualificaci\'o que constar\`a com a nota del curs, es defineix com el m\'inim entre la nota bruta i 10.
+
+Formalment:
+
+\[
+\text{Nota final} = \min(\text{nota bruta},\,10)
+\qquad \text{on } \text{nota bruta} \in [0,12].
+\]
+
+En altres paraules, els punts extra permeten compensar una puntuaci\'o m\'es baixa en algun altre component del curs, per\`o \textbf{en cap cas la nota final pot superar el 10}.
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{cc}
+    \toprule
+    \textbf{Nota bruta} & \textbf{Nota final} \\
+    \midrule
+    7.5 & 7.5 \\
+    9.0 & 9.0 \\
+    10.5 & 10.0 \\
+    12.0 & 10.0 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Exemples il\textperiodcentered lustratius d'aplicaci\'o de la f\'ormula de qualificaci\'o.}
+  \label{tab:exemples-nota}
+\end{table}

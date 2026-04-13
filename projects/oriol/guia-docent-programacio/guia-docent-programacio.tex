@@ -1,0 +1,126 @@
+\documentclass[12pt, a4paper]{report}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{lmodern}
+\usepackage[nopatch=footnote]{microtype}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage[
+  backend=biber,
+  style=ieee,
+  sorting=none
+]{biblatex}
+
+\addbibresource{references.bib}
+
+\setstretch{1.12}
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+\renewcommand{\arraystretch}{1.2}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue
+}
+
+\newcommand{\CourseTitle}{Guia Docent --- Programaci\'o}
+\newcommand{\CourseName}{Programaci\'o}
+\newcommand{\InstructorName}{Oriol Farr\'es}
+\newcommand{\CourseLevel}{1r de Batxillerat}
+\newcommand{\CourseDuration}{24 hores}
+\newcommand{\AcademicYear}{2025--2026}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\CourseName}
+\fancyhead[R]{\InstructorName}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14.5pt}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\begin{document}
+
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+  \thispagestyle{empty}
+  \color{blue}
+  \rule{\textwidth}{1.2pt}
+  \vspace{0.4cm}
+
+  \begin{minipage}[c]{0.22\textwidth}
+    \includegraphics[width=\linewidth]{logo.png}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{0.72\textwidth}
+    {\Large\bfseries Guia Docent\par}
+    \vspace{0.2cm}
+    {\Huge\bfseries Programaci\'o\par}
+    \vspace{0.25cm}
+    {\large Curs d'introducci\'o al pensament computacional i a la programaci\'o aplicada\par}
+  \end{minipage}
+
+  \vspace{0.4cm}
+  \rule{\textwidth}{0.6pt}
+  \color{black}
+
+  \vspace{1.6cm}
+
+  \begin{center}
+    {\LARGE\bfseries \CourseTitle\par}
+    \vspace{0.5cm}
+    {\large Document acad\`emic de refer\`encia per al desenvolupament del curs\par}
+  \end{center}
+
+  \vspace{1.8cm}
+
+  \begin{center}
+    \begin{tabular}{>{\bfseries}p{5cm}p{8cm}}
+      Instructor & \InstructorName \\
+      Nivell & \CourseLevel \\
+      Durada total & 24 hores (4 sprints $\times$ 2 setmanes $\times$ 3 hores/setmana) \\
+      Idioma & Catal\`a \\
+      Curs acad\`emic & \AcademicYear \\
+      Modalitat & Aprenentatge orientat a projectes i lliurables \\
+    \end{tabular}
+  \end{center}
+
+  \vfill
+
+  \begin{center}
+    \fbox{\parbox{0.86\textwidth}{
+      \centering
+      \textbf{Finalitat del document}\\[0.2cm]
+      Aquest document estableix el marc general del curs, la pol\'itica de treball,
+      les normes de lliurament i els criteris d'avaluaci\'o.
+    }}
+  \end{center}
+\vspace{0.8cm}
+\end{titlepage}
+\hypersetup{pageanchor=true}
+
+\pagenumbering{roman}
+\tableofcontents
+\clearpage
+
+\pagenumbering{arabic}
+
+\input{chapters/chapter01/chapter01}
+\input{chapters/chapter02/chapter02}
+\input{chapters/chapter03/chapter03}
+\input{chapters/chapter04/chapter04}
+
+\printbibliography[heading=bibintoc,title={Refer\`encies}]
+
+\end{document}

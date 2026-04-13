@@ -1,0 +1,16 @@
+projects/*/*.aux
+projects/*/*.bbl
+projects/*/*.bcf
+projects/*/*.blg
+projects/*/*.fdb_latexmk
+projects/*/*.fls
+projects/*/*.lof
+projects/*/*.log
+projects/*/*.lot
+projects/*/*.loe
+projects/*/*.out
+projects/*/*.pdf
+projects/*/*.run.xml
+projects/*/*.synctex.gz
+projects/*/*.toc
+projects/*/chapters/**/*.aux
