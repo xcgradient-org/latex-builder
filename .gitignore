@@ -9,7 +9,7 @@ projects/*/*.log
 projects/*/*.lot
 projects/*/*.loe
 projects/*/*.out
-projects/*/*.pdf
+
 projects/*/*.run.xml
 projects/*/*.synctex.gz
 projects/*/*.toc
