@@ -17,6 +17,7 @@
 \usepackage{hyperref}
 \usepackage{setspace}
 \usepackage{enumitem}
+\usepackage{float}
 \usepackage{tikz}
 \usepackage{pgf}
 
@@ -183,7 +184,7 @@ Els models també són molt sensibles al context immediat: un canvi de to, d'ord
 
 La Taula~\ref{tab:models} resumeix algunes característiques de models LLM coneguts; en els sistemes propietaris, diverses xifres exactes no són públiques i s'indiquen de manera aproximada. Claude 3.5 Sonnet, per exemple, forma part d'una família presentada per Anthropic \cite{anthropic2024}.
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{Comparació de models LLM principals}
   \label{tab:models}
@@ -207,21 +208,26 @@ Per a exemples d'ús d'aquests models, vegeu l'Apèndix~\ref{app:exemples}.
 \section{Introducció a les tècniques}
 Les tècniques de prompting intenten reduir l'ambigüitat i orientar el model cap al tipus de resposta desitjat. No totes requereixen la mateixa quantitat de context ni tenen el mateix cost. La Figura~\ref{fig:tecni} presenta una comparació visual de les tres estratègies principals que s'analitzen en aquest treball.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \begin{tikzpicture}[font=\small]
-    \draw[rounded corners, thick] (0,0) rectangle (4,2);
-    \draw[rounded corners, thick] (5,0) rectangle (9,2);
-    \draw[rounded corners, thick] (10,0) rectangle (14,2);
-
-    \node at (2,1.45) {\textbf{Zero-Shot}};
-    \node[align=center] at (2,0.8) {Sense exemples previs,\\ instrucció directa};
-
-    \node at (7,1.45) {\textbf{Few-Shot}};
-    \node[align=center] at (7,0.8) {Inclou exemples\\ entrada$\rightarrow$sortida};
-
-    \node at (12,1.45) {\textbf{CoT}};
-    \node[align=center] at (12,0.8) {Demana passos\\ intermedis de raonament};
+    \tikzset{
+      techbox/.style={draw, thick, rounded corners=6pt,
+                      minimum width=3.6cm, minimum height=2.2cm,
+                      align=center, text width=3.2cm}
+    }
+    % Three technique boxes
+    \node[techbox, fill=blue!12] (zs) at (0,0)
+      {\textbf{Zero-Shot}\\[5pt] Instrucció directa\\sense exemples previs};
+    \node[techbox, fill=teal!12] (fs) at (5,0)
+      {\textbf{Few-Shot}\\[5pt] $k$ parells\\entrada\,$\to$\,sortida};
+    \node[techbox, fill=orange!15] (cot) at (10,0)
+      {\textbf{Chain of Thought}\\[5pt] Passos de raonament\\explícits};
+    % Complexity axis
+    \draw[->, thick, gray!70] (-2,-1.6) -- (12,-1.6);
+    \node[gray!80, right] at (12,-1.6) {\footnotesize complexitat};
+    \node[gray!80] at (-2,-2.0) {\footnotesize menys};
+    \node[gray!80] at (12,-2.0) {\footnotesize més};
   \end{tikzpicture}
   \caption{Comparació de les tres tècniques principals de prompting}
   \label{fig:tecni}
@@ -234,14 +240,15 @@ Les tècniques de prompting intenten reduir l'ambigüitat i orientar el model ca
 El zero-shot prompting consisteix a donar una instrucció al model sense proporcionar exemples previs. Aquesta tècnica aprofita el coneixement adquirit durant el preentrenament i és especialment útil quan la tasca és senzilla, el format és clar i no es disposa d'espai per afegir demostracions. La seva principal virtut és la simplicitat; la seva principal debilitat és que una instrucció poc precisa pot generar respostes inconsistents.
 
 \subsection{Exemple pràctic}
-Un cas elemental és la classificació de sentiment en català:
+Un cas típic és demanar la resolució d'un sistema de dues equacions sense proporcionar cap guia de procés:
 \begin{verbatim}
-Classifica el sentiment del text següent com a positiu, negatiu o neutre.
-Respon només amb una paraula.
+Resol el sistema d'equacions següent.
+Dona únicament els valors de x i de y.
 
-Text: "La presentació ha estat clara i molt ben organitzada."
+  2x + y = 5
+   x - y = 1
 \end{verbatim}
-En aquest exemple, l'objectiu, les etiquetes possibles i el format de sortida queden explícits, cosa que redueix la probabilitat d'una resposta fora d'especificació.
+En aquest exemple l'objectiu és clar (resoldre el sistema) i el format de sortida queda fixat (``x = ?, y = ?''), cosa que redueix ambigüitats sense necessitat d'exemples addicionals. El model aplica directament el coneixement algebraic adquirit durant el preentrenament.
 
 \section{Few-Shot Prompting}
 
@@ -249,35 +256,42 @@ En aquest exemple, l'objectiu, les etiquetes possibles i el format de sortida qu
 El few-shot prompting afegeix al prompt un conjunt reduït de parelles entrada$\rightarrow$sortida. La idea és que el model infereixi el patró a partir de \(k\) demostracions curtes abans de respondre una consulta nova. Aquesta estructura és útil quan volem fixar un estil, una etiqueta concreta o una transformació determinada sense necessitat de tornar a entrenar el model.
 
 \subsection{Exemple pràctic detallat}
-L'exemple següent mostra un prompt de tipus few-shot amb tres demostracions prèvies.\footnote{Estudis mostren que el rendiment del few-shot és sensible al nombre d'exemples k: massa pocs no estableixen el patró, massa molts poden sobrecarregar el context \cite{liu2023}.}
+L'exemple següent mostra un prompt few-shot aplicat a la resolució de sistemes de dues equacions: el model rep dos sistemes resolts com a demostració i ha de resoldre'n un tercer seguint el mateix patró.\footnote{Estudis mostren que el rendiment del few-shot és sensible al nombre d'exemples k: massa pocs no estableixen el patró, massa molts poden sobrecarregar el context \cite{liu2023}.}
 \begin{verbatim}
-Converteix cada frase en una etiqueta temàtica breu.
+Resol cada sistema d'equacions. Dona els valors de x i y.
 
 Exemple 1
-Entrada: "El partit d'ahir va acabar amb empat a dos gols."
-Sortida: esport
+Sistema:  x + y = 4
+          x - y = 2
+Solució: x = 3, y = 1
 
 Exemple 2
-Entrada: "La inflació ha baixat tres dècimes aquest trimestre."
-Sortida: economia
+Sistema:  3x + y = 7
+          x  + y = 3
+Solució: x = 2, y = 1
 
-Exemple 3
-Entrada: "Els alumnes han visitat el museu de ciències naturals."
-Sortida: educació
-
-Ara respon:
-Entrada: "El govern ha anunciat noves mesures sobre habitatge."
-Sortida:
+Ara resol:
+Sistema:  2x + y = 5
+          x  - y = 1
+Solució:
 \end{verbatim}
 La Figura~\ref{fig:fewshot} resumeix el flux d'aquesta tècnica: els exemples no són decoratius, sinó que defineixen el patró operatiu que el model ha de seguir.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
-  \begin{tikzpicture}[node distance=1.9cm, >=stealth, font=\small]
-    \node[draw, rectangle, minimum width=2.6cm, minimum height=1cm] (a) {Exemples \(k\)};
-    \node[draw, rectangle, minimum width=2.3cm, minimum height=1cm, right of=a] (b) {Prompt};
-    \node[draw, rectangle, minimum width=2.1cm, minimum height=1cm, right of=b] (c) {LLM};
-    \node[draw, rectangle, minimum width=2.6cm, minimum height=1cm, right of=c] (d) {Resposta};
+  \begin{tikzpicture}[node distance=2.6cm, >=stealth, font=\small]
+    \tikzset{
+      stepbox/.style={draw, thick, rounded corners=5pt,
+                      minimum width=2.6cm, minimum height=1.1cm,
+                      align=center, fill=blue!10},
+      llmbox/.style={draw, thick, rounded corners=5pt,
+                     minimum width=2.6cm, minimum height=1.1cm,
+                     align=center, fill=orange!20}
+    }
+    \node[stepbox] (a) {Exemples \(k\)};
+    \node[stepbox, right of=a] (b) {Prompt};
+    \node[llmbox,  right of=b] (c) {\textbf{LLM}};
+    \node[stepbox, right of=c] (d) {Resposta};
     \draw[->, thick] (a) -- (b);
     \draw[->, thick] (b) -- (c);
     \draw[->, thick] (c) -- (d);
@@ -298,8 +312,8 @@ El chain of thought consisteix a incentivar que el model expliciti passos interm
 \subsection{Zero-Shot CoT ('Pensa pas a pas')}
 Una variant especialment coneguda és el zero-shot CoT, que simplement afegeix una instrucció com ``Pensa pas a pas'' abans de resoldre la tasca. Tot i la seva simplicitat, aquesta formulació pot activar un procés de resposta més estructurat i millorar resultats en problemes de lògica, aritmètica i planificació \cite{kojima2022}.
 
-\subsection{Exemple comparat: problema matemàtic sense CoT vs. amb CoT}
-Sense CoT, el prompt pot ser: ``Si una llibreta costa 3 euros i en compro 4, quant pagaré?'' Amb CoT, podem reformular-lo així: ``Si una llibreta costa 3 euros i en compro 4, pensa pas a pas i dona el resultat final.'' La segona versió convida el model a explicitar la multiplicació \(3 \times 4\), i això redueix errors en problemes que exigeixen una seqüència d'operacions.
+\subsection{Exemple comparat: sistema d'equacions sense CoT vs. amb CoT}
+Sense CoT, el prompt pot ser: ``Resol el sistema \(2x + y = 5\) i \(x - y = 1\). Quant val \(x\)?'' Amb CoT, es reformula: ``Resol pas a pas el sistema \(2x + y = 5\) i \(x - y = 1\). Mostra cada operació i dona \(x\) i \(y\).'' La segona versió convida el model a sumar les equacions \((2x + y) + (x - y) = 5 + 1\), obtenint \(3x = 6\) i per tant \(x = 2\), i desprès substituir per trobar \(y = 1\). Fer explícit cada pas redueix significativament els errors en problemes algebraics multietapa.
 
 \section{Estratègies avançades}
 
@@ -309,7 +323,7 @@ El role prompting consisteix a assignar al model un paper concret, com ara ``act
 \subsection{Retrieval-Augmented Generation (RAG)}
 La generació augmentada amb recuperació combina un LLM amb un sistema extern de cerca o recuperació documental. En lloc de confiar només en el coneixement paramètric del model, el sistema aporta fragments rellevants abans de generar la resposta final, cosa que pot millorar la fidelitat factual i la traçabilitat \cite{lewis2020}. La Taula~\ref{tab:comparacio} sintetitza les diferències principals entre zero-shot, few-shot i CoT.
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{Comparació de tècniques de prompting}
   \label{tab:comparacio}
@@ -342,7 +356,7 @@ Intuïtivament, la perplexitat de la fórmula \ref{eq:perp} mesura fins a quin p
 \section{Benchmarks estàndards}
 Per comparar models i tècniques de prompting, la comunitat fa servir benchmarks com MMLU, HumanEval i HellaSwag. Aquests conjunts de proves avaluen coneixement general, programació i raonament de sentit comú. La importància d'una avaluació sistemàtica també és destacada en catàlegs de patrons de prompting com el de White et al.\ \cite{white2023}. En aquest context, informes tècnics com el d'OpenAI sobre GPT-4 \cite{openai2024} continuen sent una referència habitual per entendre el comportament dels models en proves estandarditzades. La Taula~\ref{tab:benchmarks} mostra valors il·lustratius de com diferents tècniques poden afectar els resultats.
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{Resultats de benchmark per tècnica de prompting (valors il·lustratius)}
   \label{tab:benchmarks}
@@ -381,60 +395,51 @@ Aquest apèndix amplia els exemples esmentats als capítols 2 i 3 amb tres promp
 \section{Exemple Zero-Shot}
 \begin{quote}
 \ttfamily\small
-Resumeix el text següent en dues frases\\
-i indica'n el tema central.\\
+Resol el sistema d'equacions i dona la solució.\\
 \\
-Text: ``Els boscos mediterranis són ecosistemes fràgils,\\
-adaptats a períodes llargs de sequera i a episodis puntuals\\
-d'incendi. La seva conservació depèn tant de la gestió forestal\\
-com de la reducció del risc climàtic.''\\
+Sistema:\\
+\quad 3x + 2y = 12\\
+\quad  x -  y =  1\\
 \\
 Format de resposta:\\
-1. Resum\\
-2. Tema central
+1. Mètode usat\\
+2. Solució: x = ?, y = ?
 \end{quote}
 
 \section{Exemple Few-Shot}
 \begin{quote}
 \ttfamily\small
-Identifica el registre lingüístic de cada frase.\\
+Resol cada sistema d'equacions. Dona els valors de x i y.\\
 \\
 Exemple 1\\
-Entrada: ``Benvolgudes famílies, us informem\\
-que la reunió començarà a les 18.00.''\\
-Sortida: formal\\
+Sistema: x + y = 6 ;  x - y = 2\\
+Solució: x = 4, y = 2\\
 \\
 Exemple 2\\
-Entrada: ``Ei, després et passo els apunts per WhatsApp.''\\
-Sortida: informal\\
+Sistema: 2x + y = 9 ; x + y = 5\\
+Solució: x = 4, y = 1\\
 \\
-Exemple 3\\
-Entrada: ``D'acord amb l'article 12,\\
-la sol·licitud queda desestimada.''\\
-Sortida: administratiu\\
-\\
-Ara respon:\\
-Entrada: ``Demà portaré el llibre\\
-i t'explico què ha dit la profe.''\\
-Sortida:
+Ara resol:\\
+Sistema: 3x + 2y = 12 ; x - y = 1\\
+Solució:
 \end{quote}
 
 \section{Exemple CoT}
 \begin{quote}
 \ttfamily\small
-Resol el problema pas a pas i dona una resposta final breu.\\
+Resol pas a pas el sistema d'equacions i dona la solució final.\\
 \\
-Problema: Una excursió costa 18 euros per alumne.\\
-Si hi van 27 alumnes i el centre subvenciona 96 euros del total,\\
-quants euros cal recaptar encara?\\
+Sistema:\\
+\quad 2x + y = 5\\
+\quad  x - y = 1\\
 \\
 Mostra:\\
-1. Cost total\\
-2. Resta de la subvenció\\
-3. Resposta final
+1. Mètode triat (substitució o eliminació)\\
+2. Operacions pas a pas\\
+3. Solució: x = ?, y = ?
 \end{quote}
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \small
   \caption{Comparació de respostes obtingudes per tècnica}
@@ -444,9 +449,9 @@ Mostra:\\
     \toprule
     Tècnica & Prompt (resum) & Qualitat resposta (1--5) & Observacions \\
     \midrule
-    Zero-Shot & Resumir un text i detectar-ne el tema & 4 & Ràpid i clar, però sensible al format \\
-    Few-Shot & Classificar el registre amb 3 exemples & 5 & Molt consistent quan el patró és estable \\
-    CoT & Resoldre un problema amb passos explícits & 5 & Millora el raonament i la traçabilitat \\
+    Zero-Shot & Resoldre un sistema 3x+2y=12; x-y=1 & 4 & Correcte en casos clars; errors en sistemes amb coeficients no enters \\
+    Few-Shot & Resoldre un sistema a partir de 2 exemples resolts & 5 & El patró dels exemples orienta eficaçment la resolució \\
+    CoT & Resoldre 2x+y=5; x-y=1 pas a pas amb mètode explicitat & 5 & Raonament transparent; errors aritmètics molt reduïts \\
     \bottomrule
   \end{tabularx}
 \end{table}
