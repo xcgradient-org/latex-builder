@@ -1,0 +1,135 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\usepackage{enumitem}
+
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Física 4t ESO --- MRU per Fases}
+\fancyhead[R]{Cinemàtica}
+\fancyfoot[C]{\thepage}
+\setlist[itemize]{leftmargin=*, itemsep=0.3em}
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries Resolució de Problema de Cinemàtica (MRU per Fases)}\\[0.4em]
+  {\large Física 4t ESO}\\[0.2em]
+  {\normalsize Oriol Farrés --- XC Gradient}
+\end{center}
+\vspace{0.5em}
+\hrule
+\vspace{1em}
+
+\begin{tcolorbox}[title=Enunciat,colframe=blue!60!black,colback=blue!5,sharp corners=south]
+Un alumne es lleva a les 06:00:00 i surt de Barcelona (BCN) a les 06:32:00. Realitza un viatge en tres fases fins a Madrid (MAD) passant per Guadalajara (GDL). Les dades del viatge són les següents:
+\begin{itemize}
+  \item Hora de llevar-se: 06:00:00
+  \item Hora de sortida (BCN): 06:32:00
+  \item Fase 1 (BCN $\to$ GDL): $\Delta x_1 = 350\,\text{km}$ a $v_1 = 40\,\text{m/s}$
+  \item Fase 2 (Parada a GDL): $\Delta t_2 = 1\,\text{h}\ 23\,\text{min}$
+  \item Fase 3 (GDL $\to$ MAD): $\Delta x_3 = 250\,\text{km}$ a $v_3 = 45\,\text{m/s}$
+\end{itemize}
+Calculeu el temps total de viatge des que l'alumne es lleva i determineu l'hora d'arribada a Madrid.
+\end{tcolorbox}
+
+\section{Nomenclatura Estàndard}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.18\textwidth}>{\centering\arraybackslash}p{0.14\textwidth}>{\raggedright\arraybackslash}X>{\centering\arraybackslash}p{0.18\textwidth}@{}}
+\toprule
+Concepte & Símbol & Definició & Unitat (SI) \\
+\midrule
+instant & $t$ & Moment puntual de temps & s \\
+posició & $x$ & Localització sobre l'eix & m \\
+tram & $\Delta x$ & Distància recorreguda en una fase & m \\
+interval & $\Delta t$ & Durada d'una fase & s \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Resolució Pas a Pas}
+
+\subsection{Preparació de dades (Conversió d'unitats)}
+
+\begin{itemize}
+  \item $\Delta x_1 = 350\,\text{km} \times 1000 = 350\,000\,\text{m}$
+  \item $\Delta x_3 = 250\,\text{km} \times 1000 = 250\,000\,\text{m}$
+  \item $\Delta t_2 = 1\,\text{h}\ 23\,\text{min} = 3600\,\text{s} + 23 \times 60\,\text{s} = 3600\,\text{s} + 1380\,\text{s} = 4\,980\,\text{s}$
+  \item $\Delta t_0 = 32\,\text{min} = 32 \times 60\,\text{s} = 1\,920\,\text{s}$
+\end{itemize}
+
+\subsection{Càlcul d'Intervals de Temps}
+
+Apliquem la definició de velocitat mitjana per a MRU:
+
+\begin{equation}
+v = \frac{\Delta x}{\Delta t} \implies \Delta t = \frac{\Delta x}{v}
+\label{eq:mrv}
+\end{equation}
+
+Apliquem a cada fase:
+
+\begin{align*}
+\Delta t_1 &= \frac{350\,000\,\text{m}}{40\,\text{m/s}} = 8\,750\,\text{s} \\[6pt]
+\Delta t_3 &= \frac{250\,000\,\text{m}}{45\,\text{m/s}} \approx 5\,555{,}56\,\text{s}
+\end{align*}
+
+\subsection{Temps Total Acumulat}
+
+El temps total des que l'alumne es lleva és la suma de tots els intervals:
+
+\begin{align}
+T_{\text{total}} &= \Delta t_0 + \Delta t_1 + \Delta t_2 + \Delta t_3 \\
+                 &= 1\,920\,\text{s} + 8\,750\,\text{s} + 4\,980\,\text{s} + 5\,555{,}56\,\text{s} \\
+                 &= \mathbf{21\,205{,}56\,\text{s}}
+\label{eq:ttot}
+\end{align}
+
+\subsection{Conversió a Hores, Minuts i Segons}
+
+Convertim el resultat a format horari:
+
+\begin{align*}
+21\,205{,}56\,\text{s} \div 3600 &= 5\,\text{h} \quad \text{(resta } 21\,205{,}56 - 18\,000 = 3\,205{,}56\,\text{s)} \\
+3\,205{,}56\,\text{s} \div 60    &= 53\,\text{min} \quad \text{(resta } 3\,205{,}56 - 3\,180 = 25{,}56\,\text{s} \approx 25\,\text{s)} \\
+\Rightarrow T_{\text{total}}     &= 5\,\text{h}\ 53\,\text{min}\ 25\,\text{s}
+\end{align*}
+
+Sumant al moment en què l'alumne es lleva (06:00:00):
+
+\begin{equation}
+t_{\text{arribada}} = 06{:}00{:}00 + 5\,\text{h}\ 53\,\text{min}\ 25\,\text{s} = \mathbf{11{:}53{:}25}
+\label{eq:arriba}
+\end{equation}
+
+\section{Resultats}
+
+\begin{tcolorbox}[title=Resultats Finals,colframe=green!50!black,colback=green!8,sharp corners=south]
+\textbf{Temps total (des que es lleva):}
+\[
+T_{\text{total}} = \mathbf{21\,205{,}56\,\text{s}} = \mathbf{5\,\text{h}\ 53\,\text{min}\ 25\,\text{s}}
+\]
+\textbf{Hora d'arribada a Madrid:}
+\[
+t_{\text{arribada}} = \mathbf{11{:}53{:}25}
+\]
+\end{tcolorbox}
+
+\end{document}
