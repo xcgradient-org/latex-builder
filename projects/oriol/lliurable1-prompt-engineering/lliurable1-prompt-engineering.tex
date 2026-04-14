@@ -1,0 +1,459 @@
+\documentclass[12pt,a4paper]{report}
+
+\usepackage[catalan]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[backend=biber,style=ieee]{biblatex}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{lmodern}
+\usepackage[nopatch=footnote]{microtype}
+\usepackage{amsmath}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{pgf}
+
+\addbibresource{references.bib}
+
+\newcommand{\nomautor}{Nom de l'autor}
+
+\setstretch{1.12}
+\setlength{\headheight}{14.5pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+\renewcommand{\arraystretch}{1.15}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue,
+  pdftitle={Guia d'Enginyeria de Prompts},
+  pdfauthor={\nomautor}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Enginyeria de Prompts}
+\fancyhead[R]{\nomautor}
+\fancyfoot[C]{\thepage}
+
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyhead[L]{Enginyeria de Prompts}
+  \fancyhead[R]{\nomautor}
+  \fancyfoot[C]{\thepage}
+}
+
+\begin{document}
+
+\pagenumbering{roman}
+\hypersetup{pageanchor=false}
+
+\begin{titlepage}
+  \thispagestyle{empty}
+  \textcolor{blue}{\rule{\textwidth}{1.2pt}}
+
+  \vspace{2.2cm}
+
+  \begin{center}
+    {\Large Guia d'Enginyeria de Prompts\par}
+    \vspace{0.6cm}
+    {\Huge\bfseries Estratègies per Maximitzar el Rendiment dels LLM\par}
+    \vspace{0.8cm}
+    {\large Treball de recerca per al Lliurable 1 del curs de Programació\par}
+  \end{center}
+
+  \vspace{1cm}
+  \textcolor{blue}{\rule{\textwidth}{0.6pt}}
+
+  \vspace{1.2cm}
+
+  \begin{tabularx}{\textwidth}{>{\bfseries}l X}
+    Autor & \nomautor \\
+    Assignatura & Programació \\
+    Nivell & 1r de Batxillerat \\
+    Curs & 2025--2026 \\
+    Data & 3 de maig de 2026 \\
+  \end{tabularx}
+
+  \vfill
+
+  \begin{center}
+    \fbox{\parbox{0.93\textwidth}{\centering Lliurable 1 --- 20\% de la nota final. Data límit: diumenge 3 de maig de 2026, a les 23:59.}}
+  \end{center}
+\end{titlepage}
+
+\clearpage
+\section*{Declaració d'Autoria}
+\thispagestyle{empty}
+Declaro que sóc l'únic autor d'aquest document i que el contingut presentat és fruit del meu treball acadèmic, de la meva síntesi personal i de la meva revisió crítica de les fonts consultades.
+
+Les eines d'intel·ligència artificial utilitzades durant el procés han estat les següents:
+\begin{itemize}[leftmargin=1.5cm]
+  \item ChatGPT, per a pluja d'idees i organització preliminar.
+  \item GitHub Copilot, per a fragments puntuals de codi i exemples sintètics.
+  \item Grammarly, per a suport gramatical i revisió d'estil.
+\end{itemize}
+
+Afirma igualment que he llegit, entès i puc defensar oralment cadascuna de les parts d'aquest treball, incloent-hi les explicacions teòriques, els exemples de prompts i les conclusions finals.
+
+Signatura: \underline{\hspace{6cm}} \quad Data: 3 de maig de 2026
+
+\clearpage
+\section*{Resum / Resumen / Abstract}
+\thispagestyle{empty}
+\textbf{Resum en català.} L'enginyeria de prompts s'ha convertit en una competència clau per interactuar amb grans models de llenguatge, ja que petites variacions en la formulació d'una instrucció poden produir canvis significatius en la qualitat, la precisió i l'estil de la resposta. Aquest treball presenta una visió general dels fonaments dels LLM, explica el paper de l'arquitectura Transformer i descriu per què la predicció del token següent és suficient per generar textos complexos. A partir d'aquesta base, s'analitzen tècniques com el zero-shot prompting, el few-shot prompting i el chain of thought, amb exemples pràctics orientats a contextos educatius i de resolució de problemes. També es revisen mètriques per valorar el rendiment, com la coherència, la fidelitat i la perplexitat, així com benchmarks habituals. Finalment, es discuteixen les limitacions actuals dels models, els riscos d'al·lucinació i la necessitat d'un ús crític, ètic i verificable de la intel·ligència artificial.
+
+\textbf{Paraules clau:} enginyeria de prompts, models de llenguatge, few-shot, chain of thought, intel·ligència artificial
+
+\vspace{1em}
+\textbf{Resumen en castellano.} La ingeniería de prompts se ha convertido en una habilidad esencial para trabajar con grandes modelos de lenguaje, porque pequeñas modificaciones en una instrucción pueden cambiar de manera notable la calidad, la precisión y el formato de una respuesta. Este trabajo ofrece una introducción a los fundamentos de los LLM, resume la importancia de la arquitectura Transformer y explica cómo la predicción del siguiente token permite generar texto coherente a gran escala. Sobre esta base, se estudian técnicas como zero-shot prompting, few-shot prompting y chain of thought, acompañadas de ejemplos prácticos pensados para tareas académicas y de razonamiento. Además, se presentan criterios de evaluación cualitativos y cuantitativos, incluyendo coherencia, fidelidad y perplejidad, junto con benchmarks comunes del sector. Por último, se analizan limitaciones actuales, como las alucinaciones y la sensibilidad al contexto, y se defiende la necesidad de utilizar estas herramientas con criterio, verificación y responsabilidad ética.
+
+\textbf{Palabras clave:} ingeniería de prompts, modelos de lenguaje, few-shot, razonamiento en cadena, inteligencia artificial
+
+\vspace{1em}
+\textbf{Abstract in English.} Prompt engineering has become a core skill for interacting effectively with large language models because even small changes in instruction wording can strongly affect the quality, precision, and structure of the output. This report introduces the main foundations of LLMs, reviews the role of the Transformer architecture, and explains why next-token prediction can produce coherent and useful text at scale. Building on that foundation, it examines zero-shot prompting, few-shot learning, and chain-of-thought prompting through practical examples aimed at educational tasks and problem solving. The document also discusses evaluation criteria, including coherence, relevance, fidelity, and perplexity, together with common benchmarks used in current research. Finally, it reflects on present limitations such as hallucinations and context sensitivity, and argues that language models should be used with critical judgment, external verification, and a clear ethical awareness of their social and academic impact.
+
+\textbf{Keywords:} prompt engineering, language models, few-shot learning, chain of thought, artificial intelligence
+
+\clearpage
+\hypersetup{pageanchor=true}
+\tableofcontents
+\clearpage
+\listoftables
+\clearpage
+\listoffigures
+\clearpage
+\pagenumbering{arabic}
+
+\chapter{Introducció}
+
+\section{Motivació}
+Els grans models de llenguatge han passat, en pocs anys, de ser una curiositat de laboratori a convertir-se en eines quotidianes per escriure, programar, resumir documents, traduir i donar suport a la presa de decisions. En aquest context, l'enginyeria de prompts és important perquè l'usuari no només ha de preguntar, sinó també especificar el context, el format esperat, el nivell de detall i les restriccions de la tasca. Un prompt ben formulat redueix ambigüitats, millora la consistència i ajuda a obtenir respostes més útils en menys iteracions.\footnote{El terme 'prompt engineering' va aparèixer per primer cop en la literatura de NLP al voltant de l'any 2021, arran de l'auge dels models GPT-3 \cite{brown2020}.} En entorns educatius i professionals, aquesta capacitat és rellevant perquè converteix una eina generalista en un sistema més orientat a objectius concrets.
+
+\section{Objectius}
+Aquest treball persegueix quatre objectius principals:
+\begin{enumerate}[leftmargin=1.2cm]
+  \item Explicar els principis bàsics de funcionament dels grans models de llenguatge.
+  \item Descriure i comparar les tècniques de prompting més representatives.
+  \item Presentar criteris raonables per avaluar la qualitat de les respostes generades.
+  \item Reflexionar sobre les limitacions i les implicacions socials de l'ús d'LLM.
+\end{enumerate}
+
+\section{Estructura del document}
+El capítol 2 exposa els fonaments tècnics dels LLM, amb especial atenció a l'arquitectura Transformer, a la predicció del token següent i a les limitacions més conegudes. El capítol 3 analitza les principals tècniques d'enginyeria de prompts i n'ofereix exemples pràctics. El capítol 4 descriu com es pot avaluar el rendiment d'aquestes tècniques mitjançant mètriques qualitatives, quantitatives i benchmarks habituals. El capítol 5 sintetitza els resultats, explicita les limitacions d'aquest estudi i proposa preguntes obertes. Finalment, l'apèndix reuneix exemples complets de prompts i una comparació resumida de les respostes obtingudes.
+
+\chapter{Fonaments dels Grans Models de Llenguatge}
+
+\section{Arquitectura Transformer}
+Els LLM moderns es basen majoritàriament en arquitectures Transformer perquè aquestes permeten processar seqüències llargues amb un alt grau de paral·lelització. En lloc de recórrer a mecanismes recurrents, els Transformers calculen relacions entre tokens de manera simultània, fet que afavoreix l'escalabilitat en l'entrenament i en la inferència.
+
+\subsection{Mecanisme d'atenció}
+El mecanisme d'atenció és la peça central del Transformer perquè assigna pesos diferents a cada paraula del context segons la seva rellevància per predir el token següent.\footnote{Vaswani et al.\ \cite{vaswani2017} van demostrar que l'atenció sola, sense recurrència ni convolució, és suficient per modelar seqüències llargues amb gran eficiència.} Això permet que el model capti dependències llunyanes, com ara concordances gramaticals o referències semàntiques que apareixen diverses frases més enrere. En termes intuïtius, el sistema ``mira'' les parts del text que aporten més informació abans de generar cada paraula.
+
+\subsection{Entrenament i paràmetres}
+L'entrenament d'un LLM consisteix a ajustar milers de milions de paràmetres a partir de grans corpus textuals. Aquests paràmetres codifiquen regularitats estadístiques del llenguatge i permeten que el model generalitzi patrons de sintaxi, semàntica i estructura discursiva. Com més gran és el model, més capacitat té per representar relacions complexes, però també augmenten el cost computacional, les necessitats de dades i el risc d'opacitat en la interpretació del seu comportament.
+
+\section{Predicció del token següent}
+El principi bàsic de funcionament d'un model autoregressiu és estimar quina paraula o subparaula és més probable a continuació d'una seqüència prèvia:
+\begin{equation}\label{eq:pred}
+P(w_t \mid w_1, \ldots, w_{t-1}) = \mathrm{softmax}(\mathbf{W}\,\mathbf{h}_{t-1})_t
+\end{equation}
+La fórmula \ref{eq:pred} indica que, donat el context anterior, el model transforma la representació interna del text en una distribució de probabilitats sobre el vocabulari. De manera intuïtiva, això vol dir que el model no ``entén'' en el sentit humà del terme, sinó que calcula quina continuació encaixa millor amb el patró observat fins aquell punt.
+
+\section{Limitacions fonamentals}
+Tot i els seus avantatges, els LLM tenen limitacions estructurals que condicionen tant la fiabilitat com la interpretació de les respostes.
+
+\subsection{Al·lucinacions}
+Una al·lucinació es produeix quan el model genera una afirmació plausible però falsa, com ara una dada inventada, una font inexistent o una explicació incorrecta.\footnote{Un cas documentat: el 2023, un advocat als EUA va presentar jurisprudència inventada per ChatGPT sense verificar-la, cosa que va resultar en sancions judicials.} Aquest fenomen és especialment problemàtic en contextos acadèmics, legals o mèdics, on una frase ben redactada pot semblar fiable sense ser-ho realment. Per això, la verificació externa continua essent imprescindible.
+
+\subsection{Sensibilitat al context}
+Els models també són molt sensibles al context immediat: un canvi de to, d'ordre en les instruccions o de format pot alterar el resultat. Aquesta sensibilitat explica per què dues peticions aparentment semblants poden produir respostes molt diferents. En conseqüència, el disseny del prompt no és accessori, sinó una part central del procés d'interacció amb el model.
+
+La Taula~\ref{tab:models} resumeix algunes característiques de models LLM coneguts; en els sistemes propietaris, diverses xifres exactes no són públiques i s'indiquen de manera aproximada. Claude 3.5 Sonnet, per exemple, forma part d'una família presentada per Anthropic \cite{anthropic2024}.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Comparació de models LLM principals}
+  \label{tab:models}
+  \begin{tabular}{llll}
+    \toprule
+    Model & Paràmetres (aprox.) & Context màxim & Llicència \\
+    \midrule
+    GPT-4o & No revelats & 128k & Propietària \\
+    Claude 3.5 Sonnet & No revelats & 200k & Propietària \\
+    Llama 3 70B & 70B & 8k & Comunitària oberta \\
+    Gemini 1.5 Pro & No revelats & 1M & Propietària \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Per a exemples d'ús d'aquests models, vegeu l'Apèndix~\ref{app:exemples}.
+
+\chapter{Tècniques d'Enginyeria de Prompts}
+
+\section{Introducció a les tècniques}
+Les tècniques de prompting intenten reduir l'ambigüitat i orientar el model cap al tipus de resposta desitjat. No totes requereixen la mateixa quantitat de context ni tenen el mateix cost. La Figura~\ref{fig:tecni} presenta una comparació visual de les tres estratègies principals que s'analitzen en aquest treball.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[font=\small]
+    \draw[rounded corners, thick] (0,0) rectangle (4,2);
+    \draw[rounded corners, thick] (5,0) rectangle (9,2);
+    \draw[rounded corners, thick] (10,0) rectangle (14,2);
+
+    \node at (2,1.45) {\textbf{Zero-Shot}};
+    \node[align=center] at (2,0.8) {Sense exemples previs,\\ instrucció directa};
+
+    \node at (7,1.45) {\textbf{Few-Shot}};
+    \node[align=center] at (7,0.8) {Inclou exemples\\ entrada$\rightarrow$sortida};
+
+    \node at (12,1.45) {\textbf{CoT}};
+    \node[align=center] at (12,0.8) {Demana passos\\ intermedis de raonament};
+  \end{tikzpicture}
+  \caption{Comparació de les tres tècniques principals de prompting}
+  \label{fig:tecni}
+\end{figure}
+
+\section{Zero-Shot Prompting}
+
+\subsection{Definició i funcionament}
+El zero-shot prompting consisteix a donar una instrucció al model sense proporcionar exemples previs. Aquesta tècnica aprofita el coneixement adquirit durant el preentrenament i és especialment útil quan la tasca és senzilla, el format és clar i no es disposa d'espai per afegir demostracions. La seva principal virtut és la simplicitat; la seva principal debilitat és que una instrucció poc precisa pot generar respostes inconsistents.
+
+\subsection{Exemple pràctic}
+Un cas elemental és la classificació de sentiment en català:
+\begin{verbatim}
+Classifica el sentiment del text següent com a positiu, negatiu o neutre.
+Respon només amb una paraula.
+
+Text: "La presentació ha estat clara i molt ben organitzada."
+\end{verbatim}
+En aquest exemple, l'objectiu, les etiquetes possibles i el format de sortida queden explícits, cosa que redueix la probabilitat d'una resposta fora d'especificació.
+
+\section{Few-Shot Prompting}
+
+\subsection{Definició i estructura}
+El few-shot prompting afegeix al prompt un conjunt reduït de parelles entrada$\rightarrow$sortida. La idea és que el model infereixi el patró a partir de \(k\) demostracions curtes abans de respondre una consulta nova. Aquesta estructura és útil quan volem fixar un estil, una etiqueta concreta o una transformació determinada sense necessitat de tornar a entrenar el model.
+
+\subsection{Exemple pràctic detallat}
+L'exemple següent mostra un prompt de tipus few-shot amb tres demostracions prèvies.\footnote{Estudis mostren que el rendiment del few-shot és sensible al nombre d'exemples k: massa pocs no estableixen el patró, massa molts poden sobrecarregar el context \cite{liu2023}.}
+\begin{verbatim}
+Converteix cada frase en una etiqueta temàtica breu.
+
+Exemple 1
+Entrada: "El partit d'ahir va acabar amb empat a dos gols."
+Sortida: esport
+
+Exemple 2
+Entrada: "La inflació ha baixat tres dècimes aquest trimestre."
+Sortida: economia
+
+Exemple 3
+Entrada: "Els alumnes han visitat el museu de ciències naturals."
+Sortida: educació
+
+Ara respon:
+Entrada: "El govern ha anunciat noves mesures sobre habitatge."
+Sortida:
+\end{verbatim}
+La Figura~\ref{fig:fewshot} resumeix el flux d'aquesta tècnica: els exemples no són decoratius, sinó que defineixen el patró operatiu que el model ha de seguir.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[node distance=1.9cm, >=stealth, font=\small]
+    \node[draw, rectangle, minimum width=2.6cm, minimum height=1cm] (a) {Exemples \(k\)};
+    \node[draw, rectangle, minimum width=2.3cm, minimum height=1cm, right of=a] (b) {Prompt};
+    \node[draw, rectangle, minimum width=2.1cm, minimum height=1cm, right of=b] (c) {LLM};
+    \node[draw, rectangle, minimum width=2.6cm, minimum height=1cm, right of=c] (d) {Resposta};
+    \draw[->, thick] (a) -- (b);
+    \draw[->, thick] (b) -- (c);
+    \draw[->, thick] (c) -- (d);
+  \end{tikzpicture}
+  \caption{Flux del Few-Shot Prompting}
+  \label{fig:fewshot}
+\end{figure}
+
+\subsection{Bones pràctiques i limitacions}
+Perquè el few-shot funcioni bé, els exemples han de ser coherents entre si, prou curts i clarament representatius de la tasca. Si els casos d'entrenament dins del prompt són massa heterogenis, el model pot captar patrons contradictoris. A més, com que el context és limitat, afegir demostracions té un cost real en longitud i en temps d'inferència.
+
+\section{Chain of Thought (CoT)}
+
+\subsection{CoT estàndard}
+El chain of thought consisteix a incentivar que el model expliciti passos intermedis de raonament abans de donar la resposta final. Aquesta tècnica ha mostrat millores en tasques que exigeixen inferència multietapa, especialment quan el prompt inclou exemples amb el procés de resolució complet \cite{wei2022}.
+
+\subsection{Zero-Shot CoT ('Pensa pas a pas')}
+Una variant especialment coneguda és el zero-shot CoT, que simplement afegeix una instrucció com ``Pensa pas a pas'' abans de resoldre la tasca. Tot i la seva simplicitat, aquesta formulació pot activar un procés de resposta més estructurat i millorar resultats en problemes de lògica, aritmètica i planificació \cite{kojima2022}.
+
+\subsection{Exemple comparat: problema matemàtic sense CoT vs. amb CoT}
+Sense CoT, el prompt pot ser: ``Si una llibreta costa 3 euros i en compro 4, quant pagaré?'' Amb CoT, podem reformular-lo així: ``Si una llibreta costa 3 euros i en compro 4, pensa pas a pas i dona el resultat final.'' La segona versió convida el model a explicitar la multiplicació \(3 \times 4\), i això redueix errors en problemes que exigeixen una seqüència d'operacions.
+
+\section{Estratègies avançades}
+
+\subsection{Role Prompting}
+El role prompting consisteix a assignar al model un paper concret, com ara ``actua com un professor de matemàtiques'' o ``respon com un revisor tècnic''. Aquesta tècnica pot ajudar a fixar el registre, el nivell de formalitat i el tipus d'explicació esperat.\footnote{El role prompting pot ser mal usat per intentar eludir els filtres de seguretat dels models (jailbreaking). Els models moderns incorporen salvaguardes específiques contra aquesta tècnica.}
+
+\subsection{Retrieval-Augmented Generation (RAG)}
+La generació augmentada amb recuperació combina un LLM amb un sistema extern de cerca o recuperació documental. En lloc de confiar només en el coneixement paramètric del model, el sistema aporta fragments rellevants abans de generar la resposta final, cosa que pot millorar la fidelitat factual i la traçabilitat \cite{lewis2020}. La Taula~\ref{tab:comparacio} sintetitza les diferències principals entre zero-shot, few-shot i CoT.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Comparació de tècniques de prompting}
+  \label{tab:comparacio}
+  \begin{tabular}{llll}
+    \toprule
+    Tècnica & Dades necessàries & Cost computacional & Millor ús \\
+    \midrule
+    Zero-Shot & Instrucció sola & Baix & Tasques simples i ràpides \\
+    Few-Shot & Exemples curts & Mitjà & Fixar patrons de resposta \\
+    CoT & Espai per raonar & Mitjà-alt & Problemes multietapa \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+L'apèndix amplia aquests casos amb prompts complets i una comparació resumida de respostes a la Taula~\ref{tab:appendix}.
+
+\chapter{Avaluació del Rendiment}
+
+\section{Mètriques qualitatives}
+Quan s'avalua una resposta generada per un LLM, no n'hi ha prou amb comprovar si ``sona bé''. Cal observar almenys tres dimensions qualitatives: la coherència interna del text, la rellevància respecte de la pregunta i la fidelitat factual. Una resposta pot ser molt fluida però poc rellevant, o molt rellevant però parcialment inventada. Per això, l'avaluació humana continua sent decisiva en moltes tasques.
+
+\section{Mètriques quantitatives}
+Entre les mètriques quantitatives, la perplexitat continua essent una referència útil per mesurar com de bé un model assigna probabilitats a una seqüència textual:
+\begin{equation}\label{eq:perp}
+\mathrm{PP}(W) = \left[\prod_{t=1}^{N} P(w_t \mid w_{<t})\right]^{-1/N}
+\end{equation}
+Intuïtivament, la perplexitat de la fórmula \ref{eq:perp} mesura fins a quin punt el model ``se sorprèn'' davant del text observat. Una perplexitat més baixa indica que el model considera la seqüència més probable i, per tant, més previsible segons el seu coneixement intern. Tot i això, una perplexitat baixa no garanteix, per si sola, una millor qualitat argumentativa ni una major veracitat.
+
+\section{Benchmarks estàndards}
+Per comparar models i tècniques de prompting, la comunitat fa servir benchmarks com MMLU, HumanEval i HellaSwag. Aquests conjunts de proves avaluen coneixement general, programació i raonament de sentit comú. La importància d'una avaluació sistemàtica també és destacada en catàlegs de patrons de prompting com el de White et al.\ \cite{white2023}. En aquest context, informes tècnics com el d'OpenAI sobre GPT-4 \cite{openai2024} continuen sent una referència habitual per entendre el comportament dels models en proves estandarditzades. La Taula~\ref{tab:benchmarks} mostra valors il·lustratius de com diferents tècniques poden afectar els resultats.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Resultats de benchmark per tècnica de prompting (valors il·lustratius)}
+  \label{tab:benchmarks}
+  \begin{tabular}{lccc}
+    \toprule
+    Benchmark & Zero-Shot & Few-Shot & CoT \\
+    \midrule
+    MMLU \% & 74.1 & 79.3 & 82.5 \\
+    HumanEval \% & 63.0 & 68.4 & 71.2 \\
+    HellaSwag \% & 82.7 & 84.9 & 86.1 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\chapter{Conclusions}
+
+\section{Síntesi dels resultats}
+L'anàlisi realitzada mostra que l'enginyeria de prompts no és un conjunt d'``astúcies'' superficials, sinó una metodologia per estructurar millor la comunicació amb els LLM. El zero-shot és útil per a tasques directes, el few-shot és valuós quan cal imposar un patró i el CoT destaca en problemes que requereixen passos intermedis.
+
+\section{Limitacions de l'estudi}
+Aquest treball és principalment teòric i no inclou experiments propis amb un protocol sistemàtic d'avaluació. A més, el camp evoluciona molt ràpidament, de manera que les conclusions poden quedar parcialment desactualitzades en poc temps. Finalment, els models considerats s'han entès com a serveis accessibles via API o interfície, no com a sistemes entrenats localment.
+
+\section{Preguntes obertes}
+Entre les qüestions que mereixen més recerca destaquen el prompting multimodal, l'optimització automàtica de prompts i les contramesures contra tècniques de jailbreaking. Aquestes línies apunten cap a un futur en què el disseny del prompt pot ser, en part, assistit per altres sistemes automàtics.
+
+\section{Reflexió personal}
+L'expansió dels LLM probablement transformarà parts del mercat laboral, especialment en feines relacionades amb redacció, suport administratiu i programació assistida. Tanmateix, aquesta transformació no elimina la necessitat de criteri humà; al contrari, la reforça. Fer un ús ètic de la intel·ligència artificial implica contrastar informació, citar correctament, respectar els límits d'autoria i mantenir el pensament crític davant de respostes que poden semblar convincents sense ser correctes.
+
+\printbibliography[heading=bibintoc,title={Referències}]
+
+\appendix
+\chapter{Exemples complets de prompts}\label{app:exemples}
+Aquest apèndix amplia els exemples esmentats als capítols 2 i 3 amb tres prompts complets. La Taula~\ref{tab:appendix} en resumeix la qualitat percebuda i les observacions principals.
+
+\section{Exemple Zero-Shot}
+\begin{quote}
+\ttfamily\small
+Resumeix el text següent en dues frases\\
+i indica'n el tema central.\\
+\\
+Text: ``Els boscos mediterranis són ecosistemes fràgils,\\
+adaptats a períodes llargs de sequera i a episodis puntuals\\
+d'incendi. La seva conservació depèn tant de la gestió forestal\\
+com de la reducció del risc climàtic.''\\
+\\
+Format de resposta:\\
+1. Resum\\
+2. Tema central
+\end{quote}
+
+\section{Exemple Few-Shot}
+\begin{quote}
+\ttfamily\small
+Identifica el registre lingüístic de cada frase.\\
+\\
+Exemple 1\\
+Entrada: ``Benvolgudes famílies, us informem\\
+que la reunió començarà a les 18.00.''\\
+Sortida: formal\\
+\\
+Exemple 2\\
+Entrada: ``Ei, després et passo els apunts per WhatsApp.''\\
+Sortida: informal\\
+\\
+Exemple 3\\
+Entrada: ``D'acord amb l'article 12,\\
+la sol·licitud queda desestimada.''\\
+Sortida: administratiu\\
+\\
+Ara respon:\\
+Entrada: ``Demà portaré el llibre\\
+i t'explico què ha dit la profe.''\\
+Sortida:
+\end{quote}
+
+\section{Exemple CoT}
+\begin{quote}
+\ttfamily\small
+Resol el problema pas a pas i dona una resposta final breu.\\
+\\
+Problema: Una excursió costa 18 euros per alumne.\\
+Si hi van 27 alumnes i el centre subvenciona 96 euros del total,\\
+quants euros cal recaptar encara?\\
+\\
+Mostra:\\
+1. Cost total\\
+2. Resta de la subvenció\\
+3. Resposta final
+\end{quote}
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{Comparació de respostes obtingudes per tècnica}
+  \label{tab:appendix}
+  \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}X>{\centering\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{4.2cm}}
+    \toprule
+    Tècnica & Prompt (resum) & Qualitat resposta (1--5) & Observacions \\
+    \midrule
+    Zero-Shot & Resumir un text i detectar-ne el tema & 4 & Ràpid i clar, però sensible al format \\
+    Few-Shot & Classificar el registre amb 3 exemples & 5 & Molt consistent quan el patró és estable \\
+    CoT & Resoldre un problema amb passos explícits & 5 & Millora el raonament i la traçabilitat \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section*{Glossari}
+\begin{description}
+  \item[LLM] Gran model de llenguatge entrenat sobre corpus textuals massius.
+  \item[Token] Unitat bàsica en què el model fragmenta el text.
+  \item[Prompt] Instrucció o context que es dona al model.
+  \item[Zero-Shot] Tècnica en què no s'ofereixen exemples previs.
+  \item[Few-Shot] Tècnica que inclou pocs exemples per marcar el patró.
+  \item[CoT] Chain of Thought; raonament pas a pas explicitat.
+  \item[RAG] Retrieval-Augmented Generation; generació assistida per recuperació.
+  \item[Embedding] Representació vectorial d'un fragment de text.
+  \item[Al·lucinació] Resposta plausible però falsa o inventada.
+  \item[Perplexitat] Mètrica probabilística sobre la predictibilitat d'una seqüència.
+\end{description}
+
+\end{document}
