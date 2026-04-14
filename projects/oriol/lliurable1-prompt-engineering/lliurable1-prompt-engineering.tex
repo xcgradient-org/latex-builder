@@ -52,6 +52,9 @@
   \fancyfoot[C]{\thepage}
 }
 
+% Indicació de font sota les llegendes de figures i taules
+\newcommand{\source}[1]{\par\vspace{0.15em}{\small\textit{Font: #1.}}}
+
 \begin{document}
 
 \pagenumbering{roman}
@@ -184,6 +187,7 @@ La Taula~\ref{tab:models} resumeix algunes característiques de models LLM coneg
   \centering
   \caption{Comparació de models LLM principals}
   \label{tab:models}
+  \source{Compilada per l'Autor a partir de dades públiques dels fabricants}
   \begin{tabular}{llll}
     \toprule
     Model & Paràmetres (aprox.) & Context màxim & Llicència \\
@@ -221,6 +225,7 @@ Les tècniques de prompting intenten reduir l'ambigüitat i orientar el model ca
   \end{tikzpicture}
   \caption{Comparació de les tres tècniques principals de prompting}
   \label{fig:tecni}
+  \source{Compilada per l'Autor}
 \end{figure}
 
 \section{Zero-Shot Prompting}
@@ -279,6 +284,7 @@ La Figura~\ref{fig:fewshot} resumeix el flux d'aquesta tècnica: els exemples no
   \end{tikzpicture}
   \caption{Flux del Few-Shot Prompting}
   \label{fig:fewshot}
+  \source{Compilada per l'Autor}
 \end{figure}
 
 \subsection{Bones pràctiques i limitacions}
@@ -307,6 +313,7 @@ La generació augmentada amb recuperació combina un LLM amb un sistema extern d
   \centering
   \caption{Comparació de tècniques de prompting}
   \label{tab:comparacio}
+  \source{Compilada per l'Autor}
   \begin{tabular}{llll}
     \toprule
     Tècnica & Dades necessàries & Cost computacional & Millor ús \\
@@ -339,6 +346,7 @@ Per comparar models i tècniques de prompting, la comunitat fa servir benchmarks
   \centering
   \caption{Resultats de benchmark per tècnica de prompting (valors il·lustratius)}
   \label{tab:benchmarks}
+  \source{Valors il·lustratius compilats per l'Autor}
   \begin{tabular}{lccc}
     \toprule
     Benchmark & Zero-Shot & Few-Shot & CoT \\
@@ -361,7 +369,7 @@ Aquest treball és principalment teòric i no inclou experiments propis amb un p
 \section{Preguntes obertes}
 Entre les qüestions que mereixen més recerca destaquen el prompting multimodal, l'optimització automàtica de prompts i les contramesures contra tècniques de jailbreaking. Aquestes línies apunten cap a un futur en què el disseny del prompt pot ser, en part, assistit per altres sistemes automàtics.
 
-\section{Reflexió personal}
+\section{Reflexió Personal}
 L'expansió dels LLM probablement transformarà parts del mercat laboral, especialment en feines relacionades amb redacció, suport administratiu i programació assistida. Tanmateix, aquesta transformació no elimina la necessitat de criteri humà; al contrari, la reforça. Fer un ús ètic de la intel·ligència artificial implica contrastar informació, citar correctament, respectar els límits d'autoria i mantenir el pensament crític davant de respostes que poden semblar convincents sense ser correctes.
 
 \printbibliography[heading=bibintoc,title={Referències}]
@@ -431,6 +439,7 @@ Mostra:\\
   \small
   \caption{Comparació de respostes obtingudes per tècnica}
   \label{tab:appendix}
+  \source{Compilada per l'Autor}
   \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}X>{\centering\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{4.2cm}}
     \toprule
     Tècnica & Prompt (resum) & Qualitat resposta (1--5) & Observacions \\
