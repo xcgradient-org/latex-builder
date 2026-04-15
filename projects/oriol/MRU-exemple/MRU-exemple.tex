@@ -16,6 +16,9 @@
 \usepackage{tcolorbox}
 \tcbuselibrary{skins}
 \usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
 
 \setlength{\headheight}{14.5pt}
 \pagestyle{fancy}
@@ -27,109 +30,262 @@
 
 \begin{document}
 
+{\color{black}
+
+\section*{Problema MRU-1: Viatge de Barcelona a Madrid}
+
+Un alumne es lleva a les 06:00:00 i surt de Barcelona (BCN) a les 06:32:00. Condueix $350\,\text{km}$ fins a Guadalajara (GDL) a una velocitat constant de $40\,\text{m/s}$. Un cop allà, s'atura per fer un descans d'$1\,\text{h}\ 23\,\text{min}$. Seguidament, reprèn el viatge i condueix els $250\,\text{km}$ restants fins a Madrid (MAD) a una velocitat de $45\,\text{m/s}$. Determineu a quina hora arriba finalment a Madrid, quin és el temps real que ha passat conduint (sense incloure les aturades de repòs) i quant de temps total ha invertit des del moment en què s'ha llevat fins que ha arribat a la seva destinació final.
+
+\vspace{0.5cm}
+
+\begin{tcolorbox}[title=Passos a seguir per a qualsevol problema de MRU:,colframe=black,colback=black!5,sharp corners=south,fontupper=\color{black}]
+\begin{enumerate}
+    \item Apuntar \textbf{TOTES} les fórmules de referència de teoria.
+    \item Identificar les \textbf{variables} del problema:
+    \begin{enumerate}[label=2.\arabic*]
+        \item Subratllar totes les variables numèriques en l'enunciat.
+        \item Dibuixar els esquemes espaials i temporals del problema i fer la \textbf{conversió a SI}.
+        \item Dibuixar el gràfic $x-t$ amb totes les variables identificades.
+    \end{enumerate}
+    \item Identificar totes les preguntes (P1... Pn).
+    \item Resoldre i trobar les respostes per a les Ps donant el resultat en el Sistema Internacional (SI) o les unitats demanades.
+\end{enumerate}
+\end{tcolorbox}
+}
+
+\vspace{0.5cm}
+
+{\color{black}\textbf{\large 1. Apuntar TOTES les fórmules.}}
+
+{\color{black}
+Per al Moviment Rectilini Uniforme (MRU) utilitzem la següent relació:
 \begin{center}
-  {\Large\bfseries Resolució de Problema de Cinemàtica (MRU per Fases)}\\[0.4em]
-  {\large Física 4t ESO}\\[0.2em]
-  {\normalsize Oriol Farrés --- XC Gradient}
+\renewcommand{\arraystretch}{1.8}
+\begin{tabular}{rl}
+\hline
+\textbf{Fórmula} & \textbf{Unitats SI} \\
+\hline
+{\color{blue}$v = \dfrac{\Delta x}{\Delta t} = \dfrac{x_f - x_0}{t_f - t_0}$} & {\color{blue}$[\text{m/s}]$} \\[1ex]
+{\color{blue}$x = x_0 + v \cdot \Delta t$} & {\color{blue}$[\text{m}]$} \\
+\hline
+\end{tabular}
 \end{center}
-\vspace{0.5em}
-\hrule
-\vspace{1em}
+}
 
-\begin{tcolorbox}[title=Enunciat,colframe=blue!60!black,colback=blue!5,sharp corners=south]
-Un alumne es lleva a les 06:00:00 i surt de Barcelona (BCN) a les 06:32:00. Realitza un viatge en tres fases fins a Madrid (MAD) passant per Guadalajara (GDL). Les dades del viatge són les següents:
+\vspace{0.5cm}
+
+{\color{black}\textbf{\large 2. Identificar les variables del problema}}
+
+{\color{blue}
+
+{\color{black}\textbf{2.1 Subratllar totes les variables numèriques en l'enunciat:}}
+
+{\color{black}Un alumne es lleva a les {\color{red}\underline{06:00:00}} i surt de Barcelona (BCN) a les {\color{red}\underline{06:32:00}}. Condueix {\color{red}\underline{$350\,\text{km}$}} fins a Guadalajara (GDL) a una velocitat constant de {\color{red}\underline{$40\,\text{m/s}$}}. Un cop allà, s'atura per fer un descans d'{\color{red}\underline{$1\,\text{h}\ 23\,\text{min}$}}. Seguidament, reprèn el viatge i condueix els {\color{red}\underline{$250\,\text{km}$}} restants fins a Madrid (MAD) a una velocitat de {\color{red}\underline{$45\,\text{m/s}$}}.}
+
+\vspace{0.5cm}
+
+\clearpage
+
+{\color{black}\textbf{2.2 Esquemes del problema:}}
+
+{\color{black}\textbf{a) Esquema de Trams de Distància ($x$):}}
+
+\begin{center}
+\begin{tikzpicture}[text=black, draw=black]
+  % Eix
+  \draw[thick, ->] (0,0) -- (12,0) node[right, text=black] {$x$ (m)};
+  
+  % Punts
+  \filldraw (0,0) circle (2pt) node[below=8pt, text=black] {Inici / BCN ($x_0=0$)};
+  \filldraw (6,0) circle (2pt) node[below=8pt, text=black] {GDL ($x_1$)};
+  \filldraw (11,0) circle (2pt) node[below=8pt, text=black] {MAD ($x_2$)};
+  
+  % Cotxe estilitzat
+  \node[draw=purple, thick, fill=blue!20, rounded corners=1pt, minimum width=0.8cm, minimum height=0.4cm] at (0, 0.5) {};
+  \draw[thick, draw=purple] (-0.3, 0.3) circle (0.1);
+  \draw[thick, draw=purple] (0.3, 0.3) circle (0.1);
+  
+  % Vectors de velocitat i distàncies
+  \draw[->, thick, red] (0.8, 0.5) -- (2.5, 0.5) node[midway, above] {$v_1$};
+  \draw[<->, thick, cyan] (0,-1.3) -- (6,-1.3) node[midway, below, align=center, text=blue] {Tram 1 (moviment)\\$\Delta x_1$};
+  
+  \draw[->, thick, red] (6.8, 0.5) -- (8.5, 0.5) node[midway, above] {$v_2$};
+  \draw[<->, thick, cyan] (6,-1.3) -- (11,-1.3) node[midway, below, align=center, text=blue] {Tram 2 (moviment)\\$\Delta x_2$};
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.3cm}
+
+{\color{black}\textbf{b) Esquema d'Intervals de Temps ($t$):}}
+
+\begin{center}
+\begin{tikzpicture}[text=black, draw=black]
+  % Eix de temps
+  \draw[thick, ->] (0,0) -- (13,0) node[right, text=black] {$t$ (s)};
+  
+  % Punts temporals
+  \filldraw (0,0) circle (2pt) node[above=8pt, text=black] {Llevar-se ($t_0=0$)};
+  \filldraw (3,0) circle (2pt) node[above=8pt, text=black] {Surt BCN};
+  \filldraw (7,0) circle (2pt) node[above=8pt, text=black] {Arriba GDL};
+  \filldraw (9,0) circle (2pt) node[above=8pt, text=black] {Surt GDL};
+  \filldraw (12,0) circle (2pt) node[above=8pt, text=black] {Arriba MAD ($t_{\text{total}}$)};
+  
+  % Intervals
+  \draw[<->, thick, cyan] (0,-1) -- (3,-1) node[midway, below, align=center, text=blue] {Interval A\\$\Delta t_A$};
+  \draw[<->, thick, cyan] (3,-1) -- (7,-1) node[midway, below, align=center, text=blue] {Interval B\\$\Delta t_B$};
+  \draw[<->, thick, cyan] (7,-1) -- (9,-1) node[midway, below, align=center, text=blue] {Interval C\\$\Delta t_C$};
+  \draw[<->, thick, cyan] (9,-1) -- (12,-1) node[midway, below, align=center, text=blue] {Interval D\\$\Delta t_D$};
+\end{tikzpicture}
+\end{center}
+
+{\color{black}\textbf{Conversió a Unitats SI (m, s):}}
+
+{\color{black}\textbf{Trams (Distàncies i velocitats):}}
 \begin{itemize}
-  \item Hora de llevar-se: 06:00:00
-  \item Hora de sortida (BCN): 06:32:00
-  \item Fase 1 (BCN $\to$ GDL): $\Delta x_1 = 350\,\text{km}$ a $v_1 = 40\,\text{m/s}$
-  \item Fase 2 (Parada a GDL): $\Delta t_2 = 1\,\text{h}\ 23\,\text{min}$
-  \item Fase 3 (GDL $\to$ MAD): $\Delta x_3 = 250\,\text{km}$ a $v_3 = 45\,\text{m/s}$
+  \item \textcolor{cyan}{\underline{\textcolor{blue}{\textbf{Tram 1 (BCN $\to$ GDL)}}}}: $\Delta x_1 = 350\,\text{km} \cdot \frac{1000\,\text{m}}{1\,\text{km}} = 350\,000\,\text{m}$. Velocitat $v_1 = 40\,\text{m/s}$.
+  \item \textcolor{cyan}{\underline{\textcolor{blue}{\textbf{Tram 2 (GDL $\to$ MAD)}}}}: $\Delta x_2 = 250\,\text{km} \cdot \frac{1000\,\text{m}}{1\,\text{km}} = 250\,000\,\text{m}$. Velocitat $v_2 = 45\,\text{m/s}$.
 \end{itemize}
-Calculeu el temps total de viatge des que l'alumne es lleva i determineu l'hora d'arribada a Madrid.
-\end{tcolorbox}
 
-\section{Nomenclatura Estàndard}
-
-\begin{table}[H]
-\centering
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.18\textwidth}>{\centering\arraybackslash}p{0.14\textwidth}>{\raggedright\arraybackslash}X>{\centering\arraybackslash}p{0.18\textwidth}@{}}
-\toprule
-Concepte & Símbol & Definició & Unitat (SI) \\
-\midrule
-instant & $t$ & Moment puntual de temps & s \\
-posició & $x$ & Localització sobre l'eix & m \\
-tram & $\Delta x$ & Distància recorreguda en una fase & m \\
-interval & $\Delta t$ & Durada d'una fase & s \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\section{Resolució Pas a Pas}
-
-\subsection{Preparació de dades (Conversió d'unitats)}
-
+{\color{black}\textbf{Intervals de Temps:}}
 \begin{itemize}
-  \item $\Delta x_1 = 350\,\text{km} \times 1000 = 350\,000\,\text{m}$
-  \item $\Delta x_3 = 250\,\text{km} \times 1000 = 250\,000\,\text{m}$
-  \item $\Delta t_2 = 1\,\text{h}\ 23\,\text{min} = 3600\,\text{s} + 23 \times 60\,\text{s} = 3600\,\text{s} + 1380\,\text{s} = 4\,980\,\text{s}$
-  \item $\Delta t_0 = 32\,\text{min} = 32 \times 60\,\text{s} = 1\,920\,\text{s}$
+  \item \textcolor{cyan}{\underline{\textcolor{blue}{\textbf{Interval A (Llevar-se $\to$ Sortir amb cotxe)}}}}: 06:00:00 a 06:32:00. Repòs ($v=0$). \\ $\Delta t_A = 32\,\text{min} \cdot \frac{60\,\text{s}}{1\,\text{min}} = 1\,920\,\text{s}$.
+  \item \textcolor{cyan}{\underline{\textcolor{blue}{\textbf{Interval B (Viatge BCN $\to$ GDL)}}}}: Moviment MRU. Tempsi del Tram 1. Analitzar $\Delta t_B$.
+  \item \textcolor{cyan}{\underline{\textcolor{blue}{\textbf{Interval C (Parada a GDL)}}}}: Parada, repòs ($v=0$). \\ $\Delta t_C = 1\,\text{h}\ 23\,\text{min} = (1 \cdot 3600) + (23 \cdot 60) = 3600\,\text{s} + 1380\,\text{s} = 4\,980\,\text{s}$.
+  \item \textcolor{cyan}{\underline{\textcolor{blue}{\textbf{Interval D (Viatge GDL $\to$ MAD)}}}}: Moviment MRU. Temps del Tram 2. Analitzar $\Delta t_D$.
 \end{itemize}
 
-\subsection{Càlcul d'Intervals de Temps}
+\vspace{0.5cm}
 
-Apliquem la definició de velocitat mitjana per a MRU:
+\clearpage
+
+{\color{black}\textbf{2.3 Gràfic posició-temps ($x-t$) amb variables identificades:}}
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[
+    width=13cm, height=8cm,
+    xlabel={Temps $t$ (s)},
+    ylabel={Posició $x$ (m)},
+    xmin=0, xmax=23000,
+    ymin=0, ymax=650000,
+    scaled ticks=false,
+    axis lines=left,
+    axis line style={black, thick},
+    tick style={black, thick},
+    xlabel style={text=black, fill=white, inner sep=2pt},
+    ylabel style={text=black, fill=white, inner sep=2pt},
+    grid=both,
+    major grid style={blue!20},
+    minor grid style={blue!10},
+    xtick={0, 1920, 10670, 15650, 21205},
+    xticklabels={$t_0$, $t_1$, $t_2$, $t_3$, $t_{\text{total}}$},
+    ytick={0, 350000, 600000},
+    yticklabels={$x_0$, $x_1$, $x_2$},
+    x tick label style={align=center, anchor=north, text=black, fill=white, inner sep=2pt},
+    y tick label style={align=right, text=black, fill=white, inner sep=2pt},
+    clip=false
+  ]
+  
+  % Fletxes i descripcions per als labels de l'Eix X
+  \draw[->, purple, thick, dotted] ([yshift=-0.5cm]axis cs:0,0) -- ([yshift=-1.2cm]axis cs:0,0) node[below, align=center, font=\scriptsize] {Lleva};
+  \draw[->, purple, thick, dotted] ([yshift=-0.5cm]axis cs:1920,0) -- ([yshift=-2.2cm]axis cs:1920,0) node[below, align=center, font=\scriptsize] {Surt de\\Barcelona};
+  \draw[->, purple, thick, dotted] ([yshift=-0.5cm]axis cs:10670,0) -- ([yshift=-1.2cm]axis cs:10670,0) node[below, align=center, font=\scriptsize] {Arriba a\\Guadalajara};
+  \draw[->, purple, thick, dotted] ([yshift=-0.5cm]axis cs:15650,0) -- ([yshift=-2.2cm]axis cs:15650,0) node[below, align=center, font=\scriptsize] {Surt de\\Guadalajara};
+  \draw[->, purple, thick, dotted] ([yshift=-0.5cm]axis cs:21205.56,0) -- ([yshift=-1.2cm]axis cs:21205.56,0) node[below, align=center, font=\scriptsize] {Arriba a\\Madrid};
+
+  % Fletxes i descripcions per als labels de l'Eix Y
+  \draw[->, purple, thick, dotted] ([xshift=-0.5cm]axis cs:0,0) -- ([xshift=-1.5cm]axis cs:0,0) node[left, align=right, font=\scriptsize] {Barcelona};
+  \draw[->, purple, thick, dotted] ([xshift=-0.5cm]axis cs:0,350000) -- ([xshift=-1.5cm]axis cs:0,350000) node[left, align=right, font=\scriptsize] {Guadalajara};
+  \draw[->, purple, thick, dotted] ([xshift=-0.5cm]axis cs:0,600000) -- ([xshift=-1.5cm]axis cs:0,600000) node[left, align=right, font=\scriptsize] {Madrid};
+
+  % Intervals (Eix X) - Situeu a la part superior per evitar encavalcaments
+  \draw[<->, thick, cyan] (axis cs:0,630000) -- (axis cs:1920,630000) node[midway, above, align=center, text=blue, font=\scriptsize] {Int. A\\$\Delta t_A$};
+  \draw[<->, thick, cyan] (axis cs:1920,630000) -- (axis cs:10670,630000) node[midway, above, align=center, text=blue, font=\scriptsize] {Int. B\\$\Delta t_B$};
+  \draw[<->, thick, cyan] (axis cs:10670,630000) -- (axis cs:15650,630000) node[midway, above, align=center, text=blue, font=\scriptsize] {Int. C\\$\Delta t_C$};
+  \draw[<->, thick, cyan] (axis cs:15650,630000) -- (axis cs:21205.56,630000) node[midway, above, align=center, text=blue, font=\scriptsize] {Int. D\\$\Delta t_D$};
+
+  % Trams (Eix Y) - Situeu a la part dreta
+  \draw[<->, thick, cyan] (axis cs:22500,0) -- (axis cs:22500,350000) node[midway, right, align=center, text=blue, font=\scriptsize] {Tram 1\\$\Delta x_1$};
+  \draw[<->, thick, cyan] (axis cs:22500,350000) -- (axis cs:22500,600000) node[midway, right, align=center, text=blue, font=\scriptsize] {Tram 2\\$\Delta x_2$};
+
+  \addplot[thick, blue, domain=0:1920] {0};
+  
+  \addplot[thick, blue, domain=1920:10670] {40*(x - 1920)};
+  
+  \addplot[thick, blue, domain=10670:15650] {350000};
+  
+  \addplot[thick, blue, domain=15650:21205.56] {350000 + 45*(x - 15650)};
+  
+  \end{axis}
+\end{tikzpicture}
+\end{center}
+}
+
+\vspace{0.5cm}
+
+{\color{black}\textbf{\large 3. Identificar totes les preguntes (P1... Pn)}}
+
+{\color{blue}
+D'acord amb l'enunciat explícit i implícit, ens demanen respondre a 3 preguntes clau:
+\begin{itemize}
+    \item \textcolor{cyan}{\underline{\textcolor{blue}{\textbf{P1:}}}} Determineu a quina hora arriba finalment a Madrid. (Hora d'arribada)
+    \item \textcolor{cyan}{\underline{\textcolor{blue}{\textbf{P2:}}}} Quin és el temps real que ha passat conduint? ($t_{\text{conducció}}$)
+    \item \textcolor{cyan}{\underline{\textcolor{blue}{\textbf{P3:}}}} Quant de temps total ha invertit des del moment en què s'ha llevat? ($t_{\text{total}}$)
+\end{itemize}
+
+Substituïm les dades transformades en la fórmula principal del MRU per preparar la solució:
+\begin{itemize}
+    \item \textcolor{cyan}{\underline{\textcolor{blue}{\textbf{Interval B (Tram 1)}}}}: $40 = \dfrac{350\,000}{\Delta t_B}$
+    \item \textcolor{cyan}{\underline{\textcolor{blue}{\textbf{Interval D (Tram 2)}}}}: $45 = \dfrac{250\,000}{\Delta t_D}$
+\end{itemize}
 
 \begin{equation}
-v = \frac{\Delta x}{\Delta t} \implies \Delta t = \frac{\Delta x}{v}
-\label{eq:mrv}
+\text{Temps Total utilitzat: } t_{total} = \Delta t_A + \Delta t_B + \Delta t_C + \Delta t_D
 \end{equation}
+}
 
-Apliquem a cada fase:
+\vspace{0.5cm}
 
+{\color{black}\textbf{\large 4. Resoldre i trobar les respostes per a les Ps}}
+
+{\color{blue}
+Aïllem el temps que l'alumne triga en els intervals B i D (\textcolor{cyan}{\underline{\textcolor{blue}{\textbf{$\Delta t_B$}}}} i \textcolor{cyan}{\underline{\textcolor{blue}{\textbf{$\Delta t_D$}}}}), operant les funcions de la part 3:
 \begin{align*}
-\Delta t_1 &= \frac{350\,000\,\text{m}}{40\,\text{m/s}} = 8\,750\,\text{s} \\[6pt]
-\Delta t_3 &= \frac{250\,000\,\text{m}}{45\,\text{m/s}} \approx 5\,555{,}56\,\text{s}
+\Delta t_B &= \frac{350\,000\,\text{m}}{40\,\text{m/s}} = 8\,750\,\text{s} \\[6pt]
+\Delta t_D &= \frac{250\,000\,\text{m}}{45\,\text{m/s}} \approx 5\,555{,}56\,\text{s}
 \end{align*}
 
-\subsection{Temps Total Acumulat}
-
-El temps total des que l'alumne es lleva és la suma de tots els intervals:
-
-\begin{align}
-T_{\text{total}} &= \Delta t_0 + \Delta t_1 + \Delta t_2 + \Delta t_3 \\
-                 &= 1\,920\,\text{s} + 8\,750\,\text{s} + 4\,980\,\text{s} + 5\,555{,}56\,\text{s} \\
-                 &= \mathbf{21\,205{,}56\,\text{s}}
-\label{eq:ttot}
-\end{align}
-
-\subsection{Conversió a Hores, Minuts i Segons}
-
-Convertim el resultat a format horari:
-
+Ara calculem el temps real de conducció (\textcolor{cyan}{\underline{\textcolor{blue}{\textbf{$t_{\text{conducció}}$}}}}), sumant només els intervals de moviment efectiu (B i D):
 \begin{align*}
-21\,205{,}56\,\text{s} \div 3600 &= 5\,\text{h} \quad \text{(resta } 21\,205{,}56 - 18\,000 = 3\,205{,}56\,\text{s)} \\
-3\,205{,}56\,\text{s} \div 60    &= 53\,\text{min} \quad \text{(resta } 3\,205{,}56 - 3\,180 = 25{,}56\,\text{s} \approx 25\,\text{s)} \\
-\Rightarrow T_{\text{total}}     &= 5\,\text{h}\ 53\,\text{min}\ 25\,\text{s}
+t_{\text{conducció}} &= \Delta t_B + \Delta t_D \\
+              &= 8\,750\,\text{s} + 5\,555{,}56\,\text{s} = 14\,305{,}56\,\text{s}
 \end{align*}
 
-Sumant al moment en què l'alumne es lleva (06:00:00):
+Per al temps total complet en segons (\textcolor{cyan}{\underline{\textcolor{blue}{\textbf{$t_{\text{total}}$}}}}), sumem els 4 intervals (A, B, C i D):
+\begin{align*}
+t_{\text{total}} &= 1\,920\,\text{s} + 8\,750\,\text{s} + 4\,980\,\text{s} + 5\,555{,}56\,\text{s} \\
+          &= 21\,205{,}56\,\text{s}
+\end{align*}
 
-\begin{equation}
-t_{\text{arribada}} = 06{:}00{:}00 + 5\,\text{h}\ 53\,\text{min}\ 25\,\text{s} = \mathbf{11{:}53{:}25}
-\label{eq:arriba}
-\end{equation}
+Per determinar l'hora d'arribada (\textcolor{cyan}{\underline{\textcolor{blue}{\textbf{P1}}}}), convertim el temps total en unitats horàries (hores i minuts formals) a partir del SI:
+\begin{align*}
+21\,205{,}56\,\text{s} \div 3600\,\text{s/h} &\implies 5\,\text{h} \quad (\text{residu de } 21\,205{,}56 - 18\,000 = 3\,205{,}56\,\text{s}) \\
+3\,205{,}56\,\text{s} \div 60\,\text{s/min}    &\implies 53\,\text{min} \quad (\text{residu de } 3\,205{,}56 - 3\,180 = 25{,}56\,\text{s} \approx 25\,\text{s}) \\
+t_{\text{total}} &= 5\,\text{h}\ 53\,\text{min}\ 25\,\text{s}
+\end{align*}
 
-\section{Resultats}
+Sumant finalment aquest valor del viatge total a l'hora en què l'alumne es lleva (06:00:00):
+\[ 06{:}00{:}00 + 5\,\text{h}\ 53\,\text{min}\ 25\,\text{s} = 11{:}53{:}25 \]
 
-\begin{tcolorbox}[title=Resultats Finals,colframe=green!50!black,colback=green!8,sharp corners=south]
-\textbf{Temps total (des que es lleva):}
-\[
-T_{\text{total}} = \mathbf{21\,205{,}56\,\text{s}} = \mathbf{5\,\text{h}\ 53\,\text{min}\ 25\,\text{s}}
-\]
-\textbf{Hora d'arribada a Madrid:}
-\[
-t_{\text{arribada}} = \mathbf{11{:}53{:}25}
-\]
+\begin{tcolorbox}[title=Respostes Finals (SI i format horari),colframe=red!70!black,colback=red!5,sharp corners=south,fontupper=\color{blue}]
+\textbf{R1. Hora d'arribada a Madrid:}
+\[ \mathbf{11{:}53\,\text{h}\ (25\,\text{s})} \]
+
+\textbf{R2. Temps de conducció pur (sense pauses):}
+\[ t_{\text{conducció}} = \mathbf{14\,305{,}56\,\text{s}} \implies \mathbf{03{:}58\,\text{h}\ (25\,\text{s})} \]
+
+\textbf{R3. Temps Total del viatge (des de llevar-se):}
+\[ t_{\text{total}} = \mathbf{21\,205{,}56\,\text{s}} \implies \mathbf{05{:}53\,\text{h}\ (25\,\text{s})} \]
 \end{tcolorbox}
+}
 
 \end{document}
