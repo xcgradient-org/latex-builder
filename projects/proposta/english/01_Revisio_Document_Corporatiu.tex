@@ -1,0 +1,214 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+
+% Colors
+\definecolor{accent}{HTML}{0f3460}
+\definecolor{dark}{HTML}{1a1a2e}
+\definecolor{issue}{HTML}{c0392b}
+\definecolor{fix}{HTML}{27ae60}
+\definecolor{lightbg}{HTML}{f0f0f5}
+\definecolor{warmbg}{HTML}{fdf6e3}
+
+\hypersetup{colorlinks=true,linkcolor=accent,urlcolor=accent}
+
+\titleformat{\section}{\Large\bfseries\color{accent}}{}{0em}{}[\vspace{-0.5em}\textcolor{accent}{\rule{\textwidth}{0.8pt}}]
+\titleformat{\subsection}{\large\bfseries\color{dark}}{}{0em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{gray}{XC Gradient --- Revisió del Document}}
+\fancyhead[R]{\small\textcolor{gray}{Confidencial}}
+\fancyfoot[C]{\small\textcolor{gray}{\thepage}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtcolorbox{issuebox}{
+  colback=red!5,colframe=issue,
+  fonttitle=\bfseries\color{issue},
+  title=PROBLEMA,
+  boxrule=0.5pt,left=4pt,right=4pt,top=4pt,bottom=4pt,
+  breakable
+}
+\newtcolorbox{fixbox}{
+  colback=green!5,colframe=fix,
+  fonttitle=\bfseries\color{fix},
+  title=SOLUCIÓ,
+  boxrule=0.5pt,left=4pt,right=4pt,top=4pt,bottom=4pt,
+  breakable
+}
+\newtcolorbox{quickwin}[1][]{
+  colback=warmbg,colframe=orange!70!black,
+  boxrule=0.4pt,left=4pt,right=4pt,top=3pt,bottom=3pt,#1
+}
+
+\begin{document}
+
+\begin{center}
+{\Huge\bfseries\color{dark} Revisió del Document Corporatiu}\\[0.4em]
+{\Large\color{accent} XC Gradient --- Feedback Estratègic per a Concurs}\\[0.8em]
+{\small Abril 2026 $\cdot$ Document intern $\cdot$ Confidencial}
+\end{center}
+
+\vspace{0.5em}
+\noindent\textcolor{accent}{\rule{\textwidth}{1.5pt}}
+\vspace{0.8em}
+
+\noindent Aquest document identifica els canvis necessaris al document corporatiu d'XC Gradient (Document 1) per maximitzar la puntuació en un concurs de premis. Els problemes estan ordenats per impacte.
+
+\section{1. Problemes Estructurals i d'Enfocament}
+
+\subsection{1.1~~El document sembla una wiki interna, no un actiu extern}
+
+\begin{issuebox}
+El document barreja detalls operatius interns (Notion OS, lloguer de GPU a Vast.ai, especificacions del workstation, configuració personal de Tailscale) amb proposicions de valor per al client. Un jurat de concurs no necessita saber les especificacions del Ryzen~9 ni que l'electricitat és gratuïta per tarifa plana industrial. Això dilueix el senyal i fa que el document sembli un README en lloc d'un brief estratègic.
+\end{issuebox}
+
+\begin{fixbox}
+Dividir en dos documents: (a) un brief corporatiu extern optimitzat per a jurats/inversors que cobreixi problema, solució, fossa competitiva, tracció, equip i full de ruta; (b) una referència tècnica interna separada per a l'equip fundador. La submission del concurs només ha de contenir~(a). Moure especificacions del workstation, detalls del Notion OS, llistat de Vast.ai i referències a Tailscale al document intern.
+\end{fixbox}
+
+\subsection{1.2~~No hi ha tracció ni mètriques quantificades}
+
+\begin{issuebox}
+El document diu ``pre-revenue'' i llista dos PoCs però no proporciona cap resultat quantificat. Els jurats busquen evidència de validació: millores mesurades d'OEE, temps de diagnòstic abans/després, nombre de documents ingestats, temps de resposta a consultes, cites de feedback d'usuaris, cartes d'intenció o fins i tot compromisos verbals informals. Actualment el document es llegeix com un pla, no com progrés.
+\end{issuebox}
+
+\begin{fixbox}
+Afegir una secció ``Tracció i Validació'' immediatament després de la Solució. Incloure: (1) mètriques específiques de Decfa si n'hi ha (p.~ex. ``ingestats 847 documents cobrint 12 màquines CNC''); (2) validació qualitativa de Paver (reacció de Xavier Vera, resultat del pitch reformulat); (3) estat del pipeline (quantes converses, quantes empreses han expressat interès); (4) sol·licituds a acceleradores/beques (Santander X, Impuls UPC). Fins i tot números de fase inicial són millors que cap número.
+\end{fixbox}
+
+\subsection{1.3~~La secció de preus és massa vaga}
+
+\begin{issuebox}
+La secció Go-to-Market diu ``Pricing model is not yet defined.'' Tot i que el model de preus encara s'està definint, no mostrar cap pensament al respecte senyalitza indecisió al jurat.
+\end{issuebox}
+
+\begin{fixbox}
+Presentar els models candidats (per-màquina vs. SaaS per tiers) amb una justificació de per què s'estan explorant ambdós, i el timeline per definir-ho (validació durant els PoCs). Els jurats premien fundadors que han pensat en la monetització, fins i tot si el model final no està tancat.
+\end{fixbox}
+
+\subsection{1.4~~Falta dimensionament de mercat (TAM/SAM/SOM)}
+
+\begin{issuebox}
+No hi ha cap estimació de mida de mercat. El document diu ``European manufacturing SMEs (20--200 employees)'' però mai quantifica quantes n'hi ha, quin és el seu cost agregat de manteniment, ni quin és un mercat assolible realista. Això és un requisit estàndard per a qualsevol submission competitiva.
+\end{issuebox}
+
+\begin{fixbox}
+Afegir un desglossament TAM/SAM/SOM concís. Utilitzar dades d'Eurostat per a PIMEs manufactureres de la UE ($\sim$2M PIMEs manufactureres a la UE, $\sim$180k a Espanya). El SAM és el subconjunt amb 20--200 treballadors que opera maquinària CNC/industrial. El SOM per l'Any 1--2 són les empreses de Catalunya accessibles via la vostra xarxa. Un càlcul aproximat amb fonts citades és molt millor que res.
+\end{fixbox}
+
+\section{2. Problemes de Narrativa i Posicionament}
+
+\subsection{2.1~~El nom de producte ``JOHN'' apareix només al Doc~2 i mai s'integra}
+
+\begin{issuebox}
+El Document~2 (el formulari en castellà) introdueix ``JOHN'' com a nom del producte, però el Document~1 mai l'esmenta. Aquesta inconsistència confon un jurat que revisi ambdós documents. El producte necessita una identitat única i consistent.
+\end{issuebox}
+
+\begin{fixbox}
+Decidir: el producte es diu JOHN? Si és que sí, integrar-lo al company overview com ``JOHN by XC Gradient'' i usar-lo consistentment a tot arreu. Si JOHN està deprecat, eliminar-lo de totes les submissions. Un producte amb nom és generalment més fort per a branding de concurs que un genèric ``el nostre sistema.''
+\end{fixbox}
+
+\subsection{2.2~~La secció de fossa competitiva infravalora la fossa real}
+
+\begin{issuebox}
+La secció de moat se centra en per què els competidors no serveixen PIMEs, però enterra l'argument de defensabilitat més fort: que les ontologies per client es componen al llarg del temps i creen costos de canvi massius. L'IP de Choquet/Markov s'esmenta al fons de la secció Technical IP però mai es connecta a la narrativa de moat.
+\end{issuebox}
+
+\begin{fixbox}
+Reestructurar la secció de moat al voltant de tres pilars: (1) \textbf{Arquitectura d'IA propietària} --- el reranking Markov+Choquet i el serving multi-tenant S-QDoRA són difícils de replicar; (2) \textbf{Fossa de dades composta} --- cada desplegament de client aprofundeix l'ontologia, fent el sistema irreemplaçable; (3) \textbf{Alineament regulatori} --- la conformitat NIS2/ISO~27001 com a barrera estructural que els competidors cloud-first no poden superar fàcilment.
+\end{fixbox}
+
+\subsection{2.3~~El resum executiu (Doc~2) és més fort que el doc principal}
+
+\begin{issuebox}
+La ``PROPOSTA DE RESUM EXECUTIU'' del Document~2 té un llenguatge més afilat que el Document~1. Frases com ``We are selling uptime, not search'' i ``Solving Downtime vs. Just Diagnosing'' són molt més convincents que les seccions equivalents al document principal. El document principal explica què fa el sistema; el resum executiu explica per què importa.
+\end{issuebox}
+
+\begin{fixbox}
+Portar l'enfocament del resum executiu al document principal. Específicament: liderar la secció de Solució amb l'enfocament ``venem temps actiu, no cerca''; reescriure la Fossa Competitiva usant la distinció ``resoldre temps d'aturada vs. només diagnosticar''; i adoptar el to més net i contundent a tot el document.
+\end{fixbox}
+
+\section{3. Problemes de Presentació Tècnica}
+
+\subsection{3.1~~El diagrama d'arquitectura és massa a nivell d'implementació}
+
+\begin{issuebox}
+El diagrama ASCII d'arquitectura mostra detall a nivell de component (Markov + Choquet, S-QDoRA, vector stores) que és apropiat per a un whitepaper tècnic però no per a un jurat que inclou revisors de negoci. A més, utilitza art ASCII, que es veu poc professional.
+\end{issuebox}
+
+\begin{fixbox}
+Substituir per dos diagrames: (1) un diagrama ``com funciona'' d'alt nivell per a audiències de negoci mostrant el flux de dades des de ``documents desordenats'' fins a ``respostes accionables'' en 4--5 blocs nets; (2) un diagrama d'arquitectura tècnica detallat (SVG/PNG proper, no ASCII) per a l'annex tècnic.
+\end{fixbox}
+
+\subsection{3.2~~La taula tesi-producte exposa risc, no fortalesa}
+
+\begin{issuebox}
+La taula ``Thesis $\leftrightarrow$ Product IP Pipeline'' senyalitza al jurat que l'IP core depèn de la tesi no defensada d'una persona. Fins que la tesi estigui defensada, això es llegeix com ``tota la nostra fossa tècnica és el projecte de recerca d'un estudiant.''
+\end{issuebox}
+
+\begin{fixbox}
+Reformular: en lloc de ``pipeline tesi $\rightarrow$ producte,'' presentar-ho com ``validació acadèmica d'IP de producció.'' Emfatitzar que el sistema ja s'està implementant i testejant (els PoCs), i que la tesi proporciona validació formal. L'IP existeix independentment de la data de defensa. Moure la taula a un annex.
+\end{fixbox}
+
+\subsection{3.3~~La secció del framework d'avaluació està buida}
+
+\begin{issuebox}
+La Secció~9 (Evaluation Framework) existeix a la taula de continguts però no té contingut al document. Seccions buides senyalitzen incompletesa als revisors.
+\end{issuebox}
+
+\begin{fixbox}
+O bé poblar-la amb una breu descripció de l'enfocament de benchmarking amb ensemble de 7 característiques (BERTScore, NLI, cross-encoder, jutge LLM) i les mètriques objectiu (A-score $>$0.80), o eliminar-la de la taula de continguts. Per a la submission del concurs, un resum de 3 frases és suficient.
+\end{fixbox}
+
+\section{4. Quick Wins (Baix Esforç, Alt Impacte)}
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{c X X}
+\toprule
+\textbf{\#} & \textbf{Canvi} & \textbf{Per què} \\
+\midrule
+1 & Afegir un one-liner a dalt de tot & Els jurats fullejen. La primera frase ha de capturar la proposta de valor en $<$15 paraules. \\
+2 & Eliminar tots els detalls d'infraestructura interna & Ryzen, Vast.ai, Tailscale, costos elèctrics --- res ajuda a puntuar. \\
+3 & Afegir fotos dels fundadors i links de LinkedIn & Humanitza l'equip. Els jurats inverteixen en persones. \\
+4 & Incloure projecció financera (3 anys) & Fins i tot estimacions aproximades (objectius ARR, unit economics) mostren pensament de negoci. \\
+5 & Posar conformitat NIS2/ISO~27001 com a feature principal & La conformitat regulatòria és un punt de venda massiu que actualment està enterrat. \\
+6 & Substituir ``pre-revenue'' per ``pre-llançament comercial'' & Mateix significat, framing menys negatiu. \\
+7 & Afegir cites de testimonis (fins i tot informals) & Fins i tot ``Xavier va dir que podria estalviar hores al seu equip'' afegeix credibilitat. \\
+8 & Afegir secció ``Per què ara?'' & Timeline d'aplicació NIS2, tendències d'adopció IA a manufactura EU, digitalització post-COVID. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{5. Resum de Prioritats}
+
+\noindent Si només podeu fer cinc canvis abans de la submission, feu aquests:
+
+\begin{enumerate}[leftmargin=1.5em]
+\item \textbf{Treure detalls interns} --- eliminar specs del workstation, Notion OS, Vast.ai, Tailscale. Fer el document orientat a l'exterior.
+\item \textbf{Afegir mètriques de tracció} --- qualsevol número de Decfa/Paver: documents ingestats, consultes testejades, temps de resposta, feedback d'usuaris.
+\item \textbf{Afegir dimensionament de mercat} --- TAM/SAM/SOM amb fonts d'Eurostat. Fins i tot una estimació aproximada mostra rigor analític.
+\item \textbf{Mostrar pensament sobre preus} --- presentar els models candidats amb justificació i timeline de validació.
+\item \textbf{Portar el to del resum executiu} --- ``venem temps actiu, no cerca'' és 10x més afilat que l'enfocament actual.
+\end{enumerate}
+
+\vfill
+\begin{center}
+\small\textcolor{gray}{XC Gradient --- Document de Revisió Interna --- Confidencial}
+\end{center}
+
+\end{document}

@@ -7,7 +7,14 @@ if [[ "${1:-}" == "--clean" ]]; then
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+# Check if we are in the monorepo or a standalone repo
+if [[ -d "${SCRIPT_DIR}/../../latex-builder" ]]; then
+  REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+  PROJECTS_DIR="${REPO_ROOT}/latex-builder/projects"
+else
+  REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+  PROJECTS_DIR="${REPO_ROOT}/projects"
+fi
 
 LATEXMK_BIN=""
 if command -v latexmk >/dev/null 2>&1; then
@@ -26,7 +33,7 @@ while IFS= read -r -d '' dir; do
   if [[ -f "$candidate" ]]; then
     TARGETS+=("$candidate")
   fi
-done < <(find "$REPO_ROOT/latex-builder/projects" -mindepth 1 -maxdepth 1 -type d -print0)
+done < <(find "$PROJECTS_DIR" -mindepth 1 -maxdepth 1 -type d -print0)
 
 while IFS= read -r -d '' dir; do
   name="$(basename "$dir")"
@@ -34,12 +41,24 @@ while IFS= read -r -d '' dir; do
   if [[ -f "$candidate" ]]; then
     TARGETS+=("$candidate")
   fi
-done < <(find "$REPO_ROOT/latex-builder/projects" -mindepth 2 -maxdepth 2 -type d -print0)
+done < <(find "$PROJECTS_DIR" -mindepth 2 -maxdepth 2 -type d -print0)
 
-if [[ -d "$REPO_ROOT/latex_DOCS/proposta" ]]; then
+# Add all .tex files from 'proposta' and its subdirectories
+if [[ -d "$PROJECTS_DIR/proposta" ]]; then
   while IFS= read -r -d '' tex; do
-    TARGETS+=("$tex")
-  done < <(find "$REPO_ROOT/latex_DOCS/proposta" -type f -name '*.tex' -print0 | sort -z)
+    # Avoid duplicates if they were already added via the folder/folder.tex convention
+    # (though 'proposta' itself doesn't have a 'proposta.tex')
+    ALREADY_ADDED=false
+    for t in "${TARGETS[@]}"; do
+      if [[ "$t" == "$tex" ]]; then
+        ALREADY_ADDED=true
+        break
+      fi
+    done
+    if [[ "$ALREADY_ADDED" == "false" ]]; then
+      TARGETS+=("$tex")
+    fi
+  done < <(find "$PROJECTS_DIR/proposta" -type f -name '*.tex' -print0 | sort -z)
 fi
 
 if [[ ${#TARGETS[@]} -eq 0 ]]; then

@@ -1,0 +1,127 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[margin=1.25cm,top=1.35cm,bottom=1.25cm]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+\definecolor{accent}{HTML}{0f3460}
+\definecolor{dark}{HTML}{1a1a2e}
+\definecolor{softgreen}{HTML}{e8f5e9}
+\definecolor{midgray}{HTML}{666666}
+
+\hypersetup{colorlinks=true,linkcolor=accent,urlcolor=accent}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+
+\titleformat{\section}{\normalsize\bfseries\color{accent}}{}{0em}{}
+\titlespacing{\section}{0pt}{4pt}{2pt}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries\color{dark} XC Gradient}\\[0.1em]
+{\small\color{midgray} One Pager Ejecutivo $\cdot$ Abril 2026 $\cdot$ Confidencial}\\[0.35em]
+\colorbox{accent}{\color{white}\small\bfseries\strut\quad Reducimos el diagn\'ostico de fallos industriales de horas a minutos, con IA privada on-premises \quad}
+\end{center}
+
+\vspace{0.25em}
+{\color{accent}\hrule height 0.8pt}
+\vspace{0.35em}
+
+\begin{multicols}{2}
+
+\section{Problema}
+Las PYMEs manufactureras tienen conocimiento cr\'itico disperso en PDFs, protocolos internos y memoria de t\'ecnicos senior. Cuando una m\'aquina falla, el cuello de botella no es la reparaci\'on: \textbf{es el diagn\'ostico}.
+
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item MTTR alto por b\'usqueda manual de informaci\'on.
+\item Dependencia de personas clave que se jubilan.
+\item Datos sensibles que no pueden salir a soluciones cloud.
+\end{itemize}
+
+\section{Soluci\'on}
+XC Gradient despliega una capa de IA privada dentro de planta:
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item \textbf{Asistente de diagn\'ostico}: respuesta accionable en segundos desde manuales, incidentes y logs.
+\item \textbf{OEE en tiempo real}: disponibilidad, eficiencia y calidad por m\'aquina en un panel operativo.
+\item \textbf{Estructuraci\'on autom\'atica}: documentaci\'on no estructurada convertida en base de conocimiento consultable.
+\end{itemize}
+
+\begin{center}
+\colorbox{softgreen}{\parbox{0.94\linewidth}{\centering\small\bfseries
+Vendemos tiempo productivo recuperado.\\
+El valor es reducir paradas, no a\~nadir pantallas.
+}}
+\end{center}
+
+\section{Por qu\'e ahora}
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item \textbf{NIS2 (2024--2025)} impulsa soberan\'ia de datos industriales.
+\item \textbf{Jubilaci\'on masiva} de t\'ecnicos senior en manufactura UE.
+\item \textbf{Digitalizaci\'on PYME} acelera la compra de software vertical.
+\end{itemize}
+
+\section{Tracci\'on inicial}
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item \textbf{Decfa} (CNC, $\sim$30 empleados): PoC en ejecuci\'on.
+\item \textbf{Paver} (Granollers): PoC en fase de demo.
+\item Pipeline activo con nuevas PYMEs industriales de Catalunya.
+\end{itemize}
+
+\columnbreak
+
+\section{Mercado (YC: problema grande + mercado grande)}
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{0.96\linewidth}{lX}
+\toprule
+\textbf{TAM} & $\sim$2M PYMEs manufactureras en la UE \\
+\textbf{SAM} & $\sim$180k en Espa\~na (20--200 empleados) \\
+\textbf{SOM} & $\sim$500 empresas accesibles (Catalunya, a\~no 1--2) \\
+\bottomrule
+\end{tabularx}
+\normalsize
+
+\section{Modelo de negocio}
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item Suscripci\'on B2B (por m\'aquina o por tier, en validaci\'on con PoCs).
+\item Estrategia \textbf{land-and-expand}: entrada por problema cr\'itico y expansi\'on a toda la planta.
+\item Objetivo de margen bruto SaaS: \textbf{$>$70\%}.
+\end{itemize}
+
+\section{Ventaja competitiva}
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item \textbf{Privacidad estructural}: inferencia on-premises, cero dependencia cloud.
+\item \textbf{Ontolog\'ia por cliente}: cada despliegue incrementa los switching costs.
+\item \textbf{IP propia}: reranking Markov+Choquet y fine-tuning multi-tenant S-QDoRA.
+\end{itemize}
+
+\section{Equipo}
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item \textbf{Oriol Farr\'es} (CEO/CFO): arquitectura core de IA y estrategia.
+\item \textbf{Arnau Noguer} (CTO/AI): RAG, ontolog\'ias e ingesta documental.
+\item \textbf{Adam Sarrate} (COO/CISO): infraestructura, seguridad y despliegue.
+\end{itemize}
+UPC-FIB. Fundadores t\'ecnicos con dedicaci\'on completa.
+
+\section{Financiaci\'on y siguiente hito}
+Bootstrap con becas (Santander X, Impuls UPC). \textbf{Seed despu\'es de 100+ clientes de pago}, con m\'etricas reales (MTTR, retenci\'on, ARR).
+
+\end{multicols}
+
+\vspace{0.2em}
+{\color{accent}\hrule height 0.8pt}
+\vspace{0.15em}
+\begin{center}
+\small\textcolor{midgray}{XC Gradient $\cdot$ Contacto v\'ia fundadores $\cdot$ Sin presencia web p\'ublica $\cdot$ Confidencial}
+\end{center}
+
+\end{document}

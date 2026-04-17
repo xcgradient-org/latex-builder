@@ -1,0 +1,196 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[margin=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{tikz}
+\usetikzlibrary{positioning,calc}
+\usepackage{amssymb}
+
+\definecolor{accent}{HTML}{0f3460}
+\definecolor{dark}{HTML}{1a1a2e}
+\definecolor{highlight}{HTML}{e94560}
+\definecolor{softblue}{HTML}{e8f0fe}
+\definecolor{softgreen}{HTML}{e8f5e9}
+\definecolor{softred}{HTML}{fce4ec}
+\definecolor{softyellow}{HTML}{fff8e1}
+\definecolor{midgray}{HTML}{666666}
+\definecolor{checkgreen}{HTML}{27ae60}
+\definecolor{crossred}{HTML}{c0392b}
+
+\hypersetup{colorlinks=true,linkcolor=accent,urlcolor=accent}
+
+\titleformat{\section}{\Large\bfseries\color{accent}}{}{0em}{}[\vspace{-0.5em}\textcolor{accent}{\rule{\textwidth}{0.6pt}}]
+\titleformat{\subsection}{\large\bfseries\color{dark}}{}{0em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{gray}{XC Gradient --- Diferenciadors Competitius}}
+\fancyhead[R]{\small\textcolor{gray}{Confidencial}}
+\fancyfoot[C]{\small\textcolor{gray}{\thepage}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newcommand{\yes}{\textcolor{checkgreen}{\textbf{\checkmark}}}
+\newcommand{\no}{\textcolor{crossred}{\textbf{--}}}
+\newcommand{\partialmark}{\textcolor{midgray}{$\sim$}}
+
+\newtcolorbox{insightbox}[1][]{
+  colback=softyellow,colframe=orange!70!black,
+  fonttitle=\bfseries\color{dark},
+  boxrule=0.4pt,left=6pt,right=6pt,top=4pt,bottom=4pt,#1
+}
+
+\newtcolorbox{moatbox}[2][]{
+  colback=softblue,colframe=accent,
+  fonttitle=\bfseries\color{accent},title=#2,
+  boxrule=0.5pt,left=6pt,right=6pt,top=4pt,bottom=4pt,#1
+}
+
+\begin{document}
+
+\begin{center}
+{\Huge\bfseries\color{dark} Diferenciadors Competitius}\\[0.3em]
+{\Large\color{accent} XC Gradient --- Anàlisi de Paisatge Competitiu}\\[0.5em]
+{\small\color{midgray} Abril 2026 $\cdot$ Confidencial}
+\end{center}
+
+\vspace{0.5em}
+{\color{accent}\hrule height 1pt}
+\vspace{1em}
+
+\section{1. Matriu Competitiva}
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.4}
+\begin{tabularx}{\textwidth}{X c c c c c}
+\toprule
+\textbf{Capacitat} & \rotatebox{50}{\textbf{XC Gradient}} & \rotatebox{50}{\textbf{SAP/IBM Maximo}} & \rotatebox{50}{\textbf{Microsoft Copilot}} & \rotatebox{50}{\textbf{Notion AI / Conf.}} & \rotatebox{50}{\textbf{RAG genèric cloud}} \\
+\midrule
+Desplegament 100\% on-premises & \yes & \no & \no & \no & \no \\
+Domini manufacturerer profund & \yes & \yes & \no & \no & \no \\
+Preu accessible per PIMEs & \yes & \no & \yes & \yes & \yes \\
+Privacitat total de dades & \yes & \no & \no & \no & \no \\
+Conformitat NIS2/ISO~27001 & \yes & \partialmark & \no & \no & \no \\
+Ontologia per client (acumulativa) & \yes & \no & \no & \no & \no \\
+Dashboard OEE integrat & \yes & \yes & \no & \no & \no \\
+Eliminació de MTTR & \yes & \no & \no & \no & \no \\
+Multi-tenant eficient (S-QDoRA) & \yes & n/a & n/a & n/a & \no \\
+Reranking no-additiu (Choquet) & \yes & n/a & n/a & n/a & \no \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\vspace{0.5em}
+
+\begin{insightbox}[title=Insight clau]
+Cap competidor combina desplegament on-premises + profunditat de domini manufacturerer + preu PIME + privacitat total. Cada competidor falla en almenys 3 de les 5 dimensions crítiques. XC Gradient les compleix totes.
+\end{insightbox}
+
+\section{2. Per Què Cada Competidor Falla}
+
+\subsection{2.1~~Enterprise MES/EAM (SAP, IBM Maximo, Infor)}
+
+\begin{itemize}[leftmargin=1.5em,itemsep=2pt]
+\item \textbf{Problema de segment:} dissenyats per a grans fabricants (500+ empleats) amb equips IT dedicats. El cost de llicència, implementació i manteniment és prohibitiu per a PIMEs de 20--200 empleats.
+\item \textbf{Incentiu econòmic:} el ROI per compte de PIME no justifica l'esforç comercial ni de desplegament d'aquests vendors. No tenen incentiu per baixar de segment.
+\item \textbf{Gap d'IA:} ofereixen gestió d'actius però no resolució intel·ligent de fallades via RAG ni ontologies adaptatives.
+\end{itemize}
+
+\subsection{2.2~~Eines cloud d'IA (Microsoft Copilot, ChatGPT, Google Gemini)}
+
+\begin{itemize}[leftmargin=1.5em,itemsep=2pt]
+\item \textbf{Problema de privacitat:} requereixen enviar dades a servidors externs. Els paràmetres de mecanitzat, toleràncies de qualitat i relacions amb proveïdors són actius competitius que no es poden exposar a pipelines d'entrenament d'IA de tercers.
+\item \textbf{Problema de NIS2:} la Directiva NIS2 (en vigor) imposa obligacions de ciberseguretat que fan inviable l'ús d'eines cloud per a dades operatives industrials sensibles.
+\item \textbf{Sense domini:} respostes genèriques sense coneixement de maquinària específica, modes de fallada o procediments del client.
+\end{itemize}
+
+\subsection{2.3~~Eines genèriques de Document Q\&A (Notion AI, Confluence AI)}
+
+\begin{itemize}[leftmargin=1.5em,itemsep=2pt]
+\item \textbf{Sense profunditat de domini:} les respostes sobre manteniment CNC, paràmetres d'injecció o procediments de qualitat són poc fiables sense ontologia manufacturera.
+\item \textbf{Cloud-dependent:} mateixos problemes de privacitat que les eines d'IA genèriques.
+\item \textbf{Cerca vs. resolució:} retornen paràgrafs de documents --- no sintetitzen una resolució pas a pas adaptada a la màquina i l'incident específics.
+\end{itemize}
+
+\subsection{2.4~~Startups RAG genèriques (cloud)}
+
+\begin{itemize}[leftmargin=1.5em,itemsep=2pt]
+\item \textbf{Arquitectura cloud:} la majoria de startups RAG operen sobre infraestructura cloud (AWS, GCP, Azure) --- incompatible amb els requisits de privacitat industrial.
+\item \textbf{Sense verticalització:} pipelines RAG genèrics sense ontologies de domini manufacturerer ni integració amb mètriques operatives (OEE).
+\item \textbf{Scoring additiu:} utilitzen mètodes de reranking estàndard que no capturen sinergies entre chunks documentals (limitació que el Choquet integral resol).
+\end{itemize}
+
+\section{3. Els Tres Pilars del Moat}
+
+\begin{moatbox}{Pilar 1: IP Propietària}
+L'arquitectura d'IA d'XC Gradient conté components tècnics que no existeixen en cap producte competidor:
+
+\begin{itemize}[leftmargin=1.2em,itemsep=2pt]
+\item \textbf{Reranking Markov+Choquet:} formalitza el pipeline RAG com a cadena de Markov absorbent amb transicions avaluades per integral de Choquet sobre un DAG proposicional. Captura sinergies i redundàncies entre chunks --- impossible amb scoring lineal.
+\item \textbf{S-QDoRA:} fine-tuning multi-tenant amb adaptadors dispersos sobre model base quantitzat. Cada client té un model personalitzat sense el cost d'un model complet per client.
+\item \textbf{Speculative decoding optimitzat:} reducció de latència 2--4$\times$ per a inferència local sense cluster GPU.
+\end{itemize}
+
+Aquesta IP està sent formalment validada via tesi de màster (UPC-FIB, defensa: juliol 2026) i ja s'implementa als PoCs actius.
+\end{moatbox}
+
+\vspace{0.5em}
+
+\begin{moatbox}{Pilar 2: Fossa de Dades Composta}
+Cada desplegament d'XC Gradient construeix i refina l'ontologia del client específic:
+
+\begin{itemize}[leftmargin=1.2em,itemsep=2pt]
+\item L'ontologia mapeja les màquines específiques del client, la seva terminologia, els seus modes de fallada i els seus procediments.
+\item Com més temps porta desplegat el sistema, més intel·ligent es torna per a aquell client concret.
+\item Els costos de canvi creixen exponencialment: substituir XC Gradient significaria perdre tot el coneixement acumulat i reconstruir-lo des de zero amb un competidor.
+\end{itemize}
+
+Amb 100+ clients, cada un amb la seva ontologia propietària, la barrera d'entrada per a qualsevol competidor és insuperable.
+\end{moatbox}
+
+\vspace{0.5em}
+
+\begin{moatbox}{Pilar 3: Alineament Regulatori Estructural}
+L'arquitectura d'XC Gradient compleix NIS2 i ISO~27001 \textit{per disseny}, no per adaptació posterior:
+
+\begin{itemize}[leftmargin=1.2em,itemsep=2pt]
+\item \textbf{Inferència 100\% local:} cap dada surt de les instal·lacions del client. Això no és una feature afegida --- és la base arquitectònica.
+\item \textbf{Contenidor aïllat per client:} les dades d'un client mai toquen les d'un altre.
+\item \textbf{Zero dependència cloud:} no hi ha cap punt de la cadena on les dades passin per servidors de tercers.
+\end{itemize}
+
+Els competidors cloud-first haurien de reenginieritzar completament la seva arquitectura per aconseguir el mateix nivell de conformitat --- un procés de mesos o anys.
+\end{moatbox}
+
+\section{4. Test USP (Unique Selling Proposition)}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabularx}{0.92\textwidth}{l c X}
+\toprule
+\textbf{Criteri} & \textbf{Resultat} & \textbf{Justificació} \\
+\midrule
+\textbf{Únic?} & \yes & Cap competidor combina OEE + RAG privat + eliminació MTTR + preu PIME. \\
+\textbf{Valuós?} & \yes & El temps de diagnòstic és el principal driver de cost de manteniment a PIMEs. Eliminar-lo és impacte directe al P\&L. \\
+\textbf{Defensable?} & \yes & Ontologies per client + IP propietària + switching costs creixents creen barrera composta al llarg del temps. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\vfill
+\begin{center}
+\small\textcolor{midgray}{XC Gradient $\cdot$ Diferenciadors Competitius $\cdot$ Confidencial $\cdot$ Abril 2026}
+\end{center}
+
+\end{document}

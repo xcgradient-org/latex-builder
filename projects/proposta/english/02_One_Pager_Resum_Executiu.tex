@@ -1,0 +1,127 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[margin=1.25cm,top=1.35cm,bottom=1.25cm]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+\definecolor{accent}{HTML}{0f3460}
+\definecolor{dark}{HTML}{1a1a2e}
+\definecolor{softgreen}{HTML}{e8f5e9}
+\definecolor{midgray}{HTML}{666666}
+
+\hypersetup{colorlinks=true,linkcolor=accent,urlcolor=accent}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+
+\titleformat{\section}{\normalsize\bfseries\color{accent}}{}{0em}{}
+\titlespacing{\section}{0pt}{4pt}{2pt}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries\color{dark} XC Gradient}\\[0.1em]
+{\small\color{midgray} Executive One Pager $\cdot$ April 2026 $\cdot$ Confidential}\\[0.35em]
+\colorbox{accent}{\color{white}\small\bfseries\strut\quad We reduce industrial fault diagnosis from hours to minutes, with private on-premises AI \quad}
+\end{center}
+
+\vspace{0.25em}
+{\color{accent}\hrule height 0.8pt}
+\vspace{0.35em}
+
+\begin{multicols}{2}
+
+\section{Problem}
+Manufacturing SMEs hold critical know-how across PDFs, internal procedures, and senior technicians' memory. When a machine fails, the bottleneck is not the repair itself: \textbf{it is diagnosis}.
+
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item High MTTR due to manual information retrieval.
+\item Dependency on key experts approaching retirement.
+\item Sensitive operational data that cannot be pushed to public cloud AI.
+\end{itemize}
+
+\section{Solution}
+XC Gradient deploys a private AI layer inside each plant:
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item \textbf{Diagnostic copilot}: actionable fixes in seconds from manuals, incidents, and logs.
+\item \textbf{Real-time OEE}: availability, performance, and quality per machine on one operational dashboard.
+\item \textbf{Automatic structuring}: unstructured documentation becomes a searchable knowledge base.
+\end{itemize}
+
+\begin{center}
+\colorbox{softgreen}{\parbox{0.94\linewidth}{\centering\small\bfseries
+We sell recovered productive time.\\
+The value is fewer stoppages, not more dashboards.
+}}
+\end{center}
+
+\section{Why now}
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item \textbf{NIS2 (2024--2025)} increases pressure for industrial data sovereignty.
+\item \textbf{Senior workforce retirement wave} across EU manufacturing.
+\item \textbf{SME digitization momentum} now supports vertical software adoption.
+\end{itemize}
+
+\section{Early traction}
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item \textbf{Decfa} (CNC, $\sim$30 employees): PoC in execution.
+\item \textbf{Paver} (Granollers): PoC in demo phase.
+\item Active pipeline with additional industrial SMEs in Catalonia.
+\end{itemize}
+
+\columnbreak
+
+\section{Market (YC: big pain + big market)}
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{0.96\linewidth}{lX}
+\toprule
+\textbf{TAM} & $\sim$2M manufacturing SMEs in the EU \\
+\textbf{SAM} & $\sim$180k in Spain (20--200 employees) \\
+\textbf{SOM} & $\sim$500 reachable companies (Catalonia, years 1--2) \\
+\bottomrule
+\end{tabularx}
+\normalsize
+
+\section{Business model}
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item B2B subscription (per machine or tiered SaaS, under PoC validation).
+\item \textbf{Land-and-expand}: start with a critical workflow, expand plant-wide.
+\item Target SaaS gross margin: \textbf{$>$70\%}.
+\end{itemize}
+
+\section{Defensible advantage}
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item \textbf{Structural privacy}: on-prem inference, zero cloud dependency.
+\item \textbf{Customer ontology accumulation}: each deployment increases switching costs.
+\item \textbf{Proprietary IP}: Markov+Choquet reranking and multi-tenant S-QDoRA fine-tuning.
+\end{itemize}
+
+\section{Team}
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item \textbf{Oriol Farr\'es} (CEO/CFO): core AI architecture and strategy.
+\item \textbf{Arnau Noguer} (CTO/AI): RAG, ontologies, and document ingestion.
+\item \textbf{Adam Sarrate} (COO/CISO): infrastructure, security, and deployment.
+\end{itemize}
+UPC-FIB engineering founders, full-time.
+
+\section{Funding path and next milestone}
+Bootstrapped with grants (Santander X, Impuls UPC). \textbf{Seed round after 100+ paying customers}, backed by real metrics (MTTR, retention, ARR).
+
+\end{multicols}
+
+\vspace{0.2em}
+{\color{accent}\hrule height 0.8pt}
+\vspace{0.15em}
+\begin{center}
+\small\textcolor{midgray}{XC Gradient $\cdot$ Founder-led contact $\cdot$ No public website yet $\cdot$ Confidential}
+\end{center}
+
+\end{document}

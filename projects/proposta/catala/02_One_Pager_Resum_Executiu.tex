@@ -1,0 +1,129 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[margin=1.25cm,top=1.35cm,bottom=1.25cm]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+\definecolor{accent}{HTML}{0f3460}
+\definecolor{dark}{HTML}{1a1a2e}
+\definecolor{highlight}{HTML}{e94560}
+\definecolor{softblue}{HTML}{e8f0fe}
+\definecolor{softgreen}{HTML}{e8f5e9}
+\definecolor{midgray}{HTML}{666666}
+
+\hypersetup{colorlinks=true,linkcolor=accent,urlcolor=accent}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+
+\titleformat{\section}{\normalsize\bfseries\color{accent}}{}{0em}{}
+\titlespacing{\section}{0pt}{4pt}{2pt}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries\color{dark} XC Gradient}\\[0.1em]
+{\small\color{midgray} One Pager Executiu $\cdot$ Abril 2026 $\cdot$ Confidencial}\\[0.35em]
+\colorbox{accent}{\color{white}\small\bfseries\strut\quad Reduim el diagn\`ostic de fallades industrials d'hores a minuts, amb IA privada on-premises \quad}
+\end{center}
+
+\vspace{0.25em}
+{\color{accent}\hrule height 0.8pt}
+\vspace{0.35em}
+
+\begin{multicols}{2}
+
+\section{Problema}
+Les PIMEs manufactureres tenen coneixement cr\'itic dispers en PDFs, protocols interns i mem\`oria de t\`ecnics s\`enior. Quan una m\`aquina cau, el coll d'ampolla no \`es la reparaci\'o: \textbf{\'es el diagn\`ostic}.
+
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item MTTR elevat per recerca manual d'informaci\'o.
+\item Depend\`encia alta de persones clau que es jubilen.
+\item Dades sensibles que no poden sortir a eines cloud.
+\end{itemize}
+
+\section{Soluci\'o}
+XC Gradient desplega una capa d'IA privada dins la planta:
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item \textbf{Assist\`encia de diagn\`ostic}: resposta accionable en segons a partir de manuals, incidents i logs.
+\item \textbf{OEE en temps real}: disponibilitat, efici\`encia i qualitat per m\`aquina en un dashboard operatiu.
+\item \textbf{Estructuraci\'o autom\`atica}: documentaci\'o no estructurada convertida en base de coneixement consultable.
+\end{itemize}
+
+\begin{center}
+\colorbox{softgreen}{\parbox{0.94\linewidth}{\centering\small\bfseries
+Venem temps actiu recuperat.\\
+El valor \`es reduir aturades, no generar m\'es pantalles.
+}}
+\end{center}
+
+\section{Per qu\`e ara}
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item \textbf{NIS2 (2024--2025)} impulsa sobirania de dades industrials.
+\item \textbf{Jubilaci\'o massiva} de t\`ecnics s\`enior a manufactura UE.
+\item \textbf{Digitalitzaci\'o PIME} accelera la compra de software vertical.
+\end{itemize}
+
+\section{Tracci\'o inicial}
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item \textbf{Decfa} (CNC, $\sim$30 empleats): PoC en execuci\'o.
+\item \textbf{Paver} (Granollers): PoC en fase de demo.
+\item Pipeline actiu amb noves PIMEs industrials de Catalunya.
+\end{itemize}
+
+\columnbreak
+
+\section{Mercat (YC: problema gran + mercat gran)}
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{0.96\linewidth}{lX}
+\toprule
+\textbf{TAM} & $\sim$2M PIMEs manufactureres a la UE \\
+\textbf{SAM} & $\sim$180k a Espanya (20--200 empleats) \\
+\textbf{SOM} & $\sim$500 empreses accessibles (Catalunya, any 1--2) \\
+\bottomrule
+\end{tabularx}
+\normalsize
+
+\section{Model de negoci}
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item Subscripci\'o B2B (per m\`aquina o per tier, en validaci\'o amb PoCs).
+\item Estrat\`egia \textbf{land-and-expand}: entrada per problema cr\'itic, expansi\'o a tota la planta.
+\item Objectiu de marge brut SaaS: \textbf{$>$70\%}.
+\end{itemize}
+
+\section{Avantatge competitiu (insight defensable)}
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item \textbf{Privacitat estructural}: infer\`encia on-premises, zero depend\`encia cloud.
+\item \textbf{Ontologia per client}: cada desplegament augmenta switching costs.
+\item \textbf{IP pr\`opia}: reranking Markov+Choquet i fine-tuning multi-tenant S-QDoRA.
+\end{itemize}
+
+\section{Equip}
+\begin{itemize}[leftmargin=1em,itemsep=1pt,topsep=2pt]
+\item \textbf{Oriol Farr\'es} (CEO/CFO): arquitectura core IA i estrat\`egia.
+\item \textbf{Arnau Noguer} (CTO/AI): RAG, ontologies i ingesti\'o documental.
+\item \textbf{Adam Sarrate} (COO/CISO): infraestructura, seguretat i desplegament.
+\end{itemize}
+UPC-FIB. Fundadors t\`ecnics amb dedicaci\'o completa.
+
+\section{Finan\c{c}ament i proper milestone}
+Bootstrap amb beques (Santander X, Impuls UPC). \textbf{Seed despr\'es de 100+ clients pagants}, amb m\`etriques reals (MTTR, retenci\'o, ARR) i no narrativa especulativa.
+
+\end{multicols}
+
+\vspace{0.2em}
+{\color{accent}\hrule height 0.8pt}
+\vspace{0.15em}
+\begin{center}
+\small\textcolor{midgray}{XC Gradient $\cdot$ Contacte via fundadors $\cdot$ Sense pres\`encia web p\'ublica $\cdot$ Confidencial}
+\end{center}
+
+\end{document}

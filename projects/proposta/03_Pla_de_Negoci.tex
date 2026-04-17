@@ -1,0 +1,233 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\tcbuselibrary{skins,breakable}
+\usepackage{multicol}
+
+\definecolor{accent}{HTML}{0f3460}
+\definecolor{dark}{HTML}{1a1a2e}
+\definecolor{highlight}{HTML}{e94560}
+\definecolor{softblue}{HTML}{e8f0fe}
+\definecolor{softgreen}{HTML}{e8f5e9}
+\definecolor{midgray}{HTML}{666666}
+
+\hypersetup{colorlinks=true,linkcolor=accent,urlcolor=accent}
+
+\titleformat{\section}{\Large\bfseries\color{accent}}{}{0em}{}[\vspace{-0.5em}\textcolor{accent}{\rule{\textwidth}{0.6pt}}]
+\titleformat{\subsection}{\large\bfseries\color{dark}}{}{0em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{gray}{XC Gradient --- Pla de Negoci}}
+\fancyhead[R]{\small\textcolor{gray}{Confidencial}}
+\fancyfoot[C]{\small\textcolor{gray}{\thepage}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtcolorbox{keybox}[1][]{
+  colback=softblue,colframe=accent,
+  boxrule=0.4pt,left=6pt,right=6pt,top=4pt,bottom=4pt,#1
+}
+
+\begin{document}
+
+\begin{center}
+{\Huge\bfseries\color{dark} Pla de Negoci}\\[0.3em]
+{\Large\color{accent} XC Gradient}\\[0.5em]
+{\small\color{midgray} Abril 2026 $\cdot$ Confidencial}
+\end{center}
+
+\vspace{0.5em}
+{\color{accent}\hrule height 1pt}
+\vspace{1em}
+
+\section{1. Resum Executiu}
+
+XC Gradient construeix una capa de coneixement d'IA privada per a PIMEs manufactureres que elimina el temps de diagnòstic de fallades, visualitza l'OEE en temps real i converteix dades operatives disperses en coneixement accionable --- tot sense enviar cap dada a proveïdors externs.
+
+\begin{keybox}
+\textbf{Proposta de valor en una frase:} Quan el teu tècnic més expert marxa, el seu coneixement es queda. XC Gradient converteix 30 anys d'experiència dispersa en respostes instantànies.
+\end{keybox}
+
+\section{2. Anàlisi de Mercat}
+
+\subsection{2.1~~Dimensionament (TAM / SAM / SOM)}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{0.92\textwidth}{l l X}
+\toprule
+\textbf{Nivell} & \textbf{Dimensió} & \textbf{Definició} \\
+\midrule
+\textbf{TAM} & $\sim$2M empreses & PIMEs manufactureres a la UE (Eurostat, 2023) \\
+\textbf{SAM} & $\sim$180.000 & PIMEs manufactureres a Espanya amb 20--200 empleats i maquinària industrial \\
+\textbf{SOM Any 1} & $\sim$500 & Empreses del Vallès i àrea metropolitana de Barcelona, accessibles via xarxa directa \\
+\textbf{SOM Any 2} & $\sim$2.000 & Catalunya + contactes industrials via cambres de comerç i associacions \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{2.2~~Tendències del mercat (``Per què ara?'')}
+
+\begin{itemize}[leftmargin=1.5em,itemsep=2pt]
+\item \textbf{Directiva NIS2 (UE 2022/2555):} en vigor des de 2024--2025, obliga empreses industrials a garantir la ciberseguretat de les seves dades operatives. Les eines cloud d'IA genèriques (ChatGPT, Copilot) envien dades a tercers --- incompatible amb NIS2.
+\item \textbf{Crisi de relleu generacional:} la mitjana d'edat dels tècnics especialitzats a manufactura EU supera els 55 anys. Quan es jubilen, el coneixement acumulat desapareix.
+\item \textbf{Digitalització post-COVID:} acceleració sense precedents de l'adopció tecnològica a PIMEs que mai havien considerat solucions d'IA.
+\item \textbf{Gap de mercat:} els ERP/MES enterprise (SAP, IBM Maximo) ignoren les PIMEs per la baixa rendibilitat per compte. Cap solució combina IA on-premises + domini manufacturerer + preu PIME.
+\end{itemize}
+
+\section{3. Model de Negoci}
+
+\subsection{3.1~~Estratègia Go-to-Market}
+
+\textbf{Land-and-expand:} entrem en profunditat dins un departament d'una PIME, demostrem ROI mesurable (reducció de MTTR, millora d'OEE), i expandim a tota la planta.
+
+\begin{enumerate}[leftmargin=1.5em,itemsep=2pt]
+\item \textbf{Fase PoC (actual):} desplegament gratuït a 2 plantes pilot per obtenir mètriques de validació i compromisos verbals.
+\item \textbf{Fase llançament comercial (H2 2026):} conversió de PoCs a clients pagants; inici d'adquisició activa.
+\item \textbf{Fase escala (2027--2028):} expansió via xarxa industrial, cambres de comerç i referències de clients existents.
+\end{enumerate}
+
+\subsection{3.2~~Model de preus}
+
+El model de preus està en fase de validació durant els PoCs. Els dos models candidats en exploració són:
+
+\begin{itemize}[leftmargin=1.5em,itemsep=2pt]
+\item \textbf{Per-màquina:} tarifa mensual per cada màquina connectada al sistema --- escala linealment amb la mida de la planta.
+\item \textbf{SaaS per tiers:} subscripció mensual amb tiers basats en nombre de màquines, usuaris i funcionalitats (dashboard OEE, RAG assistit, documentació automàtica).
+\end{itemize}
+
+La decisió final es prendrà basant-se en el feedback dels PoCs (Decfa i Paver) durant Q2--Q3 2026. L'objectiu és maximitzar la predisposició a pagar del segment PIME mantenint marges SaaS ($>$70\%).
+
+\section{4. Projeccions Financeres (3 anys)}
+
+\begin{keybox}
+\small\textbf{Nota:} aquestes projeccions són estimacions conservadores basades en el pipeline actual i el ritme d'adquisició esperat. El model de preus és preliminar i subjecte a validació.
+\end{keybox}
+
+\subsection{4.1~~Projecció d'ingressos i clients}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{0.92\textwidth}{l X X X}
+\toprule
+& \textbf{Any 1 (2026--27)} & \textbf{Any 2 (2027--28)} & \textbf{Any 3 (2028--29)} \\
+\midrule
+\textbf{Clients actius} & 5--10 & 25--50 & 80--120 \\
+\textbf{ARPC mensual\textsuperscript{*}} & En validació & En validació & En validació \\
+\textbf{Objectiu ARR} & Validació de producte & Creixement recurrent & Rentabilitat operativa \\
+\textbf{Focus} & Conversió PoC $\rightarrow$ client, refinament de producte & Expansió sectorial, nous verticals industrials & Expansió geogràfica (EU), eficiència operativa \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\small\textsuperscript{*} ARPC = Average Revenue Per Client. Es definirà després de la validació del model de preus amb els PoCs.
+
+\normalsize
+\subsection{4.2~~Estructura de costos}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{0.92\textwidth}{l X X X}
+\toprule
+\textbf{Partida} & \textbf{Any 1} & \textbf{Any 2} & \textbf{Any 3} \\
+\midrule
+Infraestructura (GPU, servidors) & Mínim (workstation pròpia, cost elèctric $\sim$0) & Hardware dedicat per clients & Infraestructura de desplegament escalable \\
+Equip & 3 fundadors (sense salari, equity only) & Possible primer contracte (dev/ops) & 2--3 contractacions (dev, comercial) \\
+Operacions & Mínim (eines gratuïtes/opensource) & Tooling de desplegament & Suport client, documentació \\
+Comercial & Xarxa directa, 0 CAC & Esdeveniments industrials, contingut & Equip comercial dedicat \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{4.3~~Unit Economics (objectiu)}
+
+\begin{multicols}{2}
+\begin{itemize}[leftmargin=1.2em,itemsep=2pt]
+\item \textbf{Marge brut objectiu:} $>$70\% (SaaS)
+\item \textbf{CAC inicial:} $\sim$0 (xarxa directa, PoCs)
+\item \textbf{CAC a escala:} a determinar
+\end{itemize}
+\columnbreak
+\begin{itemize}[leftmargin=1.2em,itemsep=2pt]
+\item \textbf{LTV/CAC objectiu:} $>$3x
+\item \textbf{Churn esperat:} baix (switching costs alts per ontologia acumulada)
+\item \textbf{Payback period obj.:} $<$12 mesos
+\end{itemize}
+\end{multicols}
+
+\section{5. Estratègia de Finançament}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{0.92\textwidth}{l l X}
+\toprule
+\textbf{Fase} & \textbf{Font} & \textbf{Objectiu} \\
+\midrule
+Actual & Bootstrap + beques (Santander X, Impuls UPC) & Validar producte, primeres conversions \\
+Post-validació & Ingressos propis (primeros clients pagants) & Creixement orgànic, reinversió \\
+Post-100 clients & Ronda Seed & Accelerar expansió geogràfica i contractacions \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{keybox}
+\textbf{Per què retardem la Seed?} Preservar equity i independència estratègica. Arribar a inversors institucionals amb mètriques reals (ARR, churn, unit economics validats) en lloc de promeses.
+\end{keybox}
+
+\section{6. Riscos i Mitigació}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{0.92\textwidth}{X X}
+\toprule
+\textbf{Risc} & \textbf{Mitigació} \\
+\midrule
+Adopció lenta per part de PIMEs poc digitalitzades & Entrada via relació directa; ROI mesurable des del dia 1; formació d'operaris inclosa \\
+Competidor enterprise baixa de segment & Profunditat d'ontologia i switching costs fan la competència post-desplegament impracticable \\
+Dependència d'un únic mercat geogràfic & Expansió planificada a corredor industrial EU (Alemanya, Itàlia, Holanda) \\
+Hardware insuficient per a escala & Arquitectura S-QDoRA permet fine-tuning multi-tenant amb recursos mínims; speculative decoding redueix latència 2--4x \\
+Risc de concentració d'IP en la tesi & L'IP existeix com a codi funcional independentment de la defensa acadèmica; la tesi és validació, no creació \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{7. Full de Ruta}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{0.92\textwidth}{l X}
+\toprule
+\textbf{Milestone} & \textbf{Timeline} \\
+\midrule
+PoC Decfa completat amb mètriques & Q2 2026 \\
+PoC Paver completat amb mètriques & Q2 2026 \\
+Defensa de tesi (validació formal IP) & Juliol 2026 \\
+Primeres conversions a client pagant & Q3 2026 \\
+10 clients actius & Q4 2026 -- Q1 2027 \\
+Presència web pública & Q1 2027 \\
+50 clients actius & Q4 2027 \\
+100+ clients --- trigger ronda Seed & 2028 \\
+Expansió EU & 2028--2029 \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\vfill
+\begin{center}
+\small\textcolor{midgray}{XC Gradient $\cdot$ Pla de Negoci $\cdot$ Confidencial $\cdot$ Abril 2026}
+\end{center}
+
+\end{document}
