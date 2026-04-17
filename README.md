@@ -41,6 +41,23 @@ Use the scaffolding script (requires Node.js):
 node scripts/scaffold-project.js <project-name>
 ```
 
+## 🐳 Docker & CI/CD
+
+This repository is fully containerized.
+
+### Run in Docker
+To build all PDFs without installing LaTeX locally:
+
+```bash
+docker build -t latex-builder .
+docker run --rm -v $(pwd)/projects:/app/projects latex-builder
+```
+
+### GitHub Actions
+Every push to `main` triggers:
+- **Smoke Test:** Verifies that the Docker image builds and successfully runs `build-all.sh`.
+- **GHCR Push:** Automatically publishes the image to `ghcr.io/xcgradient-org/latex-builder:latest`.
+
 ## 🛠️ VS Code Integration
 
 This repository includes pre-configured tasks for VS Code:
