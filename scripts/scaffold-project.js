@@ -4,7 +4,7 @@ const readline = require("readline/promises");
 
 const rootDir = path.resolve(__dirname, "..");
 const projectsDir = path.join(rootDir, "projects");
-const logoPath = path.join(rootDir, "logo.png");
+const logoPath = path.join(rootDir, "brand-assets", "logo.png");
 
 function normalizeName(rawName) {
   return String(rawName || "")

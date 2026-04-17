@@ -1,0 +1,11 @@
+projects/**/*.aux
+projects/**/*.log
+projects/**/*.out
+projects/**/*.toc
+projects/**/*.pdf
+projects/**/*.fls
+projects/**/*.fdb_latexmk
+projects/**/*.synctex.gz
+.git/
+.dockerignore
+Dockerfile

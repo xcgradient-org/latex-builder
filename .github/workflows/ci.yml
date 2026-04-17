@@ -1,0 +1,50 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'latex-builder/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'latex-builder/**'
+
+jobs:
+  # Verify that the LaTeX files can still be built
+  # We use the Docker image to perform the test
+  test-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Build and Run LaTeX Container (Smoke Test)
+        run: |
+          docker build -t latex-test latex-builder
+          # Run the build script inside the container to verify compilation
+          docker run --rm latex-test bash scripts/build-all.sh
+
+  build-and-push:
+    needs: test-build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: latex-builder
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/latex-builder:latest
