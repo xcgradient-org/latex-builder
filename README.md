@@ -19,6 +19,17 @@ You need a LaTeX distribution (like TeX Live) with the following tools:
 - `biber`
 - `pdflatex`
 
+### Installation
+
+Clone the repository to get started:
+
+```bash
+git clone <repo-url>
+cd latex-builder
+```
+
+## 🛠️ Usage
+
 ### Build All Documents
 
 Run the build script from the repository root:
@@ -40,6 +51,10 @@ Use the scaffolding script (requires Node.js):
 ```bash
 node scripts/scaffold-project.js <project-name>
 ```
+
+## 👨‍💻 Development
+
+The project structure is modular, allowing for easy expansion of document types and branding. To contribute, create a new folder under `projects/` and ensure your `main.tex` is compatible with the `latexmk` orchestration.
 
 ## 🐳 Docker & CI/CD
 
