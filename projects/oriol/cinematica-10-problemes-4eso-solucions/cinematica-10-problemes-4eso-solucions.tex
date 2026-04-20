@@ -1,0 +1,1025 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage[margin=2.0cm]{geometry}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,positioning}
+
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Física 4t ESO}
+\fancyhead[R]{Cinemàtica}
+\fancyfoot[C]{\thepage}
+\setlength{\parindent}{0pt}
+
+\definecolor{solutionbg}{HTML}{EEF8EE}
+\definecolor{solutionframe}{HTML}{2E7D32}
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=solutionbg,
+  colframe=solutionframe,
+  boxrule=0.8pt,
+  arc=2mm,
+  left=1.2mm,
+  right=1.2mm,
+  top=1mm,
+  bottom=1mm,
+  title={Solució}
+}
+
+\tikzset{
+obj/.style={draw, rounded corners, minimum width=2.1cm, minimum height=0.8cm, align=center},
+smallobj/.style={draw, rounded corners, minimum width=1.7cm, minimum height=0.8cm, align=center},
+flow/.style={-Latex, thick},
+measure/.style={<->, thick}
+}
+
+\begin{document}
+
+\section*{Lliurament de Cinemàtica}
+
+Aquest dossier té \textbf{10 exercicis}. Els \textbf{exercicis 1 a 6} formen el lliurament base. Els \textbf{exercicis 7 a 10} són extres i, si estan ben fets i ben justificats, et poden \textbf{sumar fins a 1 punt a la nota de l'examen final}. El nivell que apareix indicat a cada exercici és \textbf{orientatiu} i serveix perquè et puguis situar abans de començar.
+
+El lliurament s'ha de pujar a \textbf{Clickedu} \textbf{abans de les 23:59 del diumenge 19 d'abril de 2026}. S'ha d'entregar en un únic arxiu, ben ordenat, amb els càlculs visibles, les conversions d'unitats clares i les respostes finals destacades.
+
+Com us he comentat a classe, i com també queda escrit en aquest primer full, \textbf{només cal entregar els 6 primers exercicis}. Tot i això, \textbf{recomano fer els 10 exercicis} per practicar. Els \textbf{6 primers són obligatoris} i \textbf{qui faci els 10 problemes tindrà automàticament 1 punt més a l'examen}.
+
+\textbf{Format d'entrega:} feu foto dels exercicis, ajunteu-les en un sol PDF i entregueu-ho en \textbf{un únic fitxer}.
+
+\textbf{No acceptaré treballs tard}. Aneu amb temps i organitzeu-vos bé, especialment tenint en compte \textbf{el pes que tenen aquests treballs dins l'avaluació}.
+
+Qualsevol dubte, m'envieu un correu.
+
+\hfill Oriol
+
+És \textbf{absolutament obligatori} seguir en \textbf{cada exercici} els \textbf{4 passos} parlats a classe, i cal indicar-los explícitament escrivint \textbf{1 / 2 / 3 / 4} dins de la resolució.
+
+\textbf{Pas 1.} Escriure les fórmules del model que faràs servir.\\
+\textbf{Pas 2.} Identificar dades, incògnites, eix de referència i conversions al SI si calen.\\
+\textbf{Pas 3.} Plantejar correctament l'equació o les equacions que resolen el problema.\\
+\textbf{Pas 4.} Resoldre, donar la resposta final amb unitats i comprovar si el resultat té sentit.
+
+No n'hi ha prou amb escriure només el resultat final. Cal que es vegi el procés. Si assumes un origen o un eix, cal indicar-ho.
+
+Una \textbf{IA revisarà} si els exercicis estan fets a consciència. Si es detecta que un exercici està fet expressament malament, copiat sense criteri o lliurat amb passos absurds només per omplir, \textbf{es penalitzarà}. En canvi, si un exercici està ben intentat i l'error és honest, es tindrà en compte positivament.
+
+En tots els exercicis has de treballar només amb el que hem vist a classe: \textbf{MRU, MRUA, caiguda lliure i tir vertical}. Quan convingui, transforma les dades al SI abans de substituir-les.
+
+\clearpage
+
+\section*{Exercici 1: Autobús i control policial \hfill \normalfont MRU · nivell 3/10}
+
+Un autobús circula per una autopista recta a velocitat constant de $72\,\mathrm{km/h}$. En l'instant inicial ($t=0$), l'autobús es troba a $0{,}12\,\mathrm{km}$ del peatge. Pren el peatge com a origen de posicions i suposa que el moviment és en sentit positiu. A $3{,}8\,\mathrm{km}$ del peatge hi ha un control policial fix. \textbf{(a)}~Escriu l'equació de posició de l'autobús. \textbf{(b)}~Calcula on es troba al cap de $3\,\mathrm{min}$. \textbf{(c)}~Quant de temps tarda a arribar al control policial?
+
+\begin{center}
+\resizebox{0.82\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex,line cap=round,line join=round]
+
+  % eix x
+  \draw[thick,->] (-0.5,0) -- (9.8,0) node[right] {$x$};
+  \draw[thick] (0,-0.12) -- (0,0.12);
+  \node[below=5pt] at (0,0) {$0$};
+
+  % peatge a x=0
+  \draw[thick] (0,0.15) -- (0,0.95);
+  \node[above=2pt] at (0,0.95) {peatge};
+
+  % control policial a x=8.6
+  \draw[thick] (8.6,-0.12) -- (8.6,0.12);
+  \draw[thick] (8.6,0.15) -- (8.6,0.95);
+  \node[above=2pt,align=center] at (8.6,0.95) {control\\policial};
+
+  % autobús desplaçat a x=3 per claredat visual (no a escala)
+  \draw[thick,fill=gray!25] (2.4,0.08) rectangle (3.6,0.55);
+  \draw[fill=white] (2.55,0.29) rectangle (2.95,0.50);
+  \draw[fill=white] (3.05,0.29) rectangle (3.45,0.50);
+  \draw[fill=black] (2.70,0.08) circle (0.09);
+  \draw[fill=black] (3.30,0.08) circle (0.09);
+  \node[above=4pt] at (3.0,0.55) {autobús};
+
+  % vector velocitat, separat a la dreta del bus
+  \draw[->,very thick,red] (3.80,0.31) -- (5.50,0.31);
+  \node[above=2pt,red] at (4.65,0.31) {$\vec{v}=72\,\mathrm{km/h}$};
+
+  % línies auxiliars verticals per a les cotes
+  \draw[thin,gray!70] (0,-0.12) -- (0,-1.55);
+  \draw[dashed,gray!70] (3.0,-0.05) -- (3.0,-0.90);
+  \draw[thin,gray!70] (8.6,-0.12) -- (8.6,-1.55);
+
+  % cota curta: 0,12 km (origen → posició autobús)
+  \draw[thick,|<->|] (0,-0.68) -- (3.0,-0.68)
+    node[midway,fill=white,inner sep=1pt,below=1pt] {$0{,}12\,\mathrm{km}$};
+
+  % cota llarga: 3,8 km (origen → control policial)
+  \draw[thick,|<->|] (0,-1.38) -- (8.6,-1.38)
+    node[midway,fill=white,inner sep=1pt,below=1pt] {$3{,}8\,\mathrm{km}$};
+
+\end{tikzpicture}
+}
+\end{center}
+
+\textbf{Nota:} és un MRU; l'equació de posició té la forma $x(t)=x_0+v\cdot t$.
+
+\begin{solutionbox}
+\textbf{Pas 1.} MRU:
+\[
+x(t)=x_0+v\,t
+\]
+
+\textbf{Pas 2.} Dades en SI:
+\[
+v=72\,\mathrm{km/h}=20\,\mathrm{m/s}, \qquad x_0=0{,}12\,\mathrm{km}=120\,\mathrm{m}
+\]
+\[
+x_{\text{control}}=3{,}8\,\mathrm{km}=3800\,\mathrm{m}, \qquad 3\,\mathrm{min}=180\,\mathrm{s}
+\]
+
+\textbf{Pas 3.} Plantegem:
+\[
+x(t)=120+20t
+\]
+
+Per al control policial:
+\[
+3800=120+20t
+\]
+
+\textbf{Pas 4(a).} Com que demanen l'equació de posició:
+\[
+x(t)=120+20t
+\]
+
+\textbf{Pas 4(b).} Al cap de $3\,\mathrm{min}=180\,\mathrm{s}$:
+\[
+x(180)=120+20\cdot 180=3720\,\mathrm{m}=3{,}72\,\mathrm{km}
+\]
+
+\textbf{Pas 4(c).} Per arribar al control policial:
+\[
+3800=120+20t \Longrightarrow 20t=3680 \Longrightarrow t=184\,\mathrm{s}
+\]
+\[
+t=184\,\mathrm{s}=3\,\mathrm{min}\ 4\,\mathrm{s}
+\]
+\end{solutionbox}
+
+\clearpage
+
+\section*{Exercici 2: La falta de Messi al Camp Nou \hfill \normalfont MRUA · nivell 4/10}
+
+En una falta directa al Camp Nou, la pilota part del repòs i assoleix una velocitat de $108\,\mathrm{km/h}$ mentre el peu hi és en contacte. El temps de contacte entre la bota i la pilota és de $0{,}020\,\mathrm{s}$ i l'acceleració és constant durant tot aquest interval. Pren com a origen la posició inicial de la pilota. \textbf{(a)}~Calcula l'acceleració de la pilota durant el xut. \textbf{(b)}~Quina distància recorre la pilota mentre la bota hi és en contacte? \textbf{(c)}~Quina velocitat porta en l'instant $t=0{,}012\,\mathrm{s}$?
+
+\begin{center}
+\resizebox{0.84\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex,line cap=round,line join=round]
+  \draw[thick,->] (-0.6,0) -- (7.8,0) node[right] {$x$};
+  \draw[thick] (0,-0.12) -- (0,0.12);
+  \node[below=5pt] at (0,0) {$0$};
+
+  % bota
+  \draw[thick,fill=gray!20] (-0.60,0.22) rectangle (0.08,0.90);
+  \node[above=2pt] at (-0.26,0.90) {bota};
+
+  % pilota inicial (v0=0)
+  \draw[thick,fill=gray!40] (0.45,0.28) circle (0.18);
+  \node[below=5pt] at (0.45,0.10) {$v_0=0$};
+
+  % fletxa acceleració
+  \draw[->,very thick,blue] (0.70,0.28) -- (2.40,0.28) node[midway,above] {$\vec{a}=?$};
+
+  % pilota final (puntejada)
+  \draw[thick,dashed,fill=gray!15] (5.00,0.28) circle (0.18);
+  \node[below=5pt] at (5.00,0.10) {$v=108\,\mathrm{km/h}$};
+
+  % fletxa velocitat final
+  \draw[->,very thick,red] (5.25,0.28) -- (7.10,0.28) node[midway,above] {$\vec{v}$};
+
+  % interval de temps (cota temporal, no espacial)
+  \draw[thin,gray!70] (0.45,-0.12) -- (0.45,-0.85);
+  \draw[thin,gray!70] (5.00,-0.12) -- (5.00,-0.85);
+  \draw[thick,<->] (0.45,-0.70) -- (5.00,-0.70)
+    node[midway,fill=white,inner sep=1pt,below=1pt] {$\Delta t=0{,}020\,\mathrm{s}$};
+\end{tikzpicture}
+}
+\end{center}
+
+\textbf{Nota:} estudies només l'interval de contacte; no el vol posterior de la pilota.
+
+\begin{solutionbox}
+\textbf{Pas 1.} MRUA:
+\[
+a=\frac{v-v_0}{t}, \qquad x=x_0+v_0t+\frac{1}{2}at^2, \qquad v=v_0+at
+\]
+
+\textbf{Pas 2.} Dades en SI:
+\[
+v_0=0, \qquad v=108\,\mathrm{km/h}=30\,\mathrm{m/s}, \qquad t=0{,}020\,\mathrm{s}
+\]
+
+\textbf{Pas 3.} Plantegem:
+\[
+a=\frac{30-0}{0{,}020}
+\]
+\[
+x=\frac{1}{2}at^2
+\]
+\[
+v(0{,}012)=a\cdot 0{,}012
+\]
+
+\textbf{Pas 4(a).} L'acceleració durant el xut és:
+\[
+a=\frac{30-0}{0{,}020}=1500\,\mathrm{m/s^2}
+\]
+
+\textbf{Pas 4(b).} La distància recorreguda mentre hi ha contacte és:
+\[
+x=\frac{1}{2}\cdot 1500\cdot (0{,}020)^2=0{,}30\,\mathrm{m}
+\]
+
+\textbf{Pas 4(c).} La velocitat a $t=0{,}012\,\mathrm{s}$ és:
+\[
+v(0{,}012)=1500\cdot 0{,}012=18\,\mathrm{m/s}=64{,}8\,\mathrm{km/h}
+\]
+\end{solutionbox}
+
+\clearpage
+
+\section*{Exercici 3: Unes claus que cauen de la graderia \hfill \normalfont Caiguda lliure · nivell 4/10}
+
+Durant el canvi de classe, un alumne deixa caure les claus des de la barana d'una graderia, sense velocitat inicial. El passadís inferior es troba $19{,}6\,\mathrm{m}$ per sota. Pren com a origen la posició inicial de les claus i l'eix vertical positiu cap avall. \textbf{(a)}~Quant de temps tarden les claus a arribar al passadís? \textbf{(b)}~Amb quina velocitat impacten? \textbf{(c)}~Quina distància han recorregut als $1{,}5\,\mathrm{s}$?
+
+\begin{center}
+\resizebox{0.62\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex,line cap=round,line join=round]
+  \draw[thick,->] (0,0.5) -- (0,-7.2) node[below] {$y$};
+  \draw[thick] (-0.12,0) -- (0.12,0);
+  \node[left=5pt] at (0,0) {$0$};
+
+  % barana
+  \draw[thick] (-1.4,0.20) -- (1.4,0.20);
+  \node[above=2pt] at (0,0.20) {barana de la graderia};
+
+  % claus (separades de la marca de l'origen)
+  \draw[thick,fill=gray!40] (0,-0.55) circle (0.16);
+  \node[right=6pt] at (0.16,-0.55) {claus,\ $v_0=0$};
+
+  % fletxa acceleració
+  \draw[->,thick,blue] (0,-0.85) -- (0,-2.40) node[midway,right=4pt] {$\vec{a}=g$};
+
+  % passadís inferior
+  \draw[thick] (-1.5,-6.50) -- (1.5,-6.50);
+  \node[below=2pt] at (0,-6.50) {passadís inferior};
+
+  % cota
+  \draw[thick,|<->|] (1.9,0) -- (1.9,-6.50) node[midway,right=4pt] {$19{,}6\,\mathrm{m}$};
+\end{tikzpicture}
+}
+\end{center}
+
+\textbf{Nota:} amb l'eix positiu cap avall, l'acceleració $g$ és positiva i no cal posar signes negatius.
+
+\begin{solutionbox}
+\textbf{Pas 1.} Caiguda lliure:
+\[
+y=\frac{1}{2}gt^2, \qquad v=gt
+\]
+
+\textbf{Pas 2.} Dades:
+\[
+g=9{,}8\,\mathrm{m/s^2}, \qquad y=19{,}6\,\mathrm{m}, \qquad v_0=0
+\]
+
+\textbf{Pas 3.} Plantegem:
+\[
+19{,}6=\frac{1}{2}\cdot 9{,}8\cdot t^2
+\]
+\[
+v=9{,}8\,t
+\]
+\[
+y(1{,}5)=\frac{1}{2}\cdot 9{,}8\cdot (1{,}5)^2
+\]
+
+\textbf{Pas 4(a).} El temps que tarden a arribar al passadís és:
+\[
+19{,}6=4{,}9t^2 \Longrightarrow t^2=4 \Longrightarrow t=2\,\mathrm{s}
+\]
+
+\textbf{Pas 4(b).} La velocitat d'impacte és:
+\[
+v=9{,}8\cdot 2=19{,}6\,\mathrm{m/s}
+\]
+
+\textbf{Pas 4(c).} La distància recorreguda als $1{,}5\,\mathrm{s}$ és:
+\[
+y(1{,}5)=11{,}025\,\mathrm{m}\approx 11{,}0\,\mathrm{m}
+\]
+\end{solutionbox}
+
+\clearpage
+
+\section*{Exercici 3 extra: mateix problema amb eix positiu cap amunt}
+
+Aquí resolem el mateix problema d'una altra manera. Ara prenem el \textbf{terra/passadís com a origen}, de manera que
+\[
+y=0 \text{ al passadís}, \qquad y_0=19{,}6\,\mathrm{m} \text{ a la posició inicial}
+\]
+i triem l'\textbf{eix vertical positiu cap amunt}. En aquest cas, com que la gravetat apunta cap avall,
+\[
+a=-g=-9{,}8\,\mathrm{m/s^2}.
+\]
+
+\begin{solutionbox}
+\textbf{Pas 1.} Amb eix positiu cap amunt:
+\[
+y=y_0+v_0t+\frac{1}{2}at^2, \qquad v=v_0+at
+\]
+
+\textbf{Pas 2.} Dades:
+\[
+y_0=19{,}6\,\mathrm{m}, \qquad y_{\text{terra}}=0, \qquad v_0=0, \qquad a=-9{,}8\,\mathrm{m/s^2}
+\]
+
+\textbf{Pas 3.} Plantegem:
+\[
+y(t)=19{,}6-4{,}9t^2
+\]
+\[
+v(t)=-9{,}8t
+\]
+
+\textbf{Pas 4(a).} Quan les claus arriben al terra, la seva posició és $y=0$:
+\[
+0=19{,}6-4{,}9t^2
+\]
+\[
+4{,}9t^2=19{,}6 \Longrightarrow t^2=4 \Longrightarrow t=2\,\mathrm{s}
+\]
+
+\textbf{Pas 4(b).} La velocitat d'impacte és:
+\[
+v(2)= -9{,}8\cdot 2=-19{,}6\,\mathrm{m/s}
+\]
+
+El signe negatiu indica que el moviment és \textbf{cap avall}.
+
+\textbf{Pas 4(c).} La posició al cap de $1{,}5\,\mathrm{s}$ és:
+\[
+y(1{,}5)=19{,}6-4{,}9\cdot (1{,}5)^2=19{,}6-11{,}025=8{,}575\,\mathrm{m}
+\]
+
+Això vol dir que en aquell instant les claus són a \textbf{$8{,}575\,\mathrm{m}$ per sobre del terra}. Si el que vols és la \textbf{distància recorreguda}, llavors:
+\[
+\Delta y = 19{,}6-8{,}575=11{,}025\,\mathrm{m}
+\]
+
+\textbf{Conclusió.} Amb aquest sistema de referència:
+\[
+\text{temps d'impacte } = 2\,\mathrm{s}
+\]
+\[
+\text{velocitat d'impacte } = -19{,}6\,\mathrm{m/s}
+\]
+\[
+\text{posició a }1{,}5\,\mathrm{s} = 8{,}575\,\mathrm{m}
+\]
+\[
+\text{distància recorreguda a }1{,}5\,\mathrm{s} = 11{,}025\,\mathrm{m}
+\]
+\end{solutionbox}
+
+\clearpage
+
+\section*{Exercici 4: El llançament de pilota de Djokovic \hfill \normalfont Tir vertical · nivell 4/10}
+
+Abans de servir, Djokovic llança la pilota verticalment cap amunt des del punt de llançament, que prens com a origen ($y_0=0$, eix positiu cap amunt). La velocitat inicial de la pilota és $72\,\mathrm{km/h}$. \textbf{(a)}~Quant de temps tarda a arribar al punt més alt? \textbf{(b)}~Quina alçada màxima assoleix respecte del punt de llançament? \textbf{(c)}~Quant de temps passa fins que la pilota torna a passar per $y=0$?
+
+\begin{center}
+\resizebox{0.52\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex,line cap=round,line join=round]
+  \draw[thick,->] (0,-0.8) -- (0,6.8) node[above] {$y$};
+  \draw[thick] (-0.12,0) -- (0.12,0);
+  \node[left=5pt] at (0,0) {$0$};
+
+  % punt de llançament
+  \draw[thick] (-1.3,0) -- (1.3,0);
+  \node[right=6pt] at (1.3,0) {punt de llançament};
+
+  % pilota a y=0
+  \draw[thick,fill=gray!40] (0,0.20) circle (0.16);
+
+  % velocitat inicial (dreta de l'eix, cap amunt)
+  \draw[->,very thick,red] (0.25,0.38) -- (0.25,2.30)
+    node[right=4pt,midway] {$\vec{v}_0=72\,\mathrm{km/h}$};
+
+  % y_max
+  \draw[dashed,gray] (-1.0,5.20) -- (1.0,5.20);
+  \draw[thick,fill=gray!15] (0,5.20) circle (0.14);
+  \node[right=5pt] at (0.14,5.20) {$y_{\max}$};
+
+  % acceleració (esquerra de l'eix, cap avall, separada)
+  \draw[->,thick,blue] (-0.65,4.60) -- (-0.65,3.00)
+    node[midway,left=3pt] {$\vec{a}=-g$};
+\end{tikzpicture}
+}
+\end{center}
+
+\textbf{Nota:} la posició inicial és $y_0=0$; per a les tres preguntes no fa falta saber on és el terra.
+
+\begin{solutionbox}
+\textbf{Pas 1.} Tir vertical:
+\[
+v=v_0-gt, \qquad y=v_0t-\frac{1}{2}gt^2
+\]
+
+\textbf{Pas 2.} Dades en SI:
+\[
+v_0=72\,\mathrm{km/h}=20\,\mathrm{m/s}, \qquad g=9{,}8\,\mathrm{m/s^2}, \qquad y_0=0
+\]
+
+\textbf{Pas 3.} Plantegem:
+
+Al punt més alt:
+\[
+0=20-9{,}8t
+\]
+
+Després calculam l'altura màxima i el temps total de tornada a $y=0$.
+
+\textbf{Pas 4(a).} El temps per arribar al punt més alt és:
+\[
+t_{\max}=\frac{20}{9{,}8}=2{,}04\,\mathrm{s}
+\]
+
+\textbf{Pas 4(b).} L'alçada màxima és:
+\[
+y_{\max}=20\cdot 2{,}04-\frac{1}{2}\cdot 9{,}8\cdot (2{,}04)^2\approx 20{,}4\,\mathrm{m}
+\]
+
+\textbf{Pas 4(c).} El temps per tornar a passar per $y=0$ és:
+\[
+t_{y=0}=2t_{\max}=4{,}08\,\mathrm{s}
+\]
+\end{solutionbox}
+
+\clearpage
+
+\section*{Exercici 5: De la bota de Messi a la porteria \hfill \normalfont MRU + MRUA · nivell 7/10}
+
+En el moment en què la pilota surt del peu de Messi ($t=0$), es troba a $24\,\mathrm{m}$ de la porteria i avança a velocitat constant de $108\,\mathrm{km/h}$. En aquell mateix instant, el porter es troba a $2{,}0\,\mathrm{m}$ del punt per on passarà la pilota, part del repòs i accelera uniformement cap a aquell punt a $6{,}0\,\mathrm{m/s^2}$. Pren com a origen la posició inicial de la pilota, eix positiu cap a la porteria. \textbf{(a)}~Escriu les equacions de posició de la pilota i del porter. \textbf{(b)}~Quant de temps tarda la pilota a arribar a la porteria? \textbf{(c)}~Arriba el porter a temps? Si no hi arriba, quants metres li falten?
+
+\begin{center}
+\resizebox{0.90\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex,line cap=round,line join=round]
+  \draw[thick,->] (-0.3,0) -- (10.2,0) node[right] {$x$};
+  \draw[thick] (0,-0.12) -- (0,0.12);
+  \node[below=5pt] at (0,0) {$0$};
+
+  % pilota a x=0
+  \draw[thick,fill=gray!40] (0.32,0.28) circle (0.18);
+
+  % velocitat pilota
+  \draw[->,very thick,red] (0.55,0.28) -- (2.50,0.28)
+    node[midway,above] {$\vec{v}=108\,\mathrm{km/h}$};
+
+  % porteria a x=8.8
+  \draw[very thick] (8.6,-0.25) -- (8.6,1.65);
+  \draw[very thick] (8.6,1.65) -- (9.50,1.65);
+  \draw[very thick] (9.50,1.65) -- (9.50,-0.25);
+  \node[above=2pt] at (9.05,1.65) {porteria};
+
+  % porter (2m de la porteria, no a escala visual)
+  \draw[thick,fill=gray!25] (5.90,0.08) rectangle (7.30,0.52);
+  \draw[fill=white] (6.08,0.28) rectangle (6.52,0.48);
+  \draw[fill=white] (6.62,0.28) rectangle (7.06,0.48);
+  \draw[fill=black] (6.20,0.08) circle (0.09);
+  \draw[fill=black] (7.00,0.08) circle (0.09);
+  \node[above=4pt] at (6.60,0.52) {porter};
+
+  % acceleració porter → porteria
+  \draw[->,very thick,blue] (7.45,0.30) -- (8.45,0.30)
+    node[right=2pt,blue] {$\vec{a}=6{,}0\,\mathrm{m/s^2}$};
+
+  % cota 2m (porter → porteria), SOBRE l'eix
+  \draw[thin,gray!70] (6.60,0.55) -- (6.60,0.82);
+  \draw[thick,|<->|] (6.60,0.74) -- (8.60,0.74)
+    node[midway,above=2pt] {$2{,}0\,\mathrm{m}$};
+
+  % cota 24m (origen → porteria), SOTA l'eix
+  \draw[thin,gray!70] (0,-0.15) -- (0,-1.05);
+  \draw[thin,gray!70] (8.6,-0.25) -- (8.6,-1.05);
+  \draw[thick,|<->|] (0,-0.90) -- (8.6,-0.90)
+    node[midway,fill=white,inner sep=1pt,below=1pt] {$24\,\mathrm{m}$};
+\end{tikzpicture}
+}
+\end{center}
+
+\textbf{Nota:} la pilota fa MRU i el porter fa MRUA; escriu l'equació de cadascun amb el seu $x_0$ correcte.
+
+\begin{solutionbox}
+\textbf{Pas 1.} Fórmules:
+\[
+x_{\text{pilota}}=x_{0,\text{pilota}}+vt
+\]
+\[
+x_{\text{porter}}=x_{0,\text{porter}}+v_0t+\frac{1}{2}at^2
+\]
+
+\textbf{Pas 2.} Dades en SI:
+\[
+v_{\text{pilota}}=108\,\mathrm{km/h}=30\,\mathrm{m/s}, \qquad x_{0,\text{pilota}}=0
+\]
+\[
+x_{\text{porteria}}=24\,\mathrm{m}, \qquad x_{0,\text{porter}}=24-2=22\,\mathrm{m}
+\]
+\[
+v_{0,\text{porter}}=0, \qquad a=6{,}0\,\mathrm{m/s^2}
+\]
+
+\textbf{Pas 3.} Plantegem:
+\[
+x_{\text{pilota}}(t)=30t
+\]
+\[
+x_{\text{porter}}(t)=22+\frac{1}{2}\cdot 6t^2=22+3t^2
+\]
+
+La pilota arriba a la porteria quan:
+\[
+24=30t
+\]
+
+\textbf{Pas 4(a).} Les equacions de posició són:
+\[
+x_{\text{pilota}}(t)=30t, \qquad x_{\text{porter}}(t)=22+3t^2
+\]
+
+\textbf{Pas 4(b).} El temps que tarda la pilota a arribar a la porteria és:
+\[
+24=30t \Longrightarrow t=\frac{24}{30}=0{,}8\,\mathrm{s}
+\]
+
+\textbf{Pas 4(c).} En aquest instant, el porter és a:
+\[
+x_{\text{porter}}(0{,}8)=22+3(0{,}8)^2=22+1{,}92=23{,}92\,\mathrm{m}
+\]
+\[
+24-23{,}92=0{,}08\,\mathrm{m}=8\,\mathrm{cm}
+\]
+
+Per tant, no hi arriba a temps.
+\end{solutionbox}
+
+\clearpage
+
+\section*{Exercici 6: Pilota llançada des d'un balcó \hfill \normalfont Tir vertical · nivell 8/10}
+
+Des d'un balcó situat a $12\,\mathrm{m}$ sobre el carrer, es llança una pilota verticalment cap amunt amb velocitat inicial de $50{,}4\,\mathrm{km/h}$. Pren el carrer com a origen de posicions ($y=0$) i l'eix vertical positiu cap amunt. \textbf{(a)}~Escriu l'equació de posició de la pilota. \textbf{(b)}~Quina alçada màxima assoleix respecte del carrer? \textbf{(c)}~Quant de temps tarda a arribar al punt més alt? \textbf{(d)}~Quant de temps total passa fins que la pilota arriba al carrer? \textbf{(e)}~Amb quina velocitat impacta?
+
+\begin{center}
+\resizebox{0.56\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex,line cap=round,line join=round]
+  \draw[thick,->] (0,-0.3) -- (0,7.2) node[above] {$y$};
+  \draw[thick] (-0.12,0) -- (0.12,0);
+  \node[left=5pt] at (0,0) {$0$};
+
+  % carrer
+  \draw[thick] (-1.3,0) -- (1.3,0);
+  \node[below=2pt] at (0,0) {carrer};
+
+  % balcó
+  \draw[thick] (-1.1,3.80) -- (1.1,3.80);
+  \node[right=5pt] at (1.1,3.80) {balcó};
+
+  % pilota al balcó
+  \draw[thick,fill=gray!40] (0,4.00) circle (0.16);
+
+  % velocitat inicial (dreta de l'eix)
+  \draw[->,very thick,red] (0.25,4.18) -- (0.25,5.80)
+    node[right=4pt,midway] {$\vec{v}_0=50{,}4\,\mathrm{km/h}$};
+
+  % acceleració (esquerra de l'eix, separada)
+  \draw[->,thick,blue] (-0.55,5.60) -- (-0.55,4.20)
+    node[left=4pt,midway] {$\vec{a}=-g$};
+
+  % cota 12m
+  \draw[thick,|<->|] (1.70,0) -- (1.70,3.80)
+    node[midway,right=4pt] {$12\,\mathrm{m}$};
+\end{tikzpicture}
+}
+\end{center}
+
+\textbf{Nota:} la posició inicial és $y_0=12\,\mathrm{m}$, no zero; ha d'aparèixer explícitament a l'equació de moviment.
+
+\begin{solutionbox}
+\textbf{Pas 1.} Tir vertical:
+\[
+y=y_0+v_0t-\frac{1}{2}gt^2, \qquad v=v_0-gt
+\]
+
+\textbf{Pas 2.} Dades en SI:
+\[
+y_0=12\,\mathrm{m}, \qquad v_0=50{,}4\,\mathrm{km/h}=14\,\mathrm{m/s}, \qquad g=9{,}8\,\mathrm{m/s^2}
+\]
+
+\textbf{Pas 3.} Plantegem:
+\[
+y(t)=12+14t-4{,}9t^2
+\]
+
+Al punt més alt:
+\[
+0=14-9{,}8t
+\]
+
+Quan arriba al carrer:
+\[
+0=12+14t-4{,}9t^2
+\]
+
+\textbf{Pas 4(a).} L'equació de posició és:
+\[
+y(t)=12+14t-4{,}9t^2
+\]
+
+\textbf{Pas 4(b).} L'alçada màxima respecte del carrer és:
+\[
+y_{\max}=12+14\cdot 1{,}43-4{,}9\cdot (1{,}43)^2\approx 22{,}0\,\mathrm{m}
+\]
+
+\textbf{Pas 4(c).} El temps per arribar al punt més alt és:
+\[
+t_{\max}=\frac{14}{9{,}8}=1{,}43\,\mathrm{s}
+\]
+
+\textbf{Pas 4(d).} El temps total fins al carrer és:
+\[
+t_{\text{carrer}}=\frac{14+\sqrt{14^2+4\cdot 4{,}9\cdot 12}}{9{,}8}\approx 3{,}55\,\mathrm{s}
+\]
+
+\textbf{Pas 4(e).} La velocitat d'impacte és:
+\[
+v_{\text{impacte}}=14-9{,}8\cdot 3{,}55\approx -20{,}8\,\mathrm{m/s}
+\]
+\end{solutionbox}
+
+\clearpage
+
+\section*{Exercici 7: Frenada abans del semàfor \hfill \normalfont MRUA · extra}
+
+Un cotxe circula per una avinguda a $54\,\mathrm{km/h}$. En un instant determinat ($t=0$), el conductor veu el semàfor en vermell i comença a frenar amb una acceleració constant de mòdul $3{,}0\,\mathrm{m/s^2}$ en sentit contrari al moviment. En aquell instant el cotxe es troba a $20\,\mathrm{m}$ de la línia de detenció. \textbf{(a)}~Quant de temps tarda el cotxe a aturar-se completament? \textbf{(b)}~S'atura abans d'arribar a la línia o la sobrepassa? En el segon cas, quants metres la sobrepassa?
+
+\begin{center}
+\resizebox{0.80\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex,line cap=round,line join=round]
+  \draw[thick,->] (-0.5,0) -- (10.0,0) node[right] {$x$};
+  \draw[thick] (0,-0.12) -- (0,0.12);
+  \node[below=5pt] at (0,0) {$0$};
+
+  % cotxe (amb finestres i rodes)
+  \draw[thick,fill=gray!25] (0.0,0.08) rectangle (1.80,0.58);
+  \draw[fill=white] (0.18,0.30) rectangle (0.65,0.52);
+  \draw[fill=white] (0.75,0.30) rectangle (1.22,0.52);
+  \draw[fill=black] (0.32,0.08) circle (0.10);
+  \draw[fill=black] (1.48,0.08) circle (0.10);
+  \node[above=4pt] at (0.90,0.58) {cotxe};
+
+  % velocitat inicial
+  \draw[->,very thick,red] (1.95,0.33) -- (3.60,0.33)
+    node[midway,above] {$\vec{v}_0=54\,\mathrm{km/h}$};
+
+  % desacceleració (cap enrere, sobre el cotxe, dins dels límits)
+  \draw[->,very thick,blue] (1.50,0.82) -- (0.20,0.82)
+    node[midway,above] {$\vec{a}$};
+
+  % línia de detenció (puntejada) + semàfor
+  \draw[very thick,dashed] (8.80,-0.18) -- (8.80,0.60);
+  \draw[thick] (8.80,0.60) -- (8.80,2.10);
+  \draw[thick,fill=black] (8.45,2.10) rectangle (9.15,2.90);
+  \draw[fill=red] (8.80,2.68) circle (0.12);
+  \node[above=2pt] at (8.80,2.90) {semàfor};
+
+  % cota 20m (front cotxe → línia de detenció)
+  \draw[thin,gray!70] (1.80,-0.12) -- (1.80,-0.85);
+  \draw[thin,gray!70] (8.80,-0.18) -- (8.80,-0.85);
+  \draw[thick,|<->|] (1.80,-0.70) -- (8.80,-0.70)
+    node[midway,fill=white,inner sep=1pt,below=1pt] {$20\,\mathrm{m}$};
+\end{tikzpicture}
+}
+\end{center}
+
+\textbf{Nota:} la frenada és un MRUA amb $a<0$; l'acceleració apunta en sentit contrari a la velocitat.
+
+\begin{solutionbox}
+\textbf{Pas 1.} MRUA:
+\[
+v=v_0+at, \qquad x=x_0+v_0t+\frac{1}{2}at^2
+\]
+
+\textbf{Pas 2.} Dades en SI:
+\[
+v_0=54\,\mathrm{km/h}=15\,\mathrm{m/s}, \qquad a=-3{,}0\,\mathrm{m/s^2}, \qquad x=20\,\mathrm{m}
+\]
+
+\textbf{Pas 3.} Plantegem:
+
+Quan s'atura:
+\[
+0=15-3t
+\]
+
+Distància recorreguda fins aturar-se:
+\[
+x=15t+\frac{1}{2}(-3)t^2
+\]
+
+\textbf{Pas 4(a).} El temps que tarda a aturar-se és:
+\[
+0=15-3t \Longrightarrow t=5\,\mathrm{s}
+\]
+
+\textbf{Pas 4(b).} La distància de frenada és:
+\[
+x=15\cdot 5-\frac{3}{2}\cdot 25=75-37{,}5=37{,}5\,\mathrm{m}
+\]
+\[
+37{,}5-20=17{,}5\,\mathrm{m}
+\]
+
+Per tant, no s'atura abans d'arribar a la línia.
+\end{solutionbox}
+
+\clearpage
+
+\section*{Exercici 8: Un paquet que cau d'un balcó \hfill \normalfont Caiguda lliure · extra}
+
+Des d'un balcó situat a $45\,\mathrm{m}$ sobre el carrer, un paquet petit cau sense velocitat inicial. Pren com a origen la posició inicial del paquet i l'eix vertical positiu cap avall. \textbf{(a)}~Quant de temps tarda el paquet a arribar al carrer? \textbf{(b)}~Quina distància ha recorregut quan ha passat exactament la meitat del temps total de caiguda?
+
+\begin{center}
+\resizebox{0.62\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex,line cap=round,line join=round]
+  \draw[thick,->] (0,0.5) -- (0,-7.5) node[below] {$y$};
+  \draw[thick] (-0.12,0) -- (0.12,0);
+  \node[left=5pt] at (0,0) {$0$};
+
+  % balcó
+  \draw[thick] (-1.4,0.20) -- (1.4,0.20);
+  \node[above=2pt] at (0,0.20) {balcó};
+
+  % paquet (rectangle, separat de l'origen)
+  \draw[thick,fill=gray!35] (-0.20,-0.55) rectangle (0.20,-0.18);
+  \node[right=6pt] at (0.20,-0.36) {paquet,\ $v_0=0$};
+
+  % fletxa acceleració
+  \draw[->,thick,blue] (0,-0.70) -- (0,-2.30)
+    node[midway,right=4pt] {$\vec{a}=g$};
+
+  % carrer
+  \draw[thick] (-1.5,-6.70) -- (1.5,-6.70);
+  \node[below=2pt] at (0,-6.70) {carrer};
+
+  % cota
+  \draw[thick,|<->|] (1.9,0) -- (1.9,-6.70)
+    node[midway,right=4pt] {$45\,\mathrm{m}$};
+\end{tikzpicture}
+}
+\end{center}
+
+\textbf{Nota:} la meitat del temps no correspon a la meitat de la distància; comprova-ho amb el resultat.
+
+\begin{solutionbox}
+\textbf{Pas 1.} Caiguda lliure:
+\[
+y=\frac{1}{2}gt^2
+\]
+
+\textbf{Pas 2.} Dades:
+\[
+y=45\,\mathrm{m}, \qquad g=9{,}8\,\mathrm{m/s^2}, \qquad v_0=0
+\]
+
+\textbf{Pas 3.} Plantegem:
+\[
+45=\frac{1}{2}\cdot 9{,}8\cdot t^2
+\]
+
+Si $t_{\text{total}}$ és el temps total, la meitat és $t_{\text{total}}/2$ i la distància en aquell instant és:
+\[
+y\left(\frac{t_{\text{total}}}{2}\right)=\frac{1}{2}g\left(\frac{t_{\text{total}}}{2}\right)^2
+\]
+
+\textbf{Pas 4(a).} El temps total de caiguda és:
+\[
+45=4{,}9t^2 \Longrightarrow t^2=\frac{45}{4{,}9} \Longrightarrow t_{\text{total}}\approx 3{,}03\,\mathrm{s}
+\]
+
+\textbf{Pas 4(b).} A la meitat del temps:
+\[
+\frac{t_{\text{total}}}{2}\approx 1{,}515\,\mathrm{s}
+\]
+\[
+y(1{,}515)=\frac{1}{2}\cdot 9{,}8\cdot (1{,}515)^2\approx 11{,}25\,\mathrm{m}
+\]
+\end{solutionbox}
+
+\clearpage
+
+\section*{Exercici 9: Pilota de tennis i recepció \hfill \normalfont Tir vertical · extra}
+
+Un jugador llança una pilota de tennis verticalment cap amunt des d'una alçada de $1{,}5\,\mathrm{m}$ sobre el terra, amb una velocitat inicial de $14\,\mathrm{m/s}$. Pren com a origen el terra ($y=0$) i l'eix positiu cap amunt. \textbf{(a)}~Quant de temps triga la pilota a tornar a passar exactament per $y=1{,}5\,\mathrm{m}$? \textbf{(b)}~Quina velocitat porta en aquell instant?
+
+\begin{center}
+\resizebox{0.62\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex,line cap=round,line join=round]
+  \draw[thick,->] (0,-0.3) -- (0,6.8) node[above] {$y$};
+  \draw[thick] (-0.12,0) -- (0.12,0);
+  \node[left=5pt] at (0,0) {$0$};
+
+  % terra
+  \draw[thick] (-1.3,0) -- (1.3,0);
+  \node[below=2pt] at (0,0) {terra};
+
+  % pilota a y=1.5
+  \draw[thick,fill=gray!40] (0,1.50) circle (0.16);
+
+  % línia puntejada al nivell de sortida/tornada
+  \draw[dashed,gray] (-1.5,1.50) -- (1.5,1.50);
+  \node[right=5pt] at (1.5,1.50) {$y=1{,}5\,\mathrm{m}$};
+
+  % velocitat inicial (dreta de l'eix)
+  \draw[->,very thick,red] (0.25,1.68) -- (0.25,3.40)
+    node[right=4pt,midway] {$\vec{v}_0=14\,\mathrm{m/s}$};
+
+  % ymax
+  \draw[dashed,gray] (-0.8,5.60) -- (0.8,5.60);
+  \draw[thick,fill=gray!15] (0,5.60) circle (0.14);
+  \node[right=5pt] at (0.14,5.60) {$y_{\max}$};
+
+  % acceleració (esquerra de l'eix)
+  \draw[->,thick,blue] (-0.60,5.10) -- (-0.60,3.60)
+    node[midway,left=4pt] {$\vec{a}=-g$};
+
+  % cota 1.5m
+  \draw[thick,|<->|] (1.9,0) -- (1.9,1.50)
+    node[midway,right=4pt] {$1{,}5\,\mathrm{m}$};
+\end{tikzpicture}
+}
+\end{center}
+
+\textbf{Nota:} no et demanen quan toca a terra, sinó quan torna al nivell de llançament $y=1{,}5\,\mathrm{m}$.
+
+\begin{solutionbox}
+\textbf{Pas 1.} Tir vertical:
+\[
+y=y_0+v_0t-\frac{1}{2}gt^2, \qquad v=v_0-gt
+\]
+
+\textbf{Pas 2.} Dades:
+\[
+y_0=1{,}5\,\mathrm{m}, \qquad v_0=14\,\mathrm{m/s}, \qquad g=9{,}8\,\mathrm{m/s^2}
+\]
+
+\textbf{Pas 3.} Plantegem el retorn al mateix nivell:
+\[
+1{,}5=1{,}5+14t-4{,}9t^2
+\]
+\[
+14t-4{,}9t^2=0
+\]
+
+\textbf{Pas 4(a).} El temps en què torna a passar per $y=1{,}5\,\mathrm{m}$ és:
+\[
+t(14-4{,}9t)=0
+\]
+\[
+t=0 \quad \text{o} \quad t=\frac{14}{4{,}9}=2{,}86\,\mathrm{s}
+\]
+
+La segona solució és la que interessa.
+
+\textbf{Pas 4(b).} La velocitat en aquell instant és:
+\[
+v(2{,}86)=14-9{,}8\cdot 2{,}86\approx -14\,\mathrm{m/s}
+\]
+\end{solutionbox}
+
+\clearpage
+
+\section*{Exercici 10: Cotxe constant i patrulla que surt més tard \hfill \normalfont MRU + MRUA · extra}
+
+En un carrer recte, un cotxe passa davant d'una patrulla de policia aturada a $90\,\mathrm{km/h}$ constant ($t=0$). La patrulla espera $4\,\mathrm{s}$ i aleshores surt des del repòs amb una acceleració constant de $3{,}0\,\mathrm{m/s^2}$. Pren com a origen la posició de la patrulla en $t=0$. \textbf{(a)}~Escriu les equacions de posició del cotxe i de la patrulla. \textbf{(b)}~Quant de temps passa des que el cotxe supera la patrulla fins que la patrulla l'atrapa? \textbf{(c)}~A quina distància de l'origen es produeix l'encontre?
+
+\begin{center}
+\resizebox{0.80\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex,line cap=round,line join=round]
+  \draw[thick,->] (-0.3,0) -- (9.5,0) node[right] {$x$};
+  \draw[thick] (0,-0.12) -- (0,0.12);
+  \node[below=5pt] at (0,0) {$0$};
+
+  % cotxe (sobre l'eix)
+  \draw[thick,fill=gray!25] (0.0,0.22) rectangle (1.80,0.70);
+  \draw[fill=white] (0.18,0.40) rectangle (0.65,0.64);
+  \draw[fill=white] (0.75,0.40) rectangle (1.22,0.64);
+  \draw[fill=black] (0.32,0.22) circle (0.10);
+  \draw[fill=black] (1.48,0.22) circle (0.10);
+  \node[above=4pt] at (0.90,0.70) {cotxe\ ($t=0$)};
+
+  % velocitat cotxe
+  \draw[->,very thick,red] (1.95,0.46) -- (3.60,0.46)
+    node[midway,above] {$v=90\,\mathrm{km/h}$};
+
+  % patrulla (sota l'eix)
+  \draw[thick,fill=gray!15] (0.0,-0.70) rectangle (1.80,-0.22);
+  \draw[fill=white] (0.18,-0.52) rectangle (0.65,-0.28);
+  \draw[fill=white] (0.75,-0.52) rectangle (1.22,-0.28);
+  \draw[fill=black] (0.32,-0.70) circle (0.10);
+  \draw[fill=black] (1.48,-0.70) circle (0.10);
+  \node[below=4pt] at (0.90,-0.70) {patrulla\ ($t=0$, aturada)};
+
+  % fletxa acceleració patrulla + anotació temporal
+  \draw[->,very thick,blue] (1.95,-0.46) -- (3.60,-0.46)
+    node[midway,below] {$\vec{a}=3{,}0\,\mathrm{m/s^2}$};
+  \node[right=4pt] at (3.65,-0.46) {(arrenca a $t=4\,\mathrm{s}$)};
+\end{tikzpicture}
+}
+\end{center}
+
+\textbf{Nota:} cotxe i patrulla no comencen a moure's al mateix instant; defineix bé l'origen temporal de cada equació.
+
+\begin{solutionbox}
+\textbf{Pas 1.} Fórmules:
+\[
+x_{\text{cotxe}}=x_0+vt
+\]
+\[
+x_{\text{patrulla}}=x_0+v_0\Delta t+\frac{1}{2}a(\Delta t)^2
+\]
+
+\textbf{Pas 2.} Dades en SI:
+\[
+v_{\text{cotxe}}=90\,\mathrm{km/h}=25\,\mathrm{m/s}, \qquad a_{\text{patrulla}}=3{,}0\,\mathrm{m/s^2}
+\]
+
+\textbf{Pas 3.} Plantegem:
+\[
+x_{\text{cotxe}}(t)=25t
+\]
+\[
+x_{\text{patrulla}}(t)=
+\begin{cases}
+0, & 0\le t\le 4 \\
+1{,}5(t-4)^2, & t\ge 4
+\end{cases}
+\]
+
+L'encontre compleix:
+\[
+25t=1{,}5(t-4)^2
+\]
+
+\textbf{Pas 4(a).} Les equacions de posició són:
+\[
+x_{\text{cotxe}}(t)=25t, \qquad
+x_{\text{patrulla}}(t)=
+\begin{cases}
+0, & 0\le t\le 4 \\
+1{,}5(t-4)^2, & t\ge 4
+\end{cases}
+\]
+
+\textbf{Pas 4(b).} El temps fins que la patrulla l'atrapa és:
+\[
+25t=1{,}5(t^2-8t+16)=1{,}5t^2-12t+24
+\]
+\[
+1{,}5t^2-37t+24=0
+\]
+\[
+3t^2-74t+48=0
+\]
+\[
+t=\frac{74\pm \sqrt{74^2-4\cdot 3\cdot 48}}{6}
+=\frac{74\pm 70}{6}
+\]
+\[
+t=\frac{4}{6}\ \text{(no vàlid perquè } t<4), \qquad t=\frac{144}{6}=24\,\mathrm{s}
+\]
+
+\textbf{Pas 4(c).} La distància on es produeix l'encontre és:
+\[
+x=25\cdot 24=600\,\mathrm{m}
+\]
+\end{solutionbox}
+
+\end{document}

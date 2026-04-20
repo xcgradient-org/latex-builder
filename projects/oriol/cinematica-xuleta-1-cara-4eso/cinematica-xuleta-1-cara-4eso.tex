@@ -1,0 +1,136 @@
+\documentclass[9pt,a4paper,landscape]{extarticle}
+
+\usepackage[a4paper,landscape,margin=0.65cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{multicol}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\columnsep}{0.45cm}
+\setlength{\columnseprule}{0.2pt}
+
+\definecolor{headbg}{HTML}{1F2A30}
+\definecolor{subbg}{HTML}{EEF2F3}
+
+\newcommand{\sheetblock}[1]{%
+	\vspace{0.08cm}
+	\colorbox{headbg}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\centering\color{white}\textbf{#1}}}
+	\vspace{0.08cm}
+}
+
+\newcommand{\note}[1]{%
+	\colorbox{subbg}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\raggedright #1}}
+}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries XULETA R\`APIDA DE CINEM\`ATICA 4t ESO}
+\\[-0.08cm]
+{\small Formulari per examen: tens les f\'ormules, les demostracions les fas tu}
+\end{center}
+
+\begin{multicols}{2}
+
+\sheetblock{Constants i normes}
+\[
+g=9{,}81\,\mathrm{m/s^2}
+\qquad
+\frac{1}{2}g\approx4{,}9\,\mathrm{m/s^2}
+\]
+\[
+\text{Treballa sempre amb 2 decimals}
+\]
+
+\sheetblock{Conversi\'o d'unitats}
+\[
+1\,\mathrm{m/s}=3{,}6\,\mathrm{km/h}
+\qquad
+1\,\mathrm{km/h}=\frac{1}{3{,}6}\,\mathrm{m/s}
+\]
+\[
+\mathrm{km/h}\rightarrow\mathrm{m/s}:\div 3{,}6
+\qquad
+\mathrm{m/s}\rightarrow\mathrm{km/h}:\times 3{,}6
+\]
+\[
+36\,\mathrm{km/h}\div 3{,}6=10\,\mathrm{m/s}
+\qquad
+10\,\mathrm{m/s}\times 3{,}6=36\,\mathrm{km/h}
+\]
+
+\sheetblock{MRU}
+\[
+a=0
+\qquad
+x=x_0+vt
+\qquad
+\Delta x=vt
+\qquad
+v=\frac{\Delta x}{\Delta t}
+\]
+
+\sheetblock{MRUA}
+\[
+a=\frac{v-v_0}{t}
+\qquad
+v=v_0+at
+\]
+\[
+x=x_0+v_0t+\frac{1}{2}at^2
+\qquad
+v^2=v_0^2+2a(x-x_0)
+\]
+\[
+\bar v=\frac{v_0+v}{2}
+\qquad
+\Delta x=\bar v\,t
+\]
+
+\columnbreak
+
+\sheetblock{Caiguda lliure (eix + cap amunt)}
+\[
+a=-g=-9{,}81
+\]
+\[
+y=y_0+v_0t-4{,}9t^2
+\qquad
+v=v_0-9{,}81t
+\]
+\[
+\text{si } v_0=0:\qquad h=4{,}9t^2
+\qquad
+t_{\text{caig}}=\sqrt{\frac{h}{4{,}9}}
+\]
+
+\sheetblock{Tir vertical (eix + cap amunt)}
+\[
+a=-g=-9{,}81
+\qquad
+v=v_0-9{,}81t
+\]
+\[
+y=y_0+v_0t-4{,}9t^2
+\]
+\[
+t_{\max}=\frac{v_0}{9{,}81}
+\qquad
+y_{\max}=y_0+\frac{v_0^2}{19{,}62}
+\]
+\[
+\text{si torna al mateix nivell:}\qquad t_{\text{total}}=\frac{2v_0}{9{,}81}
+\]
+
+\sheetblock{Recordatori examen}
+{\small Tens les f\'ormules de treball.\\
+A l'examen has de demostrar-les (per exemple, des de $y=y_0+v_0t-4{,}9t^2$).}
+
+\end{multicols}
+
+\end{document}
