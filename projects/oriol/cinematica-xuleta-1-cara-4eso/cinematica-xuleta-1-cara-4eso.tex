@@ -1,53 +1,76 @@
-\documentclass[9pt,a4paper,landscape]{extarticle}
+\documentclass[10pt,a4paper]{extarticle}
 
-\usepackage[a4paper,landscape,margin=0.65cm]{geometry}
+\usepackage[a4paper,margin=1.05cm]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[catalan]{babel}
 \usepackage{lmodern}
 \usepackage{amsmath,amssymb}
 \usepackage{xcolor}
-\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
 
-\pagestyle{empty}
 \setlength{\parindent}{0pt}
-\setlength{\columnsep}{0.45cm}
+\setlength{\parskip}{2pt}
+\setlength{\columnsep}{0.55cm}
 \setlength{\columnseprule}{0.2pt}
+\setlist[itemize]{leftmargin=*,itemsep=1pt,topsep=2pt,parsep=0pt}
 
-\definecolor{headbg}{HTML}{1F2A30}
-\definecolor{subbg}{HTML}{EEF2F3}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize XULETA DE CINEM\`ATICA 4t ESO}
+\fancyhead[R]{\footnotesize Format examen}
+\fancyfoot[C]{\footnotesize P\`agina \thepage/2}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
 
-\newcommand{\sheetblock}[1]{%
-	\vspace{0.08cm}
-	\colorbox{headbg}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\centering\color{white}\textbf{#1}}}
+\definecolor{ink}{HTML}{102A43}
+\definecolor{accent}{HTML}{0F766E}
+\definecolor{subbg}{HTML}{EAF5F4}
+\definecolor{muted}{HTML}{486581}
+
+\newcommand{\mainhead}[1]{%
+	\vspace{0.10cm}
+	{\color{accent}\rule{\linewidth}{0.9pt}}\\[-0.16cm]
+	{\large\bfseries\color{ink} #1}\\[-0.10cm]
+	{\color{accent}\rule{\linewidth}{0.55pt}}
 	\vspace{0.08cm}
 }
 
-\newcommand{\note}[1]{%
-	\colorbox{subbg}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\raggedright #1}}
+\newcommand{\subhead}[1]{%
+	\vspace{0.08cm}
+	\colorbox{subbg}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\textbf{\color{ink}#1}}}
+	\vspace{0.03cm}
+}
+
+\newcommand{\examnote}[1]{%
+	{\small\color{muted}#1}
 }
 
 \begin{document}
 
-\begin{center}
-{\Large\bfseries XULETA R\`APIDA DE CINEM\`ATICA 4t ESO}
-\\[-0.08cm]
-{\small Formulari per examen: tens les f\'ormules, les demostracions les fas tu}
-\end{center}
+\twocolumn[
+{\centering\LARGE\bfseries\color{ink} XULETA DE CINEM\`ATICA -- FORMAT EXAMEN\par}
+\vspace{0.03cm}
+{\centering\small\color{muted}Vertical \textbullet\ 2 p\`agines \textbullet\ 2 columnes \textbullet\ demostracions el dia de l'examen\par}
+\vspace{0.12cm}
+]
 
-\begin{multicols}{2}
+\mainhead{P\`AGINA 1 \textbullet\ BASE I CONVERSIONS}
 
-\sheetblock{Constants i normes}
+\subhead{Constants fixes i criteri}
 \[
 g=9{,}81\,\mathrm{m/s^2}
 \qquad
 \frac{1}{2}g\approx4{,}9\,\mathrm{m/s^2}
 \]
-\[
-\text{Treballa sempre amb 2 decimals}
-\]
+\begin{itemize}
+\item Treballa amb 2 decimals al resultat final.
+\item Fes els c\`alculs en SI (m, s, m/s, m/s$^2$).
+\item Tria eix i signe abans de substituir valors.
+\end{itemize}
 
-\sheetblock{Conversi\'o d'unitats}
+\subhead{Conversi\'o d'unitats (imprescindible)}
 \[
 1\,\mathrm{m/s}=3{,}6\,\mathrm{km/h}
 \qquad
@@ -64,7 +87,7 @@ g=9{,}81\,\mathrm{m/s^2}
 10\,\mathrm{m/s}\times 3{,}6=36\,\mathrm{km/h}
 \]
 
-\sheetblock{MRU}
+\subhead{MRU (moviment rectilini uniforme)}
 \[
 a=0
 \qquad
@@ -74,8 +97,12 @@ x=x_0+vt
 \qquad
 v=\frac{\Delta x}{\Delta t}
 \]
+\begin{itemize}
+\item La velocitat es mant\'e constant.
+\item A la gr\`afica $x-t$, la pendent \`es $v$.
+\end{itemize}
 
-\sheetblock{MRUA}
+\subhead{MRUA (acceleraci\'o constant)}
 \[
 a=\frac{v-v_0}{t}
 \qquad
@@ -92,9 +119,24 @@ v^2=v_0^2+2a(x-x_0)
 \Delta x=\bar v\,t
 \]
 
-\columnbreak
+\subhead{Despejos express (surten molt)}
+\[
+t=\frac{v-v_0}{a}
+\qquad
+a=\frac{v^2-v_0^2}{2\Delta x}
+\]
+\[
+t=\frac{2\Delta x}{v_0+v}
+\qquad
+v=\frac{\Delta x}{t}
+\]
+\examnote{Si et demanen justificaci\'o: parteix del MRUA base.}
 
-\sheetblock{Caiguda lliure (eix + cap amunt)}
+\clearpage
+
+\mainhead{P\`AGINA 2 \textbullet\ CAIGUDA LLIURE I TIR VERTICAL}
+
+\subhead{Caiguda lliure (eix positiu cap amunt)}
 \[
 a=-g=-9{,}81
 \]
@@ -103,15 +145,26 @@ y=y_0+v_0t-4{,}9t^2
 \qquad
 v=v_0-9{,}81t
 \]
+\begin{itemize}
+\item Si puja: $v_0>0$.
+\item Si cau des de rep\`os: $v_0=0$.
+\end{itemize}
+
+\subhead{Cas directe: caiguda des del rep\`os}
 \[
-\text{si } v_0=0:\qquad h=4{,}9t^2
+h=4{,}9t^2
 \qquad
 t_{\text{caig}}=\sqrt{\frac{h}{4{,}9}}
 \]
-
-\sheetblock{Tir vertical (eix + cap amunt)}
 \[
-a=-g=-9{,}81
+v=-9{,}81t
+\qquad
+|v|=9{,}81t
+\]
+
+\subhead{Tir vertical (eix positiu cap amunt)}
+\[
+a=-9{,}81
 \qquad
 v=v_0-9{,}81t
 \]
@@ -127,10 +180,16 @@ y_{\max}=y_0+\frac{v_0^2}{19{,}62}
 \text{si torna al mateix nivell:}\qquad t_{\text{total}}=\frac{2v_0}{9{,}81}
 \]
 
-\sheetblock{Recordatori examen}
-{\small Tens les f\'ormules de treball.\\
-A l'examen has de demostrar-les (per exemple, des de $y=y_0+v_0t-4{,}9t^2$).}
+\subhead{Guio curt per resoldre a l'examen}
+\begin{itemize}
+\item 1) Escriu dades i passa-les a SI.
+\item 2) Defineix eix i signe (+ i -).
+\item 3) Tria l'equaci\'o on surt la inc\`ognita.
+\item 4) Ailla la inc\`ognita abans de substituir.
+\item 5) Comprova unitats i arrodoneix a 2 decimals.
+\end{itemize}
 
-\end{multicols}
+\subhead{Recordatori final}
+\examnote{Aquesta xuleta dona les f\'ormules finals. El dia de l'examen has de demostrar-les des de les equacions base (per exemple, des de $y=y_0+v_0t-4{,}9t^2$).}
 
 \end{document}
