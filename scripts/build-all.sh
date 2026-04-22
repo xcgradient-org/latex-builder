@@ -26,22 +26,25 @@ else
   exit 1
 fi
 
-TARGETS=()
+# Find all directories under PROJECTS_DIR (excluding 'proposta' and 'chapters' subtrees)
+# and check if they contain a .tex file matching the directory name.
 while IFS= read -r -d '' dir; do
-  name="$(basename "$dir")"
-  candidate="$dir/$name.tex"
-  if [[ -f "$candidate" ]]; then
-    TARGETS+=("$candidate")
+  # Skip the projects root itself and the 'proposta' directory (handled separately)
+  if [[ "$dir" == "$PROJECTS_DIR" || "$dir" == "$PROJECTS_DIR/proposta" || "$dir" == "$PROJECTS_DIR/proposta/"* ]]; then
+    continue
   fi
-done < <(find "$PROJECTS_DIR" -mindepth 1 -maxdepth 1 -type d -print0)
+  
+  # Skip anything inside a 'chapters' directory
+  if [[ "$dir" == *"/chapters"* ]]; then
+    continue
+  fi
 
-while IFS= read -r -d '' dir; do
   name="$(basename "$dir")"
   candidate="$dir/$name.tex"
   if [[ -f "$candidate" ]]; then
     TARGETS+=("$candidate")
   fi
-done < <(find "$PROJECTS_DIR" -mindepth 2 -maxdepth 2 -type d -print0)
+done < <(find "$PROJECTS_DIR" -type d -print0)
 
 # Add all .tex files from 'proposta' and its subdirectories
 if [[ -d "$PROJECTS_DIR/proposta" ]]; then

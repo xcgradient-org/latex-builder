@@ -1,0 +1,193 @@
+%% ============================================================
+%%  rubrica-exercicis-de-classe.tex -- Rúbrica d'exercicis de classe
+%%  Build: latexmk -pdf rubrica-exercicis-de-classe.tex
+%% ============================================================
+\documentclass[12pt,a4paper]{report}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[
+  top=2.4cm,
+  bottom=2.4cm,
+  left=2.5cm,
+  right=2.5cm
+]{geometry}
+
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage[nopatch=footnote]{microtype}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{tabularx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage[
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+]{hyperref}
+
+\graphicspath{{./}}
+\setstretch{1.1}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+\setlist[itemize]{topsep=2pt,itemsep=2pt,leftmargin=1.8em}
+
+\definecolor{upcblue}{RGB}{0,51,153}
+\definecolor{softblue}{RGB}{234,242,255}
+\definecolor{softgray}{RGB}{245,245,245}
+\definecolor{softyellow}{RGB}{255,247,223}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\nouppercase{Rúbrica Exercicis de Classe}}
+\fancyhead[R]{Programació}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14.5pt}
+
+\newcommand{\DocumentTitle}{Rúbrica Exercicis de Classe}
+\newcommand{\DocumentDate}{\today}
+
+\begin{document}
+\pagenumbering{roman}
+\hypersetup{pageanchor=false}
+
+\begin{titlepage}
+  \thispagestyle{empty}
+
+  \begin{minipage}[c]{0.62\textwidth}
+    \includegraphics[width=0.52\textwidth,height=1.9cm,keepaspectratio]{logo}
+  \end{minipage}
+
+  \vspace{0.5cm}
+  {\color{upcblue}\rule{\linewidth}{1.1pt}}
+
+  \vfill
+
+  \begin{center}
+    {\Huge\bfseries \DocumentTitle\par}
+    \vspace{0.5cm}
+    {\large Organització, calendari i criteris d'avaluació\par}
+    \vspace{0.8cm}
+    {\large \DocumentDate\par}
+  \end{center}
+
+  \vfill
+
+  \begin{tcolorbox}[colback=softblue,colframe=upcblue,title=Informació important]
+    Els exercicis de classe els podeu trobar a \textbf{Jutge}. Els grups
+    \textbf{ja estan fets}. Per a més informació, consulteu
+    \textbf{\url{https://cerveto.oriolfarres.com}}.
+  \end{tcolorbox}
+
+  \vfill
+\end{titlepage}
+
+\hypersetup{pageanchor=true}
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\chapter{Organització general}
+
+Les presentacions dels exercicis de classe es faran al llarg de \textbf{6 setmanes},
+tots els \textbf{dilluns}, començant el \textbf{dilluns 4 de maig de 2026}.
+
+Cada setmana:
+
+\begin{itemize}
+  \item sortiran \textbf{4 grups};
+  \item els 4 grups seran \textbf{avaluats};
+  \item cada sessió correspon a una de les llistes establertes.
+\end{itemize}
+
+\begin{tcolorbox}[colback=softyellow,colframe=upcblue,title=Recordatori]
+Els grups no s'han de tornar a formar: \textbf{ja estan fets}. El que s'avalua
+és la preparació i l'exposició del grup que ja teniu assignat.
+\end{tcolorbox}
+
+\chapter{Calendari}
+
+\section{Distribució per setmanes}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{>{\bfseries}l l l Y}
+\toprule
+Setmana & Data & Llista & Observació \\
+\midrule
+W1 & Dilluns 4 de maig de 2026 & Llista 1 & 4 grups avaluats \\
+W2 & Dilluns 11 de maig de 2026 & Llista 1 & 4 grups avaluats \\
+W3 & Dilluns 18 de maig de 2026 & Llista 2 & 4 grups avaluats \\
+W4 & Dilluns 25 de maig de 2026 & Llista 2 & 4 grups avaluats \\
+W5 & Dilluns 1 de juny de 2026 & Llista 3 & 4 grups avaluats \\
+W6 & Dilluns 8 de juny de 2026 & Llista 3 & 4 grups avaluats \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Resum de llistes}
+
+\begin{tcolorbox}[colback=softgray,colframe=black,title=Assignació]
+\begin{itemize}
+  \item \textbf{W1--W2}: Llista 1
+  \item \textbf{W3--W4}: Llista 2
+  \item \textbf{W5--W6}: Llista 3
+\end{itemize}
+\end{tcolorbox}
+
+\chapter{Rúbrica d'avaluació}
+
+\section{Criteris}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{>{\bfseries}l Y c}
+\toprule
+Criteri & Què s'espera & Pes \\
+\midrule
+Claredat de l'explicació & El grup explica bé l'exercici, l'enfocament i la solució triada. & 25\% \\
+Comprensió tècnica & El grup demostra que entén el codi, l'algorisme i les decisions preses. & 25\% \\
+Qualitat de la solució & La proposta és correcta, coherent i ben justificada. & 20\% \\
+Comunicació oral & L'exposició és clara, ordenada i ben repartida entre membres del grup. & 15\% \\
+Resposta a preguntes & El grup respon amb solvència les preguntes que es facin a classe. & 15\% \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Escala qualitativa}
+
+\begin{center}
+\begin{tabularx}{0.94\textwidth}{>{\bfseries}l Y}
+\toprule
+Nivell & Descripció \\
+\midrule
+Excel.lent & Explicació molt clara, domini tècnic alt i justificació sòlida de la solució. \\
+Bé & Explicació clara i correcta, amb petites mancances de detall. \\
+Suficient & Presentació entenedora però superficial o incompleta en algun punt rellevant. \\
+A millorar & Explicació poc clara o amb poc domini de la solució presentada. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\chapter{On trobar el material}
+
+\begin{itemize}
+  \item Els exercicis es publicaran a \textbf{Jutge}.
+  \item Els grups \textbf{ja estan fets}.
+  \item Per a més informació o indicacions addicionals, consulteu
+  \textbf{\url{https://cerveto.oriolfarres.com}}.
+\end{itemize}
+
+\begin{tcolorbox}[colback=softblue,colframe=upcblue,title=Resum final]
+Cada dilluns sortiran 4 grups. Hi haurà 6 setmanes d'exposicions. Les llistes
+queden repartides així: \textbf{W1--W2 llista 1}, \textbf{W3--W4 llista 2},
+\textbf{W5--W6 llista 3}.
+\end{tcolorbox}
+
+\end{document}

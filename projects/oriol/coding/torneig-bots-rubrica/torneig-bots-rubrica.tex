@@ -1,0 +1,534 @@
+%% ============================================================
+%%  torneig-bots-rubrica.tex -- Guia de l'alumnat i rubriques
+%%  Build: latexmk -pdf torneig-bots-rubrica.tex
+%% ============================================================
+\documentclass[12pt,a4paper]{report}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{lmodern}
+\usepackage[
+  top=2.4cm,
+  bottom=2.4cm,
+  left=2.5cm,
+  right=2.5cm
+]{geometry}
+
+\usepackage{amsmath,amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage[nopatch=footnote]{microtype}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage[
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+]{hyperref}
+
+\graphicspath{{./}}
+\setstretch{1.12}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+\setlist[itemize]{topsep=2pt,itemsep=2pt,leftmargin=1.8em}
+
+\definecolor{upcblue}{RGB}{0,51,153}
+\definecolor{softblue}{RGB}{234,242,255}
+\definecolor{softgray}{RGB}{245,245,245}
+\definecolor{softgreen}{RGB}{230,246,236}
+\definecolor{softred}{RGB}{252,234,234}
+\definecolor{softyellow}{RGB}{255,247,223}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\nouppercase{La Lliga de Nacions}}
+\fancyhead[R]{Guia i rúbriques}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14.5pt}
+
+\newcommand{\DocumentTitle}{La Lliga de Nacions}
+\newcommand{\DocumentSubtitle}{Guia de funcionament del joc, exemples i rúbriques}
+\newcommand{\DocumentDate}{\today}
+
+\begin{document}
+\pagenumbering{roman}
+\hypersetup{pageanchor=false}
+
+\begin{titlepage}
+  \thispagestyle{empty}
+
+  \begin{minipage}[c]{0.62\textwidth}
+    \includegraphics[width=0.52\textwidth,height=1.9cm,keepaspectratio]{logo}
+  \end{minipage}
+
+  \vspace{0.5cm}
+  {\color{upcblue}\rule{\linewidth}{1.1pt}}
+
+  \vfill
+
+  \begin{center}
+    {\Huge\bfseries \DocumentTitle\par}
+    \vspace{0.45cm}
+    {\Large \DocumentSubtitle\par}
+    \vspace{1.2cm}
+    {\large Document per a l'alumnat\par}
+    \vspace{0.3cm}
+    {\large \DocumentDate\par}
+  \end{center}
+
+  \vfill
+
+  \begin{tcolorbox}[colback=softblue,colframe=upcblue,title=Què trobaràs en aquest document]
+    Aquesta guia explica com funciona el joc, com es calculen els punts, quines
+    restriccions té el lliurable, dos exemples de bots senzills i les rúbriques
+    que s'utilitzaran per interpretar els resultats.
+  \end{tcolorbox}
+
+  \vfill
+\end{titlepage}
+
+\hypersetup{pageanchor=true}
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\chapter{Visió general del joc}
+
+\section{Idea bàsica}
+
+En aquest lliurable programareu un bot en Python que representa un país dins
+d'un joc diplomàtic repetit. Cada partida té exactament quatre països:
+
+\begin{itemize}
+  \item el vostre bot;
+  \item tres bots de referència preparats pel professor.
+\end{itemize}
+
+Cada ronda, tots quatre països decideixen simultàniament què fan contra cadascun
+dels seus tres rivals. La durada total de la partida és desconeguda per als
+jugadors: es fixa aleatòriament a \textbf{100 \(\pm\) 10 rondes}, és a dir,
+entre \textbf{90 i 110} rondes.
+
+\begin{tcolorbox}[colback=softyellow,colframe=upcblue,title=Idea clau del disseny]
+Com que el final de la partida no és visible, no és bona idea construir una
+estratègia que depengui d'una suposada ``última ronda''. El que funciona millor
+és un bot robust, capaç d'adaptar-se durant tota la partida.
+\end{tcolorbox}
+
+\section{Accions possibles}
+
+Per a cada rival, el vostre bot pot escollir una de les tres accions següents:
+
+\begin{center}
+\begin{tabularx}{0.95\textwidth}{>{\bfseries}c >{\bfseries}l Y}
+\toprule
+Valor & Acció & Significat \\
+\midrule
+\texttt{0} & PAU & Oferta de cooperació plena. \\
+\texttt{1} & TREGUA & Posició neutral o semi-cooperativa. \\
+\texttt{2} & GUERRA & Posició agressiva o defecció. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Les decisions són simultànies i secretes. Quan tots els països ja han triat, es
+revelen les accions i es calculen els punts bilaterals.
+
+\section{Matriu de punts bilaterals}
+
+La puntuació d'una interacció depèn de les dues accions triades en aquell parell:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{c|ccc}
+ & \textbf{PAU} & \textbf{TREGUA} & \textbf{GUERRA} \\
+\hline
+\textbf{PAU} & 3 & 1 & 0 \\
+\textbf{TREGUA} & 4 & 2 & 0.5 \\
+\textbf{GUERRA} & 5 & 3 & 1 \\
+\end{tabular}
+\end{center}
+
+Exemple: si el país A juga TREGUA i el país B juga GUERRA, A obté 0.5 punts i
+B n'obté 3 en aquella interacció bilateral.
+
+\section{Com es calcula la puntuació d'una ronda}
+
+Cada país juga tres interaccions bilaterals per ronda, una contra cada rival.
+La puntuació de ronda és la suma d'aquestes tres interaccions.
+
+\begin{tcolorbox}[colback=softgray,colframe=black,title=Fórmula de puntuació]
+\[
+\text{punts d'una ronda}
+=
+\text{punts contra rival 1}
++
+\text{punts contra rival 2}
++
+\text{punts contra rival 3}
+\]
+\end{tcolorbox}
+
+La classificació final de la partida es determina amb la puntuació acumulada al
+cap de totes les rondes ocultes.
+
+\chapter{Interfície del bot}
+
+\section{Funció obligatòria}
+
+Rebreu un fitxer \texttt{bot.py}. La funció que heu d'implementar és:
+
+\begin{verbatim}
+def decideix(historial: dict, ronda: int) -> dict:
+    return {"P1": 0, "P2": 0, "P3": 0}
+\end{verbatim}
+
+El retorn ha de contenir exactament una acció per a cada rival:
+
+\begin{center}
+\begin{tabularx}{0.95\textwidth}{>{\ttfamily}l Y}
+\toprule
+Clau & Significat \\
+\midrule
+\texttt{"P1"} & Acció contra el rival 1 \\
+\texttt{"P2"} & Acció contra el rival 2 \\
+\texttt{"P3"} & Acció contra el rival 3 \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Estructura de l'historial}
+
+Per a cada rival, l'historial inclou únicament la memòria bilateral contra
+vosaltres. El bot \textbf{no veu en cap nivell} com aquell rival ha jugat contra
+els altres països.
+
+\begin{itemize}
+  \item \texttt{contra\_mi}: historial bilateral entre vosaltres i aquell rival.
+\end{itemize}
+
+\begin{tcolorbox}[colback=softred,colframe=black,title=Detall important]
+No heu de construir cap estratègia basada en claus del tipus \texttt{contra\_P?}
+perquè aquestes dades no formen part de la interfície disponible per al bot.
+\end{tcolorbox}
+
+\chapter{Restriccions del lliurable}
+
+\section{Restriccions del fitxer}
+
+Aquestes són les restriccions que heu de respectar quan editeu \texttt{bot.py}:
+
+\begin{itemize}
+  \item Podeu afegir funcions auxiliars, constants, classes i estructures sota
+  la funció \texttt{decideix}.
+  \item Podeu importar només: \texttt{random}, \texttt{math},
+  \texttt{collections}, \texttt{itertools}, \texttt{functools},
+  \texttt{statistics} i \texttt{copy}.
+  \item No podeu importar: \texttt{os}, \texttt{sys}, \texttt{subprocess},
+  \texttt{socket}, \texttt{requests}, \texttt{shutil}, \texttt{pathlib},
+  \texttt{importlib} ni cap mòdul de xarxa o fitxers.
+  \item La signatura \texttt{decideix(historial, ronda)} és intocable.
+\end{itemize}
+
+\section{Restriccions d'execució imposades al lliurable}
+
+Aquestes són les condicions d'execució que s'apliquen quan el sistema avalua el bot:
+
+\begin{itemize}
+  \item \textbf{Validació estàtica del codi:} abans de guardar el fitxer, es
+  comprova el codi font. Un \texttt{import} no permès fa que el fitxer sigui
+  rebutjat.
+  \item \textbf{Límit de temps per crida:} cada crida a \texttt{decideix} té un
+  límit d'\textbf{1 segon}. Si el bot no retorna a temps, aquella ronda es
+  comptabilitza com a \texttt{GUERRA} contra tots els rivals.
+  \item \textbf{Validació del retorn:} si \texttt{decideix} retorna claus
+  incorrectes, valors fora de \{0,1,2\} o llança una excepció, la ronda també
+  es comptabilitza com a \texttt{GUERRA}.
+\end{itemize}
+
+\begin{tcolorbox}[colback=softyellow,colframe=upcblue,title=Conseqüència pràctica]
+Un bot molt sofisticat però inestable acostuma a rendir pitjor que un bot simple
+però correcte. La prioritat és sempre retornar un resultat vàlid i a temps.
+\end{tcolorbox}
+
+\chapter{Bots de referència i nivells}
+
+\section{Bots de referència}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{>{\ttfamily}l l Y}
+\toprule
+Codi & Nom & Comportament \\
+\midrule
+\texttt{colom} & El Pacifista & Sempre juga PAU. \\
+\texttt{aguila} & El Bel.licista & Sempre juga GUERRA. \\
+\texttt{aleatori} & El Caòtic & Tria accions aleatòriament. \\
+\texttt{mirall} & L'Espill & Copia l'última acció del rival contra ell. Primera ronda: PAU. \\
+\texttt{rancoros} & El Vindicatiu & Juga PAU fins que rep una GUERRA; després juga GUERRA per sempre. \\
+\texttt{reputacio} & El Jutge & Estima la reputació agressiva del rival i respon amb PAU, TREGUA o GUERRA. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Configuració dels 5 nivells}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{>{\bfseries}l Y Y Y Y}
+\toprule
+Nivell & Rivals & Accions disponibles & Informació disponible & Rondes \\
+\midrule
+L1 & \texttt{colom}, \texttt{aleatori}, \texttt{aguila} & Binàries: \texttt{0} o \texttt{2} & Només \texttt{contra\_mi} & \(100 \pm 10\) \\
+L2 & \texttt{colom}, \texttt{mirall}, \texttt{aleatori} & Binàries: \texttt{0} o \texttt{2} & Només \texttt{contra\_mi} & \(100 \pm 10\) \\
+L3 & \texttt{mirall}, \texttt{rancoros}, \texttt{aleatori} & Ternàries: \texttt{0}, \texttt{1}, \texttt{2} & Només \texttt{contra\_mi} & \(100 \pm 10\) \\
+L4 & \texttt{mirall}, \texttt{rancoros}, \texttt{reputacio} & Ternàries & Només \texttt{contra\_mi} & \(100 \pm 10\) \\
+L5 & \texttt{aguila}, \texttt{rancoros}, \texttt{reputacio} & Ternàries & Només \texttt{contra\_mi} & \(100 \pm 10\) \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Condició per superar un nivell}
+
+Un nivell es considera superat si la puntuació acumulada del vostre bot és
+\textbf{estrictament superior} a la mitjana dels tres bots de referència.
+
+\begin{tcolorbox}[colback=softblue,colframe=upcblue,title=Condició formal]
+El bot supera el nivell si:
+\[
+\text{punts finals del vostre bot}
+>
+\frac{\text{punts bot 1} + \text{punts bot 2} + \text{punts bot 3}}{3}
+\]
+\end{tcolorbox}
+
+Als nivells 1 i 2 les accions són binàries. Si un bot alumne retorna \texttt{1},
+el sistema el tracta com a \texttt{0}.
+
+\chapter{Exemples de bots senzills}
+
+\section{Exemple 1: bot sempre pau}
+
+Aquest bot és el més simple possible: coopera sempre amb tothom.
+
+\begin{verbatim}
+def decideix(historial, ronda):
+    return {rival: 0 for rival in historial}
+\end{verbatim}
+
+\textbf{Idea estratègica:} és fàcil d'entendre i mai falla per lògica complexa,
+però serà vulnerable davant bots agressius.
+
+\section{Exemple 2: bot mirall senzill}
+
+Aquest bot comença amb PAU i després copia l'última acció que cada rival ha fet
+contra ell.
+
+\begin{verbatim}
+def decideix(historial, ronda):
+    decisions = {}
+    for rival, dades in historial.items():
+        passat = dades.get("contra_mi", [])
+        if not passat:
+            decisions[rival] = 0
+        else:
+            _, ultima_accio_rival = passat[-1]
+            decisions[rival] = ultima_accio_rival
+    return decisions
+\end{verbatim}
+
+\textbf{Idea estratègica:} premia els rivals cooperatius i castiga els agressius,
+però pot quedar atrapat en espirals de conflicte si no té mecanismes de perdó.
+
+\chapter{Exemple treballat: un problema internacional}
+
+\section{Escenari}
+
+Imagineu una crisi diplomàtica sobre un corredor energètic i comercial. Els quatre
+països de la partida són \textbf{Espanya}, \textbf{USA}, \textbf{França} i
+\textbf{Alemanya}. En una ronda concreta prenen aquestes decisions:
+
+\begin{center}
+\begin{tabularx}{\textwidth}{l Y}
+\toprule
+País & Accions d'aquesta ronda \\
+\midrule
+Espanya & PAU amb França, TREGUA amb USA, GUERRA amb Alemanya \\
+USA & GUERRA amb França, GUERRA amb Espanya, TREGUA amb Alemanya \\
+França & PAU amb Espanya, PAU amb USA, PAU amb Alemanya \\
+Alemanya & TREGUA amb Espanya, TREGUA amb USA, GUERRA amb França \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Resultats bilaterals}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{l Y}
+\toprule
+Parella & Resultat \\
+\midrule
+Espanya vs USA & Espanya juga TREGUA i USA juga GUERRA. Espanya obté 0.5 i USA obté 3. \\
+Espanya vs França & Tots dos juguen PAU. Tots dos obtenen 3. \\
+Espanya vs Alemanya & Espanya juga GUERRA i Alemanya juga TREGUA. Espanya obté 3 i Alemanya 0.5. \\
+USA vs França & USA juga GUERRA i França juga PAU. USA obté 5 i França 0. \\
+USA vs Alemanya & Tots dos juguen TREGUA. Tots dos obtenen 2. \\
+França vs Alemanya & França juga PAU i Alemanya juga GUERRA. França obté 0 i Alemanya 5. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Puntuació total de la ronda}
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+\textbf{País} & \textbf{Punts de la ronda} \\
+\midrule
+Espanya & \(0.5 + 3 + 3 = 6.5\) \\
+USA & \(3 + 5 + 2 = 10\) \\
+França & \(3 + 0 + 0 = 3\) \\
+Alemanya & \(0.5 + 2 + 5 = 7.5\) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{tcolorbox}[colback=softgray,colframe=black,title=Què ens ensenya aquest exemple]
+GUERRA sovint dona un bon benefici local en una interacció concreta, però en una
+partida repetida també pot destruir cooperació i provocar represàlies. Un bon
+bot no és només agressiu: sap quan cooperar, quan mantenir una treva i quan
+castigar.
+\end{tcolorbox}
+
+\chapter{Rúbriques oficials del torneig}
+
+\section{Rúbrica 1: progressió per nivells}
+
+La nota base depèn del nombre de nivells superats.
+
+\begin{center}
+\begin{tabularx}{0.92\textwidth}{>{\bfseries}l Y c}
+\toprule
+Resultat & Interpretació & Nota base \\
+\midrule
+0, 1 o 2 nivells & No s'assoleix el llindar mínim & 0 \\
+3 nivells & Llindar assolit & 6 \\
+4 nivells & Bon rendiment & 8 \\
+5 nivells & Rendiment excel.lent & 10 \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{tcolorbox}[colback=softyellow,colframe=upcblue,title=Regla de llindar]
+Si se superen menys de 3 nivells, la nota d'aquesta fase és 0 encara que n'hàgiu
+superat 1 o 2.
+\end{tcolorbox}
+
+\section{Rúbrica 2: fase competitiva i bonus}
+
+Els alumnes que superen com a mínim 3 nivells passen a la fase competitiva.
+Després d'això:
+
+\begin{itemize}
+  \item els bots classificats juguen entre ells;
+  \item el bot amb menys puntuació queda eliminat a cada ronda;
+  \item quan en queden 4, es fixa la classificació final.
+\end{itemize}
+
+La idea de la rúbrica és aquesta:
+
+\begin{center}
+\begin{tabularx}{0.92\textwidth}{>{\bfseries}l Y}
+\toprule
+Resultat al torneig & Conseqüència \\
+\midrule
+No classificat & No hi ha bonus. \\
+Classificat però fora del top 4 & Bonus positiu escalat segons la posició final. \\
+Top 4 & Bonus màxim de la fase competitiva. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\chapter{Rúbrica de qualitat del bot}
+
+\section{Rúbrica 3: qualitat tècnica i estratègica}
+
+La taula següent serveix per explicar què s'entén per un bot fort més enllà de la
+nota estricta del torneig.
+
+\scriptsize
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{@{}p{0.15\textwidth} p{0.18\textwidth} p{0.18\textwidth} p{0.18\textwidth} p{0.18\textwidth}@{}}
+\toprule
+\textbf{Criteri} & \textbf{Excel.lent} & \textbf{Bé} & \textbf{Suficient} & \textbf{A millorar} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Criteri} & \textbf{Excel.lent} & \textbf{Bé} & \textbf{Suficient} & \textbf{A millorar} \\
+\midrule
+\endhead
+Validesa i robustesa &
+Retorna sempre valors vàlids, gestiona bé casos límit i no té risc real de timeout. &
+És estable en gairebé tots els casos, amb poques debilitats marginals. &
+Funciona en casos normals però pateix en escenaris menys habituals. &
+Pot fallar, retornar valors incorrectes o provocar penalitzacions freqüents. \\
+
+Adaptació estratègica &
+Fa servir l'historial amb criteri i ajusta el comportament segons el rival. &
+Mostra una idea estratègica clara i respon a diverses situacions. &
+Té una estratègia bàsica però reacciona poc o massa tard. &
+És gairebé fix o aleatori i s'adapta molt poc. \\
+
+Ús de la informació &
+Diferencia rivals i aprofita bé la informació bilateral disponible. &
+Fa servir part de la informació correctament i detecta patrons útils. &
+Consulta l'historial d'una manera superficial. &
+Ignora informació rellevant o la interpreta malament. \\
+
+Qualitat del codi &
+El codi és clar, modular i justificable; les constants i funcions auxiliars tenen sentit. &
+El codi és força llegible i està raonablement organitzat. &
+El codi s'entén però és repetitiu o poc net. &
+El codi és difícil de llegir o de defensar. \\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\section{Rúbrica 4: què hauria d'intentar fer un bon bot}
+
+\begin{itemize}
+  \item Ser correcte abans de ser brillant.
+  \item Distingir rivals cooperatius, reactius i agressius.
+  \item Fer servir la TREGUA amb intenció, no per casualitat.
+  \item Evitar que una mala decisió puntual arrossegui tota la partida.
+  \item Pensar a llarg termini perquè la partida és repetida i el final és ocult.
+\end{itemize}
+
+\chapter{Consells finals per a l'alumnat}
+
+Abans d'entregar, comproveu aquests punts:
+
+\begin{itemize}
+  \item El \textbf{dia 18} és l'\textbf{últim dia} per lliurar el bot.
+  \item El bot retorna sempre una acció per a cada rival.
+  \item El bot només assumeix l'existència de \texttt{contra\_mi}.
+  \item Teniu una estratègia per a la primera ronda.
+  \item El bot no depèn de mòduls prohibits.
+  \item El comportament del bot és prou clar com per poder-lo explicar oralment.
+\end{itemize}
+
+\begin{tcolorbox}[colback=softblue,colframe=upcblue,title=Idea final]
+Aquest joc no consisteix a jugar GUERRA sempre. Consisteix a construir un bot que
+entengui les interaccions repetides, s'adapti als rivals i mantingui una bona
+puntuació al llarg d'una partida de \(100 \pm 10\) rondes.
+\end{tcolorbox}
+
+\end{document}

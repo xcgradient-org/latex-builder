@@ -10,7 +10,7 @@ function normalizeName(rawName) {
   return String(rawName || "")
     .trim()
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/[^a-z0-9/]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }
 
@@ -148,7 +148,6 @@ function projectGitignore() {
 *.lot
 *.loe
 *.out
-*.pdf
 *.run.xml
 *.synctex.gz
 *.toc
