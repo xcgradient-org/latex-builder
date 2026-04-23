@@ -1,0 +1,66 @@
+%% ============================================================
+%%  sec04_methodology_and_rigor.tex
+%% ============================================================
+\section{Methodology and Rigor}
+\label{sec:methodology-and-rigor}
+
+To guarantee the systematic completion of the theoretical and engineering objectives defined in Section~\ref{sec:project-scope}, a formal development methodology is established. This framework ensures continuous validation, strict adherence to deadlines, and seamless synchronization between the researcher and the project director.
+
+\subsection{Scientific and Statistical Validation Protocol}
+\label{subsec:validation-protocol}
+
+To ensure empirical rigor and prevent heuristic bias, this project adopts a strict, phase-by-phase comparative validation protocol. Rather than evaluating the architecture solely as a black box, the research methodology systematically isolates the post-retrieval pipeline into its constituent components (i.e., each phase).
+
+For each individual phase, the protocol dictates the following empirical workflow:
+\begin{enumerate}
+    \item \textbf{Metric Definition:} Establishing the mathematically optimal metric for accuracy specific to that phase (e.g., SubsetScore for measuring synergy in Phase 1) alongside the corresponding computational time metric (e.g., Time to Last Token).
+    \item \textbf{Comparative Benchmarking:} The proposed architectures  are never evaluated in a vacuum. They are systematically plotted against:
+    \begin{itemize}
+        \item A \textit{naive baseline} to establish minimum viable performance.
+        \item The \textit{current State-of-the-Art (SOTA)} to empirically compare against existing industry standards.
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Hardware Determinism and Statistical Significance:}
+To guarantee the reproducibility of these comparisons the protocol enforces strict hardware determinism\footnote{This is the standard practice in the field of Machine Learning research\cite{determinism2018}.}. All evaluations are executed under controlled hardware parameters, specifically utilizing fixed batch sizes, isolated CPU thread allocation, and static CUDA seeds.
+
+Furthermore, to account for the inherent stochastic variance in LLM inference, performance is not derived from single-run heuristics. The protocol mandates that benchmarking experiments are repeated across predefined configurations to ensure reproducibility.
+
+The complete experimental setup, including: 
+dataset selection criteria
+baseline definitions
+statistical significance thresholds
+per-phase metric operationalization 
+
+will be formally specified in Chapter 3, which is implemented prior to any architectural component to ensure evaluation independence."
+
+\subsection{Development Methodology}
+\label{subsec:development-methodology}
+
+The project executes an adapted \textbf{Agile}\cite{agile} \textbf{methodology}, specifically tailored for individual academic research and mathematical software development. While traditional Scrum frameworks are designed for multi-developer teams, this project adopts an iterative, sprint-based approach to manage the high complexity of the architecture. 
+
+The development lifecycle is divided into distinct thematic sprints, each perfectly aligned with the four sequential phases of the S-QDora\cite{qlora2023,dora2024}, \cite{s-lora2024} pipeline (Context Filter, Alignment, Serving, and Evaluation). This iterative approach allows for the mathematical formulation, codebase implementation, and isolated benchmarking of each component before integrating it into the global multi-tenant system. By treating each phase as an independent deliverable, architectural flaws or memory bottlenecks are identified and resolved locally, preventing cascading failures in the final pipeline.
+
+\subsection{Monitoring and Validation System}
+\label{subsec:monitoring-system}
+
+To ensure the highest standard of academic rigor and steady progress, a continuous monitoring and feedback protocol is implemented throughout the 2025--2026 Q2 semester:
+
+\begin{itemize}
+    \item \textbf{Weekly Checkpoint Meetings:} Scheduled, formal reviews are conducted weekly with the project director, Dr. Lluís Padró. These meetings are utilized to validate the mathematical proofs, evaluate the sprint's task completion rate, analyze empirical benchmarks, and adjust secondary objectives if necessary.
+    \item \textbf{Fluid Day-to-Day Communication:} Between formal checkpoints, a continuous and fluid communication channel is maintained. This allows for the immediate resolution of low-level technical blockers without stalling the development sprint.
+    \item \textbf{Version Control and Issue Tracking:} A shared \textbf{GitHub} repository is maintained as the absolute source of truth for the project. It allows the director to conduct complete, asynchronous follow-ups on codebase commits, review experimental branches, and track pending tasks through Kanban-style issue boards.
+\end{itemize}
+
+\subsection{Technological Stack and Tools}
+\label{subsec:technological-tools}
+
+The execution, tracking, and documentation of this thesis rely on a strictly defined set of professional tools:
+
+\begin{itemize}
+    \item \textbf{GitHub:} Serves as the primary platform for version control, code collaboration, and Agile project tracking.
+    \item \textbf{Python ecosystem (PyTorch, vLLM, SGLang, etc):} The core technological stack utilized to develop the Choquet reranker, align the Q-DoRA matrices, and deploy the speculative decoding architecture.
+    \item \textbf{LaTeX:} Employed for the typesetting of the thesis, ensuring the highest typographic standard and the flawless rendering of complex mathematical proofs and algorithms.
+    \item \textbf{Zotero:} Utilized for systematic bibliographic management, ensuring accurate tracking of the 2025 and 2026 academic literature and proper IEEE citation formatting.
+    \item \textbf{Weights \& Biases (WandB):} Integrated into the training pipelines to log loss curves, track ORPO alignment metrics, and dynamically visualize VRAM consumption during the multi-tenant simulation phases.
+\end{itemize}

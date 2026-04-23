@@ -1,0 +1,136 @@
+\documentclass[12pt, a4paper, twoside]{report}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+
+\usepackage[
+  top=2.5cm, bottom=2.5cm,
+  inner=3cm, outer=2cm
+]{geometry}
+
+\usepackage{graphicx}
+\graphicspath{
+  {images/}
+}
+
+\usepackage[
+  colorlinks = true,
+  linkcolor  = blue,
+  citecolor  = blue,
+  urlcolor   = blue
+]{hyperref}
+\urlstyle{same}
+
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage[nopatch=footnote]{microtype}
+\usepackage{setspace}
+\usepackage{csquotes}
+\usepackage[
+  backend=biber,
+  style=ieee,
+  sorting=none
+]{biblatex}
+\addbibresource{references.bib}
+\onehalfspacing
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{14.5pt}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\nouppercase{\leftmark}}
+\fancyhead[LO]{\nouppercase{\rightmark}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Custom command for Source attribution in figures and tables
+\newcommand{\source}[1]{\vspace{5pt} \centerline{\small Source: #1}}
+
+\begin{document}
+\hypersetup{pageanchor=false}
+
+\begin{titlepage}
+  \centering
+  \vspace*{1.6cm}
+  \includegraphics[width=10cm]{images/upc_fib.png}\par
+  \source{Compiled by the author}
+  \vspace{1.4cm}
+
+  {\Large \scshape Universitat Polit\`ecnica de Catalunya\par}
+  \vspace{0.4cm}
+  {\large Department of Computer Science\\Department of Statistics and Operations Research\par}
+
+  \vfill
+
+  {\scshape\Large Research Report\par}
+  \vspace{0.5cm}
+  {\Huge\bfseries Synthetic Data Research on Machine Learning Approaches\par}
+  \vspace{0.5cm}
+  {\Large\bfseries An Evaluative Study of Clustering and Regression\par}
+
+  \vfill
+
+  {\Large Oriol Farr\'es Vilar\par}
+  \vspace{0.8cm}
+  {\normalsize Supervisor: \textbf{Jordi Cort\'es}\par}
+  \vspace{1.6cm}
+  {\normalsize Barcelona, April 27, 2026\par}
+\end{titlepage}
+
+\pagenumbering{roman}
+
+\chapter*{Abstract / Resum / Resumen}
+
+\section*{Abstract}
+Clustering algorithms are fundamental to unsupervised learning, yet their performance is often evaluated only through accuracy-style indicators while structural fidelity remains underexplored. This report studies whether synthetic data generated through the Classification and Regression Trees (CART) method preserves the geometry required by clustering workflows. The analysis compares k-means against Agglomerative Hierarchical Clustering with Ward's linkage across controlled experiments that vary sample size, number of clusters, separation, noise, dimensionality, and distribution family.
+
+Beyond cluster-number recovery, the study measures structural degradation through the Gini coefficient for cluster balance, Mean Centroid Distance for spatial drift, and Mean Variance Difference for dispersion preservation. The results show that CART-generated synthetic data remains useful for spherical normal settings, but introduces blocky artifacts that degrade centroid-based clustering on skewed gamma data. Hierarchical Clustering is consistently more robust than K-Means when the synthetic generation process distorts non-convex cluster geometry.
+
+\vspace{1cm}
+
+\section*{Resum}
+Els algorismes de clustering s\'on una eina fonamental de l'aprenentatge no supervisat, per\`o el seu rendiment sovint s'avalua nom\'es amb indicadors d'encert i no amb mesures de fidelitat estructural. Aquest treball estudia si les dades sint\`etiques generades amb el m\`etode CART conserven la geometria necess\`aria per a tasques de clustering. L'an\`alisi compara k-means amb el clustering jer\`arquic aglomeratiu amb l'enlla\c{c} de Ward en un conjunt controlat d'experiments que varia la mida mostral, el nombre de cl\'usters, la separaci\'o, la correlaci\'o, la dimensionalitat i la fam\'ilia de distribucions.
+
+M\'es enll\`a de recuperar el nombre correcte de cl\'usters, l'estudi quantifica la degradaci\'o estructural amb el coeficient de Gini, la dist\`ancia mitjana entre centroides i la difer\`encia mitjana de vari\`ancia. Els resultats indiquen que les dades sint\`etiques generades amb CART mantenen una utilitat elevada quan la geometria original \'es esf\`erica i propera a la normalitat, per\`o introdueixen artefactes ortogonals que dificulten el comportament de k-means en escenaris esbiaixats de tipus gamma. En aquests casos, el clustering jer\`arquic mostra una robustesa superior.
+
+\vspace{1cm}
+
+\section*{Resumen}
+Los algoritmos de clustering son una herramienta fundamental del aprendizaje no supervisado, pero su rendimiento a menudo se eval\'ua solo con indicadores de acierto y no con medidas de fidelidad estructural. Este trabajo estudia si los datos sint\'eticos generados con el m\'etodo CART conservan la geometr\'ia necesaria para tareas de clustering. El an\'alisis compara k-means con el clustering jer\'arquico aglomerativo con el enlace de Ward en un conjunto controlado de experimentos que var\'ia el tama\~no muestral, el n\'umero de cl\'usteres, la separaci\'on, la correlaci\'on, la dimensionalidad y la familia de distribuciones.
+
+M\'as all\'a de recuperar el n\'umero correcto de cl\'usteres, el estudio cuantifica la degradaci\'on estructural con el coeficiente de Gini, la distancia media entre centroides y la diferencia media de varianza. Los resultados indican que los datos sint\'eticos generados con CART mantienen una utilidad elevada cuando la geometr\'ia original es esf\'erica y cercana a la normalidad, pero introducen artefactos ortogonales que dificultan el comportamiento de k-means en escenarios sesgados de tipo gamma. En estos casos, el clustering jer\'arquico muestra una robustez superior.
+
+\chapter*{Acknowledgements}
+I would like to express my sincere gratitude to my supervisor, Jordi Cort\'es, for his continuous support, patience, and motivation throughout this journey. It has been an absolute pleasure working with him for more than a year; his guidance, technical expertise, and encouragement have been fundamental to my growth as a researcher and the successful completion of this thesis. 
+
+I would also like to thank Xinnuo Chen \cite{chen2025}, whose preliminary exploratory work provided a solid foundation and inspired the systematic evaluation conducted in this study.
+
+\tableofcontents
+\listoffigures
+\listoftables
+\clearpage
+\hypersetup{pageanchor=true}
+
+\pagenumbering{arabic}
+
+\part{Clustering Research}
+\include{chapters/clustering/intro}
+\include{chapters/clustering/methods}
+\include{chapters/clustering/results}
+\include{chapters/clustering/conclusions}
+
+\part{Regression Research}
+\include{chapters/regression/introduction}
+\include{chapters/regression/methods}
+\include{chapters/regression/linear_results}
+\include{chapters/regression/logistic_results}
+\include{chapters/regression/conclusions}
+
+\include{chapters/appendices}
+
+\printbibliography[heading=bibintoc]
+
+\end{document}

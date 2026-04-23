@@ -1,0 +1,50 @@
+\chapter{Conclusions and Recommendations}
+\label{chap:regression-conclusions}
+
+\section{Main Findings}
+\label{sec:reg-main-findings}
+
+\subsection{Findings for Linear Regression}
+Linear regression represents the most stable application for synthetic data generators. Parametric methods (Normal) achieve near-perfect CIO in continuous scenarios, while CART remains robust but introduces slightly larger confidence intervals. The number of predictors and correlation are the main sources of utility degradation.
+
+\subsection{Findings for Logistic Regression}
+Logistic regression is significantly more sensitive to synthesis artifacts. Small sample sizes ($N=100$) lead to low CIO and high bias, regardless of the generator. CART, in particular, tends to underestimate uncertainty (narrower CIs) in logistic outcomes, which is a high-risk failure mode for inferential research.
+
+\subsection{Findings that are Consistent Across Both Models}
+\begin{itemize}
+    \item \textbf{Dimensionality:} Both models suffer as the number of predictors ($p$) increases.
+    \item \textbf{Correlation:} High correlation ($\rho$) always degrades inferential fidelity.
+    \item \textbf{Method Superiority:} In all parametric-compatible scenarios, parametric synthesis (Normal, LogReg) consistently outperforms non-parametric (CART) for inference.
+\end{itemize}
+
+\section{Comparison with Existing Literature}
+Our findings align with and extend the work of researchers who have evaluated synthetic data in real-world settings (e.g., \cite{nowok2016, raab2016}). While those studies often highlight CART's flexibility for preserving complex univariate distributions, our systematic simulation shows that for \textbf{inferential quantities} (regression coefficients), CART's flexibility can lead to structural artifacts that degrade CIO. This confirms that predictive utility does not always translate to inferential utility.
+
+Specifically, compared to the "baseline" study using real data from the UK longitudinal studies, our simulations provide a clearer picture of the \emph{mechanisms} of failure. We show that "synthetic bias" is not just a result of poor marginal matching but an inherent difficulty in capturing multi-dimensional conditional probabilities in sparse ($N/p$) regimes.
+
+\section{Practical Recommendations}
+\label{sec:reg-recommendations}
+
+\subsection{Which Generators Perform Best Overall}
+For researchers whose data aligns with standard parametric assumptions (linear, normal, logistic), \textbf{Parametric Generators} are strongly recommended over CART for preserving inferential results.
+
+\subsection{Which Generators Perform Best Under Specific Conditions}
+\begin{itemize}
+    \item \textbf{High N, Low p:} CART and Parametric are both viable.
+    \item \textbf{Small N:} Use Parametric, as CART is highly unstable.
+    \item \textbf{Binary Outcomes:} Use LogReg synthesis; avoid CART unless the predictors have highly non-linear interactions.
+\end{itemize}
+
+\subsection{Guidance for Researchers Choosing a Generator}
+Researchers should prioritize generators that match their intended analytical model. If a linear regression is planned for the final analysis, a linear (Normal) synthesis arm should be used.
+
+\section{Limitations}
+\label{sec:reg-limitations}
+\begin{itemize}
+    \item \textbf{Simulation Focus:} All datasets were generated from known distributions. Real-world non-linearities or "messy" data may change the relative performance of CART.
+    \item \textbf{Metric Focus:} We focused on CIO. Other metrics (e.g., coverage, MSE) might reveal different tradeoffs.
+\end{itemize}
+
+\section{Future Work}
+\label{sec:reg-future-work}
+Future research should explore the intersection of \textbf{Differential Privacy} and inferential utility \cite{dwork2006, jordon2018}. Understanding how the injection of noise (e.g., $\epsilon$-privacy) further degrades CIO across different generators is a critical next step for the field. Expanding this research into settings combining differential privacy guarantees with rigorous disclosure analysis \cite{abowd2003} and comprehensive synthetic dataset evaluation \cite{bellovin2019, bowen2020, hsu2021} will provide practitioners with more robust frameworks. Finally, comparing these synthesis approaches against traditional multiple imputation techniques \cite{rubin1987, raghunathan2003} could yield further insights into the trade-offs between privacy and statistical validity.

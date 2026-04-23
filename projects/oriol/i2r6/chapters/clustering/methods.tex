@@ -1,0 +1,169 @@
+\chapter{Methods}
+\label{chap:methods}
+
+The methodology adopted in this research is divided into three main stages: the mathematical definition of the clustering algorithms selected for comparison, the generation of synthetic data using the CART method, and the simulation pipeline designed to evaluate the structural degradation of the data.
+
+\section{Clustering Algorithms}
+\label{sec:clustering-algorithms}
+
+Clustering is the task of grouping a set of objects in such a way that objects in the same group (cluster) are more similar to each other than to those in other groups. This research focuses on two of the most established paradigms in unsupervised learning: centroid-based clustering (K-Means) and connectivity-based clustering (Hierarchical).
+
+\subsection{K-Means Clustering}
+K-Means is a partition-based algorithm that aims to divide $N$ observations into $k$ non-overlapping clusters. It operates by minimizing the within-cluster sum of squares (WCSS), also known as inertia \cite{macqueen1967}.
+
+\textbf{Mathematical Formulation}
+
+Given a dataset $X = \{x_1, x_2, ..., x_N\}$ where each $x_i \in \mathbb{R}^d$, the algorithm seeks to partition $X$ into $k$ sets $S = \{S_1, S_2, ..., S_k\}$ to minimize the objective function $J$:
+\begin{equation}
+  J = \sum_{j=1}^{k} \sum_{x_i \in S_j} ||x_i - \mu_j||^2
+\end{equation}
+Where:
+\begin{itemize}
+  \item $||x_i - \mu_j||^2$ is the squared Euclidean distance between a data point $x_i$ and the centroid $\mu_j$.
+  \item $\mu_j$ is the mean of the points in cluster $S_j$.
+\end{itemize}
+
+The algorithm proceeds iteratively:
+\begin{enumerate}
+  \item \textbf{Initialization:} Select $k$ initial centroids randomly.
+  \item \textbf{Assignment:} Assign each observation to the cluster with the nearest centroid.
+  \item \textbf{Update:} Recalculate the centroids as the mean of all observations assigned to each cluster.
+  \item \textbf{Convergence:} Repeat steps 2 and 3 until the centroids do not change significantly or a maximum number of iterations is reached.
+\end{enumerate}
+
+\textbf{Practical Considerations}
+
+K-Means is highly efficient with a time complexity of $O(N \cdot k \cdot I \cdot d)$, where $I$ is the number of iterations. However, it has significant limitations relevant to this study:
+\begin{itemize}
+  \item It assumes clusters are spherical and of similar size.
+  \item It is sensitive to outliers and the initial placement of centroids.
+  \item The number of clusters $k$ must be specified \textit{a priori}.
+\end{itemize}
+
+\subsection{Hierarchical Clustering (Agglomerative)}
+Unlike K-Means, Hierarchical Clustering does not require a pre-specified number of clusters. Instead, it builds a hierarchy of clusters, often represented as a dendrogram. This research utilizes \textbf{Agglomerative Clustering} (bottom-up), which treats each observation as its own cluster and successively merges pairs of clusters \cite{ward1963}.
+
+\textbf{Ward's Linkage Method}
+
+The criterion for merging clusters is determined by the \textit{linkage} method. We utilize \textbf{Ward's Method}, which minimizes the increase in total within-cluster variance when two clusters are merged.
+
+The distance $D(A, B)$ between two clusters $A$ and $B$ is defined as the increase in the squared error sum (ESS) if they were merged:
+\begin{equation}
+  D(A, B) = \text{ESS}_{A \cup B} - (\text{ESS}_A + \text{ESS}_B)
+\end{equation}
+Where $\text{ESS}_X = \sum_{x \in X} ||x - \mu_X||^2$. This approach aligns conceptually with the K-Means objective function but constructs the clusters hierarchically.
+
+\textbf{Practical Considerations}
+
+Hierarchical clustering is computationally expensive, with a time complexity of approximately $O(N^3)$ (or $O(N^2)$ with optimized implementations), making it less suitable for massive datasets. However, it offers distinct advantages:
+\begin{itemize}
+  \item It captures hierarchical structures and does not assume strictly spherical clusters.
+  \item It is deterministic (produces the same result every time), unlike K-Means which depends on random initialization.
+  \item It allows for the determination of $k$ \textit{post-hoc} by cutting the dendrogram at a specific height.
+\end{itemize}
+
+\subsection{Comparative Summary}
+Table~\ref{tab:kmeans_vs_hc} summarizes the key structural and operational differences between the two algorithms evaluated in this study.
+
+\begin{table}[H]
+  \centering
+  \caption{Comparison of K-Means and Hierarchical Clustering}
+  \label{tab:kmeans_vs_hc}
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{@{}lp{5.8cm}p{5.8cm}@{}}
+    \toprule
+    \textbf{Feature} & \textbf{K-Means} & \textbf{Hierarchical (Ward)} \\ \midrule
+    Complexity & $O(N)$ (Linear) & $O(N^2)$ to $O(N^3)$ (Polynomial) \\
+    Geometry & Assumes spherical, convex clusters & Flexible, based on connectivity \\
+    Parameters & Requires $k$ beforehand & $k$ determined by cutting tree \\
+    Robustness & Sensitive to noise/outliers & More robust (structure-based) \\
+    Deterministic & No (Random initialization) & Yes \\ \bottomrule
+  \end{tabular}
+  \source{Compiled by the author}
+\end{table}
+
+\section{Data Generation Framework}
+\label{sec:data-generation-framework}
+
+To rigorously evaluate algorithm performance, we implemented a reverse-engineering pipeline that generates a "Ground Truth" (Real) dataset and subsequently creates a Synthetic version using the method under investigation.
+
+\subsection{Reference Data Generation (Real)}
+The reference datasets were generated using the \texttt{mvtnorm} package in R \cite{mvtnormmanual, genzbretz2009} to simulate controlled multivariate clusters. We varied four key parameters to create a total of 180 unique data configurations:
+\begin{itemize}
+  \item \textbf{Sample Size ($N$):} Ranging from 100 to 1,000 observations to test scalability.
+  \item \textbf{Number of Clusters ($k$):} Set to 2, 3, or 4 to simulate varying levels of complexity.
+  \item \textbf{Cluster Separation:} A separation index controlling the overlap between clusters. Higher separation implies distinct, easy-to-detect clusters; lower separation implies significant overlap.
+  \item \textbf{Probability Distribution:}
+  \begin{itemize}
+    \item \textbf{Normal:} Standard Gaussian clusters (spherical).
+    \item \textbf{Gamma:} Skewed distributions (non-spherical) to test the robustness of the algorithms against non-normal geometries \cite{yan2007}.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Synthetic Data Generation (CART Method)}
+For each real dataset, a corresponding synthetic dataset was generated using the \textbf{Classification and Regression Trees (CART)} method, implemented in the \texttt{synthpop} R package \cite{nowok2016}.
+
+\textbf{The Sequential Regression Approach}
+
+The CART method synthesizes data variable by variable. Let $X = (X_1, X_2, ..., X_p)$ be the vector of variables in the real dataset. The joint distribution is approximated as a product of conditional distributions:
+\begin{equation}
+  f(X_1, ..., X_p) \approx f(X_1) \cdot f(X_2|X_1) \cdot f(X_3|X_1, X_2) \cdot ... \cdot f(X_p|X_1, ..., X_{p-1})
+\end{equation}
+
+The synthesis proceeds sequentially:
+\begin{enumerate}
+  \item \textbf{Step 1:} Generate $X_1$ by resampling from the original univariate distribution.
+  \item \textbf{Step 2:} Train a Decision Tree (CART) to predict $X_2$ using $X_1$ as the predictor.
+  \item \textbf{Step 3:} Generate synthetic values for $X_2$ by passing the synthetic $X_1$ through the tree and sampling from the appropriate leaf node.
+  \item \textbf{Step 4:} Repeat for all subsequent variables, using all previously generated variables as predictors.
+\end{enumerate}
+
+\textbf{Structural Artifacts}
+
+While CART is non-parametric and can capture non-linear relationships, it introduces specific geometric artifacts. Because decision trees split data using orthogonal hyperplanes (rules like $x > 5$), they tend to approximate smooth diagonal curves with "staircase" or "blocky" boundaries. A key objective of this study is to determine if this "blocky" structure causes K-Means or Hierarchical Clustering to fail.
+
+\section{Evaluation Metrics}
+\label{sec:evaluation-metrics-methods}
+
+Standard clustering accuracy metrics (like purity) are insufficient when the cluster labels are unknown or permuted. We introduced a set of structural fidelity metrics to quantify the degradation between Real and Synthetic data.
+
+\subsection{Cluster Alignment (Hungarian Algorithm)}
+Clustering algorithms are unsupervised; they assign arbitrary labels (e.g., Cluster A found by K-Means might correspond to Cluster B in the ground truth). To calculate accuracy, we first solve the \textbf{Linear Sum Assignment Problem} using the \textbf{Hungarian Algorithm} \cite{kuhn1955}.
+
+We construct a cost matrix $C$ where $C_{ij}$ represents the number of mismatches if Predicted Cluster $i$ is assigned to True Cluster $j$. The algorithm finds the optimal permutation of labels that maximizes the overlap between prediction and truth.
+
+\subsection{Success Rate (Detection)}
+The primary metric is binary: \textbf{Did the algorithm find the correct number of clusters?} We utilize the \textit{Silhouette Score and the Elbow Method} (for K-Means) \cite{rousseeuw1987} or the \textit{Dendrogram Cut} (for Hierarchical) to estimate $\hat{k}$.
+\begin{equation}
+  \text{Success} =
+  \begin{cases}
+    1 & \text{if } \hat{k}_{\text{predicted}} = k_{\text{true}} \\
+    0 & \text{otherwise}
+  \end{cases}
+\end{equation}
+
+\subsection{Structural Fidelity Metrics}
+To measure the geometric distortion introduced by synthesis, we calculate the following comparative metrics between the Real and Synthetic clusters:
+
+\textbf{1. Gini Coefficient (Cluster Balance)}
+
+The Gini coefficient measures the inequality of cluster sizes. If the synthetic data generation collapses a small cluster into a large one, the Gini coefficient will increase.
+\begin{equation}
+  G = \frac{\sum_{i=1}^{k} \sum_{j=1}^{k} |n_i - n_j|}{2k \sum_{i=1}^{k} n_i}
+\end{equation}
+Where $n_i$ is the number of points in cluster $i$. A value of 0 indicates perfectly equal cluster sizes; a value near 1 indicates high imbalance.
+
+\textbf{2. Mean Centroid Displacement (MCD)}
+
+We measure how far the centers of the clusters have shifted during synthesis. Let $\mu_j^{(R)}$ be the centroid of cluster $j$ in Real data and $\mu_j^{(S)}$ in Synthetic data:
+\begin{equation}
+  \text{MCD} = \frac{1}{k} \sum_{j=1}^{k} ||\mu_j^{(R)} - \mu_j^{(S)}||_2
+\end{equation}
+High displacement indicates that the synthetic data has drifted from the original spatial location.
+
+\textbf{3. Mean Variance Difference (MVD)}
+
+We measure if the synthetic clusters are more dispersed (noisy) or more compact than the real ones. We compare the average within-cluster variance ($\sigma^2$):
+\begin{equation}
+  \text{MVD} = \frac{1}{k} \sum_{j=1}^{k} \left| \text{Var}(C_j^{(R)}) - \text{Var}(C_j^{(S)}) \right|
+\end{equation}

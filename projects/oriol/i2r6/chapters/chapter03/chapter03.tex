@@ -1,0 +1,89 @@
+\chapter{Requirements and Analysis}
+\label{chap:requirements-analysis}
+
+\section{Research Requirements}
+\label{sec:research-requirements}
+
+The study is driven by three research requirements:
+\begin{enumerate}
+  \item \textbf{Detection capability:} the evaluation must determine whether an algorithm can still recover the true number of clusters after synthesis.
+  \item \textbf{Algorithm robustness:} the design must allow a direct comparison between K-Means and Hierarchical Clustering under the same synthetic distortions.
+  \item \textbf{Structural diagnosis:} the analysis must go beyond binary success and quantify how synthesis alters balance, centroid location, and dispersion.
+\end{enumerate}
+
+These requirements imply a controlled experimental design in which the source distribution, number of clusters, sample size, dimensionality, cluster separation, and feature correlation can be manipulated independently.
+
+\section{Experimental Factors}
+\label{sec:experimental-factors}
+
+To satisfy those requirements, the simulation grid varies the following parameters:
+\begin{itemize}
+  \item \textbf{Sample size ($N$):} from 100 to 1,000 observations.
+  \item \textbf{Number of clusters ($k$):} 2, 3, and 4.
+  \item \textbf{Cluster separation:} low to high separability, including difficult overlapping cases.
+  \item \textbf{Dimensionality ($p$):} 2, 5, and 10 features.
+  \item \textbf{Correlation ($\rho$):} uncorrelated and correlated settings.
+  \item \textbf{Distribution family:} Normal and Gamma, representing spherical and skewed geometries respectively.
+\end{itemize}
+
+This factorization ensures that the analysis does not attribute synthetic-data failure to a single special case.
+
+\section{Evaluation Metrics}
+\label{sec:evaluation-metrics}
+
+\subsection{Cluster Alignment}
+Because clustering labels are arbitrary, predicted cluster identifiers cannot be compared directly with the ground truth. The analysis therefore solves a label-alignment problem with the Hungarian Algorithm \cite{kuhn1955} before computing any agreement-based indicator.
+
+\subsection{Cluster-Number Recovery}
+The first metric is binary success in recovering the true number of clusters. In practice, the candidate value of $k$ is selected through standard clustering-validity criteria such as silhouette-style separation diagnostics \cite{rousseeuw1987}. Success is then defined as:
+\begin{equation}
+  \text{Success} =
+  \begin{cases}
+    1 & \text{if } \hat{k}_{\text{predicted}} = k_{\text{true}} \\
+    0 & \text{otherwise}
+  \end{cases}
+\end{equation}
+
+For a configuration with $M$ replications, the success rate is:
+\begin{equation}
+  SR = \frac{1}{M} \sum_{i=1}^{M} S_i
+\end{equation}
+where $S_i$ is the success indicator of the $i$-th simulation and $M$ is the total number of repeated runs under one fixed experimental scenario.
+
+\subsection{Gini-Based Fidelity}
+The raw Gini coefficient captures inequality in cluster sizes:
+\begin{equation}
+  G = \frac{\sum_{i=1}^{k} \sum_{j=1}^{k} |n_i - n_j|}{2k \sum_{i=1}^{k} n_i}
+\end{equation}
+where $n_i$ is the number of observations assigned to cluster $i$. However, the fidelity quantity of real interest is not the absolute Gini value by itself, but the discrepancy between the real-data partition and the synthetic-data partition:
+\begin{equation}
+  \Delta G = \left| G^{(R)} - G^{(S)} \right|
+\end{equation}
+Values of $\Delta G$ closer to zero indicate that the synthetic data better preserve the balance properties of the real clustering.
+
+\subsection{Mean Centroid Distance}
+The Mean Centroid Distance (MCD) measures spatial drift between the centroids of the real and synthetic clusterings:
+\begin{equation}
+  \text{MCD} = \frac{1}{k} \sum_{j=1}^{k} ||\mu_j^{(R)} - \mu_j^{(S)}||_2
+\end{equation}
+Large values indicate that synthesis has displaced the cluster centers in feature space.
+
+\subsection{Mean Variance Difference}
+The Mean Variance Difference (MVD) quantifies how much within-cluster dispersion changes after synthesis:
+\begin{equation}
+  \text{MVD} = \frac{1}{k} \sum_{j=1}^{k} \left| \text{Var}(C_j^{(R)}) - \text{Var}(C_j^{(S)}) \right|
+\end{equation}
+This metric is important because a synthetic generator may preserve the rough location of a cluster while still changing its compactness or spread.
+
+\section{Analytical Interpretation}
+\label{sec:analytical-interpretation}
+
+Taken together, the metrics separate different failure modes:
+\begin{itemize}
+  \item low success rate indicates failure to recover the correct cluster count;
+  \item high $\Delta G$ indicates distortion in the balance of the partition;
+  \item high MCD indicates spatial drift of cluster centers;
+  \item high MVD indicates altered dispersion even when centroids remain stable.
+\end{itemize}
+
+This multi-metric approach is central to the report. It allows the study to explain not only whether clustering fails on synthetic data, but also \textit{why} it fails.

@@ -1,0 +1,59 @@
+%% ============================================================
+%%  sec03_project_scope.tex
+%% ============================================================
+\section{Project Scope}
+\label{sec:project-scope}
+
+To systematically address the theoretical and infrastructural bottlenecks identified in previous sections, the boundaries, objectives, and constraints of this research must be rigorously defined.
+
+\subsection{Main Objective} 
+\label{subsec:main-objective}
+
+The primary objective of this thesis is to engineer an optimal post-retrieval RAG architecture that demonstrably surpasses current State-of-the-Art (SOTA) baselines in both generative accuracy and computational efficiency. The success of this architecture is defined by the simultaneous optimization of two competing metrics: \textbf{Accuracy} and \textbf{End-to-End Latency}.
+
+%% ============================================================
+%%  subsec_sub_objectives.tex
+%% ============================================================
+\subsection{Sub-Objectives}
+\label{subsec:sub-objectives}
+
+To execute the proposed architecture and achieve the primary goal, the sub-objectives of this project are directly mapped to the four sequential engineering phases previously defined in the Problem Statement (Section~\ref{subsec:problem-statement}). The specific methodology consists of systematically executing and completing each of these phases in order—from the initial Game-Theoretic context formulation through to the final rigorous statistical validation—ensuring that every architectural bottleneck identified is formally addressed and computationally resolved.
+
+\subsection{Requirements}
+\label{subsec:requirements}
+
+The system must satisfy the following constraints to ensure enterprise-grade viability:
+\begin{itemize}
+    \item \textbf{VRAM Envelope:} The entire pipeline must operate within a 48GB VRAM envelope (representative of high-end consumer hardware like a dual RTX 3090/4090 setup).
+    \item \textbf{Privacy Determinism:} All inference and data processing must be performed locally; the use of external cloud APIs is strictly prohibited for security reasons.
+    \item \textbf{Formatting Fidelity:} The model must adhere to strict deterministic output formats (JSON/Markdown) required for enterprise software integration.
+\end{itemize}
+
+
+\subsection{Scope Boundaries}
+\label{subsec:scope-boundaries}
+
+Defining what the project \textit{will not} address is vital for ensuring its feasibility. The scope is deliberately focused on the post-retrieval phase of the RAG pipeline, as this is where the most critical bottlenecks in synergy capture and latency exist. By isolating this phase, the project can deeply explore novel mathematical frameworks and optimization techniques without being diluted by the complexities of retrieval algorithms or front-end development.
+
+\textbf{Out of scope:}
+\begin{itemize}
+    \item \textbf{Initial Retrieval Optimization:} We will use standard vector databases and embedding models; we are not developing new indexing algorithms.
+    \item \textbf{Front-end/UI Development:} The project's deliverable is a backend API engine and a benchmarking report, not a user-facing application.
+    \item \textbf{Multi-modal Data:} The scope is strictly limited to text-based RAG; images, audio, and video are excluded.
+    \item \textbf{Closed-Source Cloud APIs:} The architecture is designed to be fully local, so integration with cloud-based services is outside the scope.
+    \item \textbf{Non-Nvidia Hardware:} The system is optimized for Nvidia GPUs, and support for other hardware architectures is not included.
+\end{itemize}
+
+\subsection{Risks and Obstacles}
+\label{subsec:risks-and-obstacles}
+
+Given the mathematical and infrastructural complexity of the proposed pipeline, several critical risks are acknowledged, alongside their respective mitigation strategies:
+\begin{itemize}
+    \item \textbf{Mathematical Complexity:} The application of Cooperative Game Theory to context selection is novel and may present unforeseen theoretical challenges. This risk is mitigated by dedicating the first phase to rigorous mathematical formulation and validation, ensuring a solid theoretical foundation before proceeding to implementation.
+
+    \item \textbf{Time Constraints:} The ambitious scope of the project may lead to time management challenges. This is addressed through an adapted Agile methodology, allowing for iterative development, continuous validation, and flexible adjustment of secondary objectives without compromising the primary goal.
+
+    \item \textbf{VRAM Exhaustion:} Implementing advanced context filtering and multi-tenant serving engines poses a severe risk of VRAM bottlenecks. This is mitigated by explicitly treating Phase 3 as an isolated architectural challenge, integrating efficient memory-management algorithms.
+    \item \textbf{Pipeline Integration Instability:} Connecting a Game-Theoretic mathematical filter to a RAFT-aligned LLM involves distinct technological stacks. This risk is managed through the adapted Agile methodology, allowing for the isolated benchmarking of each component before integrating it into the global multi-tenant system.
+    \item \textbf{Evaluation Bias:} Using a local evaluator risks generating uncalibrated or biased results. This is neutralized by deploying a rigorously calibrated local evaluator in Phase 4 to statistically prove the system's superiority over standard configurations.
+\end{itemize}

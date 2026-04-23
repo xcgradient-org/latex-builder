@@ -1,0 +1,75 @@
+\chapter{System Design}
+\label{chap:system-design}
+
+\section{Architecture Overview}
+\label{sec:architecture-overview}
+
+The evaluation pipeline follows a reverse-engineering design. Instead of starting from an arbitrary synthetic dataset, the system first generates a controlled real dataset with known ground truth and then synthesizes a counterpart with the CART method. This makes it possible to compare the synthetic output directly against the original geometry.
+
+The pipeline has five stages:
+\begin{enumerate}
+  \item generate a real reference dataset with known cluster labels;
+  \item synthesize a new dataset from the real one using CART;
+  \item apply K-Means and Hierarchical Clustering to the synthetic dataset;
+  \item align predicted clusters to the ground truth through the Hungarian Algorithm;
+  \item compute success and structural-fidelity metrics, complemented with PCA and t-SNE visualizations.
+\end{enumerate}
+
+\section{Reference Data Generator}
+\label{sec:reference-data-generator}
+
+The real datasets are generated through controlled multivariate simulations. The design varies sample size, number of clusters, separation, dimensionality, correlation, and distribution family. This gives the study a clean baseline from which synthesis errors can be measured.
+
+Two distributional regimes are emphasized:
+\begin{itemize}
+  \item \textbf{Normal datasets,} representing spherical and relatively well-behaved cluster geometry.
+  \item \textbf{Gamma datasets,} representing skewed and non-spherical cluster geometry.
+\end{itemize}
+
+For the approximately Gaussian scenarios, the simulations rely on multivariate-normal generation routines available in \texttt{mvtnorm} \cite{mvtnormmanual,genzbretz2009}. For the skewed gamma scenarios, the dependence structure is imposed through copulas, implemented with the \texttt{copula} package \cite{yan2007}. This contrast is crucial because the two clustering algorithms rest on different geometric assumptions.
+
+\section{Synthetic Data Generator}
+\label{sec:synthetic-data-generator}
+
+The synthetic component is built on the CART synthesis method \cite{nowok2016}. Given a vector of variables $X = (X_1, X_2, ..., X_p)$, the chain-rule decomposition of the joint distribution can be written as:
+\begin{equation}
+  f(X_1, ..., X_p) = f(X_1)\, f(X_2|X_1)\, f(X_3|X_1, X_2)\, \cdots\, f(X_p|X_1, ..., X_{p-1})
+\end{equation}
+
+In practice, the synthesis proceeds variable by variable:
+\begin{enumerate}
+  \item the first variable is resampled from its observed marginal behavior;
+  \item a decision tree predicts the next variable from the previously generated ones;
+  \item new values are sampled from the leaf-node distributions;
+  \item the process repeats until all variables are synthesized.
+\end{enumerate}
+
+The factorization itself is exact; the approximation enters because each conditional distribution is fitted through CART rather than known analytically. This design is flexible and non-parametric, but it also introduces orthogonal decision boundaries. Those staircase-like artifacts are precisely what the downstream evaluation is designed to detect.
+
+\section{Experimental Sweep}
+\label{sec:experimental-sweep}
+
+The benchmark is constructed as a Cartesian product of sample-size settings, cluster counts, separations, dimensionalities, correlation levels, distribution families, and repeated runs. In concrete terms, the sweep combines:
+\begin{itemize}
+  \item ten sample-size settings across the interval $N \in [100, 1000]$;
+  \item three values of $k$;
+  \item four separation levels;
+  \item three dimensionalities;
+  \item two correlation settings;
+  \item two distribution families; and
+  \item repeated runs for each scenario, together with both real and synthetic outputs.
+\end{itemize}
+
+This Cartesian-product design explains why the full benchmark exceeds 1,800 generated datasets.
+
+\section{Evaluation Components}
+\label{sec:evaluation-components}
+
+The downstream system contains three logical components:
+\begin{itemize}
+  \item \textbf{Clustering module:} runs k-means and Ward-based Hierarchical Clustering on the synthetic datasets.
+  \item \textbf{Alignment module:} solves label permutation with the Hungarian Algorithm \cite{kuhn1955} before any score is computed.
+  \item \textbf{Diagnostic module:} produces numerical metrics and low-dimensional visualizations to inspect separability and structural distortion.
+\end{itemize}
+
+The combination of these components allows the report to move from a simple success-or-fail benchmark to a structural explanation of algorithmic robustness.

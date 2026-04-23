@@ -1,0 +1,24 @@
+\section{Risk Management: Alternative Plans and Obstacles}
+\label{sec:risk-management-alternative-plans-and-obstacles}
+
+The following potential obstacles have been identified, alongside their respective mitigation strategies to ensure the project concludes within the June 22 deadline.
+
+\begin{itemize}
+    \item \textbf{Obstacle 1: Computational Complexity in Phase 1 (NP-Hardness)} \\
+    \textit{Risk:} The Branch \& Bound solver fails to prune adversarial queries within the 50ms TTLT budget. \\
+    \textit{Alternative Task:} Implement a two-stage pre-filtering linear scan (Cosine Similarity) to reduce $K=64$ chunks to $K=24$ before Choquet execution. \\
+    \textit{Additional Resources:} Extra CPU multi-threading overhead. \\
+    \textit{Time Impact:} Developing the linear scan pre-filter will require an estimated 10 additional hours. This time will be absorbed by reducing the scope of the heuristic optimization in task PH1.2, ensuring the Sprint 2 deadline remains unaffected.
+
+    \item \textbf{Obstacle 2: Model Instability during ORPO Alignment (Phase 2)} \\
+    \textit{Risk:} The model collapses or overfits during fine-tuning, failing to adhere to role-conditioned formatting. \\
+    \textit{Alternative Task:} Revert from ORPO to standard Supervised Fine-Tuning (SFT) with grammar-constrained decoding at inference time. \\
+    \textit{Additional Resources:} Increased VRAM allocation for secondary training runs. \\
+    \textit{Time Impact:} Reverting to SFT and implementing grammar constraints will add approximately 15 hours of development and training time. To accommodate this within the strict 540-hour budget, the complexity of the synthetic data generation pipeline (PH2.2) will be proportionally scaled down.
+
+    \item \textbf{Obstacle 3: VRAM Overflow during Local Evaluation (Phase 4)} \\
+    \textit{Risk:} Deploying the 70B judge model via Ollama exceeds the 48GB VRAM limit during concurrent inference. \\
+    \textit{Alternative Task:} Shift evaluation to a Mixture of Experts (MoE) architecture (e.g., Mixtral 8x7B) or apply 4-bit EXL2 quantization to fit the judge within a single RTX 3090. \\
+    \textit{Additional Resources:} Higher swap usage on the 46.2 GiB system RAM. \\
+    \textit{Time Impact:} Configuring the MoE architecture or EXL2 quantization will take an estimated 5 hours. This minor delay will be offset by streamlining the hardware ablation execution (PH4.3b), keeping the final defense preparation perfectly on schedule.
+\end{itemize}

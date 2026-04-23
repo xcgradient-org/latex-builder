@@ -1,0 +1,40 @@
+\chapter{Conclusions}
+\label{chap:conclusions}
+
+This research set out to evaluate the "Privacy vs. Utility" trade-off in the context of unsupervised learning, specifically questioning whether synthetic data generated via the Classification and Regression Trees (CART) method retains sufficient geometric fidelity for accurate clustering. By analyzing over 1,800 datasets across varying distributions, noise levels, and dimensionalities, we have quantified the structural degradation introduced by synthesis and its differential impact on K-Means and Hierarchical Clustering.
+
+\section{Key Findings}
+\label{sec:key-findings}
+
+The empirical results support the primary hypothesis that the choice of clustering algorithm significantly dictates the utility of synthetic data. Our analysis revealed that the CART synthesis method introduces specific "blocky" orthogonal artifacts due to the nature of decision tree splits. While these artifacts are negligible in spherical Normal distributions, they cause severe topological distortion in skewed Gamma distributions, effectively hardening the smooth tails of clusters into rigid stair-step boundaries.
+
+Consequently, K-Means proved highly sensitive to these artifacts. In skewed environments, the algorithm failed to identify the correct number of clusters even at moderate separation levels, incorrectly imposing linear decision boundaries on the distorted, non-linear synthetic clusters. In contrast, Hierarchical Clustering (Ward's linkage) demonstrated superior robustness, consistently outperforming K-Means in these skewed environments. Its connectivity-based approach allowed it to navigate the non-convex shapes created by the synthesis process, maintaining high detection rates where centroid-based methods collapsed.
+
+Furthermore, our structural fidelity metrics revealed a distinct "balancing bias" in K-Means. The Gini coefficient analysis showed that K-Means artificially forces skewed synthetic data into equal-sized partitions, effectively suppressing the natural imbalance of the data structure. Conversely, Hierarchical Clustering preserved the structural blockiness and skew introduced by the synthesis method. However, both algorithms suffered from centroid drift and variance distortion in high-dimensional or overlapping environments, confirming that the synthesis process itself struggles to replicate complex multivariate correlations regardless of the downstream algorithm used.
+
+\section{Comparison with previous Work}
+\label{sec:comparison}
+
+This study extends the foundational work of Chen Xinnuo \cite{chen2025}, which established the baseline utility of synthetic data. While previous studies largely focused on supervised learning tasks, such as classification accuracy, or global statistical properties, this research specifically addressed the unsupervised domain. Unlike general utility metrics that average performance over a dataset, our introduction of structural metrics---specifically the Mean Centroid Distance and Gini Coefficient---allowed for a granular diagnosis of why algorithms fail. We demonstrated that utility is not a binary property of the data, but an interaction between the generation method and the analysis method. Specifically, we identified that the orthogonal constraints of CART are fundamentally incompatible with the spherical convexity assumptions of K-Means when the underlying distribution is non-normal.
+
+\section{Limitations}
+\label{sec:limitations-conclusions}
+
+The scope of this research implies certain limitations that must be considered when interpreting the results. First, we exclusively evaluated the CART method implemented in the \texttt{synthpop} package. Other synthesis techniques, such as parametric methods or deep learning approaches, may produce different geometric artifacts that could interact differently with clustering algorithms. Second, the comparison was strictly limited to K-Means and Agglomerative Hierarchical Clustering. Density-based algorithms like DBSCAN or model-based clustering methods were not tested, though they may offer distinct advantages in handling synthetic noise. Finally, the use of pure Normal and Gamma distributions provided a controlled experimental setting but may not fully capture the chaotic noise, outliers, and mixed-type variables often found in real-world administrative data.
+
+\section{Generalization}
+\label{sec:generalization-conclusions}
+
+Despite the specific algorithms used, the findings generalize to the broader class of centroid-based versus connectivity-based learning. We posit that any algorithm relying on convex, distance-minimizing objective functions---such as K-Medoids or Linear Discriminant Analysis---will suffer similar degradation when applied to CART-generated synthetic data of skewed distributions. Conversely, methods that prioritize local neighborhood structures, such as Nearest Neighbors or Single-Linkage Clustering, are likely to remain robust to the blocky discontinuities introduced by decision-tree synthesis. This distinction is crucial for data scientists selecting tools for privacy-preserving analytics, as it suggests that the "algorithm fit" is just as critical as the data quality itself.
+
+\section{Future Research Directions}
+\label{sec:future-research}
+
+To further resolve the friction between data privacy and analytical utility, future research should focus on alternative generation methods. Evaluating whether Generative Adversarial Networks (GANs) or Variational Autoencoders (VAEs) can generate smooth, non-orthogonal decision boundaries would be a logical next step to see if they preserve the convexity required for K-Means. Additionally, there is significant potential in developing metric-optimized synthesis loss functions that explicitly penalize the distortion of centroid distances or cluster variance during the training of the generator. Finally, creating a standardized "Unsupervised Utility Score" based on the structural metrics defined in this study could help automatically flag synthetic datasets that are unsuitable for clustering tasks before they are released to researchers.
+
+\section{Conclusions}
+\label{sec:final-conclusions}
+
+The promise of synthetic data is that it offers "privacy by design" without compromising analytical truth. This research clarifies the boundaries of that promise. We conclude that synthetic data generated via CART is not utility-neutral; it imparts a structural bias that favors connectivity-based algorithms over centroid-based ones.
+
+For organizations leveraging synthetic data, we recommend a clear operational protocol: if the underlying data distribution is unknown or suspected to be skewed, Hierarchical Clustering must be preferred over K-Means to avoid drawing erroneous conclusions from privacy-preserved data. K-Means should be reserved strictly for scenarios where normality can be verified or where the synthesis method is known to preserve spherical convexity. By understanding these geometric interactions, researchers can effectively unlock the value of sensitive data while maintaining rigorous privacy standards.

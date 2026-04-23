@@ -1,0 +1,162 @@
+\section{Timeline and Workload Distribution}
+\label{sec:timeline-and-workload}
+
+The official execution window for the project commenced on February 16, 2026, and will conclude during the final deposit and defense preparation period on June 22, 2026. To systematically manage this timeline, the workload is chronologically bifurcated into two distinct operational phases:
+
+\begin{itemize}
+    \item \textbf{Project Management Phase:} The initial 90 hours (3 ECTS) are dedicated to project planning, scope definition, and administrative tasks. This phase runs until March 18, 2026. Across this four-week period, the workload averages \textbf{22.5 hours per week}.
+    \item \textbf{Technical Execution (TFG) Phase:} Following the March 18 milestone, the remaining 450 technical hours (15 ECTS) are activated. Distributed across the remaining weeks leading up to the June 22 deadline, this dictates a pace of \textbf{30 hours per week}.
+\end{itemize}
+
+Assuming a standard 5-day work week to maintain a sustainable research pace, this translates to a sustained effort of \textbf{6 hours of work per day}.
+
+\begin{quote}
+    \textbf{Note on Workload Estimation:} The following schedule is built around the mandatory 540-hour workload. However, the author acknowledges that the actual dedication required to complete the system will likely surpass this formal limit. Any extra time needed to reach the desired technical quality will be provided by the author to ensure all objectives are met.
+\end{quote}
+
+\section{Description of Tasks}
+\label{sec:description-of-tasks}
+
+The project is structured into iterative units of work following an Agile methodology. To adapt this framework for an individual research thesis, the development lifecycle is divided into sequential \textbf{Sprints}. This granularity ensures continuous validation and mitigates the risk of cascading failures. To satisfy project management rigor, no single technical task exceeds the 40-hour threshold, and each sprint concludes with a dedicated 10-hour block for documentation and statistical analysis.
+
+
+
+\subsection{Task Breakdown by Agile Sprints}
+\label{subsec:task-breakdown}
+
+% Refined formatting: Bold ID + Title Header, then Line Break + Small Description
+\newcommand{\taskitem}[3]{
+    \item \textbf{#1 -- #2 (#3)} \\
+    {\small #3}
+}
+
+\subsubsection*{Sprint 0: Project Management (90 Hours)}
+\begin{itemize}[leftmargin=*, itemsep=4pt]
+    \item \textbf{PM.1 -- ICT Tools Study (4.00h)} \\
+    Setup of ATENEA, GitHub repository, and LaTeX environment.
+    \item \textbf{PM.2 -- Context and Scope (24.50h)} \\
+    Formulation of the problem statement, objectives, and state-of-the-art literature review.
+    \item \textbf{PM.3 -- Project Planning (8.25h)} \\
+    Definition of tasks, logical sequences, and Gantt chart creation.
+    \item \textbf{PM.4 -- Budget and Sustainability (9.25h)} \\
+    Economic viability analysis and sustainability matrix assessment.
+    \item \textbf{PM.5 -- Personal and Professional Skills (6.25h)} \\
+    Preparation of effective oral and written communication strategies.
+    \item \textbf{PM.6 -- Integration in Final Document (18.25h)} \\
+    Compilation of all management deliverables into the final project report.
+    \item \textbf{PM.7 -- Supervisor Meetings (19.50h)} \\
+    Weekly validation checkpoints with the project director.
+\end{itemize}
+
+\subsubsection*{Sprint 1: Research, Learning \& Baseline (70 Hours)}
+\begin{itemize}[leftmargin=*, itemsep=4pt]
+    \item \textbf{PH0.1 -- Advanced C++ \& Literature Review (20.00h)} \\
+    Study of Cooperative Game Theory, Pybind11 memory allocation, and AVX-512 vectorization.
+    \item \textbf{PH0.2a -- Naive Retrieval Setup (20.00h)} \\
+    Developing the vectorization and extraction logic for the standard baseline.
+    \item \textbf{PH0.2b -- Base Generation \& Evaluation Framework (20.00h)} \\
+    Fusing naive retrieval with an 8B model to establish baseline 
+    Accuracy and TTFT metrics. The evaluation framework is bootstrapped at this stage across all $D$ benchmark datasets, 
+    prior to any architectural implementation.    \item \textbf{PH0.3 -- Baseline Documentation (10.00h)} \\
+    Redaction of the baseline methodology and recording of initial statistical performance.
+\end{itemize}
+
+\subsubsection*{Sprint 2: Game-Theoretic Subset Optimization (90 Hours)}
+\begin{itemize}[leftmargin=*, itemsep=4pt]
+    \item \textbf{PH1.1 -- Approach 1: Simple Reranking (15.00h)} \\
+    Implementation of a standard pointwise cross-encoder to capture initial performance deltas.
+    \item \textbf{PH1.2 -- Approach 2: Choquet via GA (25.00h)} \\
+    Heuristic approximation of the Choquet integral using a Genetic Algorithm.
+    \item \textbf{PH1.3a -- Branch \& Bound Algorithm Design (15.00h)} \\
+    Formulating the mathematical bounds and time-constrained interrupt logic.
+    \item \textbf{PH1.3b -- Branch \& Bound C++ Execution (25.00h)} \\
+    Engineering the exact C++ solver and the Pybind11 zero-copy bridge.
+    \item \textbf{PH1.4 -- Filter Optimization Documentation (10.00h)} \\
+    Formalizing mathematical proofs and documenting subset synergy results.
+\end{itemize}
+
+\subsubsection*{Sprint 3: Role-Conditioned Alignment (90 Hours)}
+\begin{itemize}[leftmargin=*, itemsep=4pt]
+    \item \textbf{PH2.1 -- Data Pipeline Engineering (15.00h)} \\
+    Defining the schema to parse Original Data (OD) into target Synthetic Data (SD).
+    \item \textbf{PH2.2 -- Synthetic Data (SD) Generation (20.00h)} \\
+    Executing the loop to create multi-hop RAFT-aligned synthetic datasets.
+    \item \textbf{PH2.3 -- ORPO Fine-Tuning (20.00h)} \\
+    Applying Preference Optimization to align the generative model against the SD.
+    \item \textbf{PH2.4 -- QDORA Implementation (25.00h)} \\
+    Quantizing the model and training distinct Directional Low-Rank Adapters.
+    \item \textbf{PH2.5 -- Alignment \& Training Documentation (10.00h)} \\
+    Recording training loss curves and role-conditioned fidelity reports.
+\end{itemize}
+
+\subsubsection*{Sprint 4: Hardware-Efficient Execution (90 Hours)}
+\begin{itemize}[leftmargin=*, itemsep=4pt]
+    \item \textbf{PH3.1 -- S-QDORA Architecture (25.00h)} \\
+    Engineering the framework to serve multiple tenants by hot-swapping adapters in VRAM.
+    \item \textbf{PH3.2 -- Speculative Decoding (Medusa) (15.00h)} \\
+    Configuring draft-model verification logic to reduce TTLT.
+    \item \textbf{PH3.3 -- Hardware Management (20.00h)} \\
+    Explicit optimization of KV Cache and PagedAttention memory managers.
+    \item \textbf{PH3.4 -- End-to-End Orchestration (20.00h)} \\
+    Fusing the Phase 1 engine, Phase 2 models, and Phase 3 vLLM server into a unified API.
+    \item \textbf{PH3.5 -- Inference Architecture Documentation (10.00h)} \\
+    Documenting hardware orchestration logic and latency-minimization results.
+\end{itemize}
+
+\subsubsection*{Sprint 5: Statistical Benchmark \& Validation (100 Hours)}
+\begin{itemize}[leftmargin=*, itemsep=4pt]
+    \item \textbf{PH4.1 -- Local Evaluator Deployment (20.00h)} \\
+    Deploying 70B/72B open-weight models via Ollama with 2-way Tensor Parallelism.
+    \item \textbf{PH4.2 -- Metaheuristic Judge Implementation (30.00h)} \\
+    Evolving scoring weights via GA to mitigate single-model evaluator bias.
+    \item \textbf{PH4.3a -- VRAM Tier Configuration (20.00h)} \\
+    Setting up the simulated 20GB, 30GB, and 40GB hardware environments.
+    \item \textbf{PH4.3b -- Hardware Ablation Execution (20.00h)} \\
+    Running benchmarks and extracting final metrics against the baseline.
+    \item \textbf{PH4.4 -- Validation Study Documentation (10.00h)} \\
+    Redaction of the final comparative analysis and hardware-efficiency reports.
+\end{itemize}
+
+\subsubsection*{Sprint 6: Finalization (50 Hours)}
+\begin{itemize}[leftmargin=*, itemsep=4pt]
+    \item \textbf{DOC.1 -- Final Thesis Redaction (30.00h)} \\
+    Final typesetting of chapters and proofreading.
+    \item \textbf{DOC.2 -- Defense Preparation (20.00h)} \\
+    Generation of the slide deck and oral presentation rehearsal.
+\end{itemize}
+
+
+
+
+\subsection{Resources}
+\label{subsec:resources}
+\subsubsection*{Human Resources}
+\label{subsubsec:human-resources}
+\begin{itemize}
+    \item \textbf{Lead Engineer:} Oriol Farrés i Vilar (full-time).
+    \item \textbf{Project Director:} Dr. Lluís Padró (advisory oversight).
+\end{itemize}
+
+\subsubsection*{Hardware Resources}
+\label{subsubsec:hardware-resources}
+Development and inference are conducted on a localized ASUS workstation to ensure data privacy and zero cloud-API dependency .
+\begin{itemize}
+    \item \textbf{CPU:} AMD Ryzen 9 9900X 12-Core Processor (24 threads).
+    \item \textbf{RAM:} 2 24GB DDR5 Modules (48GB total).
+    \item \textbf{GPU:} Dual NVIDIA GeForce RTX 3090 . The combined 48GB VRAM is a strict prerequisite for hosting Tensor-Parallel 70B evaluators.
+\end{itemize}
+
+\subsubsection*{Software Resources}
+\label{subsubsec:software-resources}
+\begin{itemize}
+    \item \textbf{Development:} Kubuntu Linux, Git, VSCode.
+    \item \textbf{Core Engineering:} Python, C++, CUDA.
+    \item \textbf{AI Frameworks:} PyTorch, vLLM, Ollama, Weights \& Biases (WandB), TensorFlow, HuggingFace.
+    \item \textbf{Documentation:} LaTeX, Zotero.
+\end{itemize}
+
+\subsubsection*{Data Resources}
+\label{subsubsec:data-resources}
+\begin{itemize}
+    \item \textbf{Datasets:} Pre-computed Top-100 chunk retrievals from HotpotQA and MS MARCO to mathematically isolate the Phase 1 Game-Theoretic filter from indexing bias.
+\end{itemize}

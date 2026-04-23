@@ -1,0 +1,72 @@
+\chapter{Implementation}
+\label{chap:implementation}
+
+\section{Technology Stack}
+\label{sec:technology-stack}
+
+The implementation combines simulation, synthesis, clustering, and reporting tools:
+\begin{itemize}
+  \item \textbf{R} as the main experimental environment.
+  \item \textbf{\texttt{mvtnorm}} for controlled multivariate reference-data generation \cite{mvtnormmanual,genzbretz2009}.
+  \item \textbf{\texttt{copula}} for dependence modeling in the skewed scenarios \cite{yan2007}.
+  \item \textbf{\texttt{synthpop}} for CART-based synthetic-data generation \cite{nowok2016}.
+  \item Standard clustering and dimensionality-reduction tooling for k-means, Hierarchical Clustering, PCA, and t-SNE \cite{jolliffe2002,vandermaaten2008}.
+  \item \LaTeX{} for final documentation and figure integration.
+\end{itemize}
+
+This stack is adequate for the study because it supports both reproducible statistical simulation and direct inspection of clustering behavior under controlled distortions.
+
+\section{Development Process}
+\label{sec:development-process}
+
+The implementation process follows a staged experimental workflow:
+\begin{enumerate}
+  \item define the parameter grid for sample size, clusters, separation, dimensionality, correlation, and distribution;
+  \item generate the real datasets that serve as ground truth;
+  \item synthesize corresponding datasets with CART;
+  \item run clustering on the synthetic datasets;
+  \item align results to ground truth and compute metrics;
+  \item summarize the outputs through figures and comparative discussion.
+\end{enumerate}
+
+This sequence was necessary to keep the analysis reproducible and to ensure that every visual or numerical conclusion could be traced back to a precise experimental condition.
+
+\section{Key Implementation Details}
+\label{sec:key-implementation-details}
+
+One practical implementation detail is that the report does not rely on a single metric. The pipeline stores both binary detection outcomes and continuous structural diagnostics, which makes it possible to observe cases where an algorithm recovers the right number of clusters but still distorts their internal structure.
+
+Another important detail is the explicit simulation configuration used to generate the dataset family. The original report includes the following reference configuration:
+
+\begin{verbatim}
+{
+  "simulation": {
+    "N": 1000,
+    "n": 5,
+    "m": 10,
+    "random_seed_base": 16
+  },
+  "parameters": {
+    "p": [2, 5, 10],
+    "k": [2, 3, 4],
+    "separation": [0.1, 2, 6, 10],
+    "rho": [0.0, 0.4],
+    "distribution": [
+      { "name": "normal" },
+      { "name": "gamma", "shape": 1.5, "rate": 5.0 }
+    ]
+  }
+}
+\end{verbatim}
+
+This configuration expresses the design intent of the entire study: broad enough to reveal failure modes, but controlled enough to preserve interpretability.
+
+\section{Reproducibility and Repository}
+\label{sec:reproducibility-repository}
+
+The report materials are maintained in a version-controlled repository so that the document structure, figures, and bibliography can be regenerated locally. The current working copy is linked to:
+\begin{center}
+  \url{https://github.com/xcgradient-org/latex-builder}
+\end{center}
+
+This link is included explicitly because reproducibility is part of the deliverable: the report is not only a PDF artifact, but also a documented build target with traceable sources.

@@ -1,0 +1,153 @@
+\section{Estimates and the Gantt Chart}
+\label{sec:estimates-and-the-gantt-chart}
+
+\subsection{Summary of Tasks}
+\label{subsec:summary-of-tasks}
+
+To satisfy project management rigor and provide a clear overview of the 540-hour workload, the following table summarizes the task breakdown, estimated effort, logical precedence, and allocated resources. All technical tasks are subdivided to remain below the 40-hour threshold to ensure estimation accuracy.
+
+\begin{table}[H]
+\centering
+\caption{Task summary utilizing Agile Sprints, 540h budget, and specific mapping of Ryzen 9 and Dual RTX 3090 hardware.}
+\label{tab:task-summary}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llcll}
+\rowcolor[HTML]{34495E} 
+{\color[HTML]{FFFFFF} \textbf{ID}} & {\color[HTML]{FFFFFF} \textbf{Task Name}} & {\color[HTML]{FFFFFF} \textbf{Time (h)}} & {\color[HTML]{FFFFFF} \textbf{Dependencies}} & {\color[HTML]{FFFFFF} \textbf{Specific Resources}} \\ 
+\rowcolor[HTML]{D5D8DC} 
+\multicolumn{5}{l}{\textbf{Sprint 0: Project Management}} \\ 
+PM.1 & ICT Tools Study & 4.00 & None & PC, ATENEA \\ 
+PM.2 & Context and Scope & 24.50 & None & Literature DBs \\ 
+PM.3 & Project Planning & 8.25 & None & PC, Gantt Tools \\ 
+PM.4 & Budget and Sustainability & 9.25 & None & PC, Sustainability Matrix \\ 
+PM.5 & Personal and Prof. Skills & 6.25 & None & ATENEA, Oral Guide \\ 
+PM.6 & Integration in Final Doc & 18.25 & PM.2, 3, 4 $<$ PM.6 & PC, LaTeX \\ 
+PM.7 & Supervisor Meetings & 19.50 & Concurrent & Dr. Lluís Padró \\ 
+\rowcolor[HTML]{D6EAF8} 
+\multicolumn{5}{l}{\textbf{Sprint 1: Research, Learning \& Baseline}} \\ 
+PH0.1 & Adv. C++ \& Lit Review & 20.00 & None & PC, C++ Compiler \\ 
+PH0.2a & Naive Retrieval Setup & 15.00 & PH0.1 $<$ PH0.2a & Dual RTX 3090, Datasets \\ 
+PH0.2b & Base Generation \& Eval & 15.00 & PH0.2a $<$ PH0.2b & Dual RTX 3090, PyTorch \\ 
+PH0.3 & Baseline Documentation & 10.00 & PH0.2b $<$ PH0.3 & PC, Statistics Software \\ 
+\rowcolor[HTML]{AED6F1} 
+\multicolumn{5}{l}{\textbf{Sprint 2: Game-Theoretic Subset Optimization}} \\ 
+PH1.1 & Simple Reranking & 15.00 & PH0.3 $<$ PH1.1 & Dual RTX 3090 \\ 
+PH1.2 & Choquet via GA & 20.00 & PH1.1 $<$ PH1.2 & Ryzen 9 (24 Threads) \\ 
+PH1.3a & B\&B Algorithm Design & 15.00 & PH1.2 $<$ PH1.3a & PC, Mathematical Heuristics \\ 
+PH1.3b & B\&B C++ Execution & 20.00 & PH1.3a $<$ PH1.3b & C++17, Pybind11 \\ 
+PH1.4 & PH1 Documentation & 10.00 & PH1.3b $<$ PH1.4 & LaTeX, Synergy Data \\ 
+\rowcolor[HTML]{D6EAF8} 
+\multicolumn{5}{l}{\textbf{Sprint 3: Role-Conditioned Alignment}} \\ 
+PH2.1 & OD to SD Pipeline & 15.00 & PH1.4 $<$ PH2.1 & Python, RAFT Schema \\ 
+PH2.2 & SD Generation & 15.00 & PH2.1 $<$ PH2.2 & Dual RTX 3090, LLM APIs \\ 
+PH2.3 & ORPO Fine-Tuning & 15.00 & PH2.2 $<$ PH2.3 & Dual RTX 3090, WandB \\ 
+PH2.4 & QDORA Implementation & 25.00 & PH2.3 $<$ PH2.4 & Dual RTX 3090, PyTorch \\ 
+PH2.5 & PH2 Documentation & 10.00 & PH2.4 $<$ PH2.5 & WandB, Training Logs \\ 
+\rowcolor[HTML]{AED6F1} 
+\multicolumn{5}{l}{\textbf{Sprint 4: Hardware-Efficient Execution}} \\ 
+PH3.1 & S-QDORA Architecture & 20.00 & PH2.5 $<$ PH3.1 & Dual RTX 3090, vLLM \\ 
+PH3.2 & Speculative Decoding & 15.00 & PH3.1 $<$ PH3.2 & Dual RTX 3090, Medusa \\ 
+PH3.3 & Hardware Management & 15.00 & PH3.2 $<$ PH3.3 & PagedAttention, KV Cache \\ 
+PH3.4 & End-to-End Orchestration & 20.00 & PH3.3 $<$ PH3.4 & Full HW Stack, Python \\ 
+PH3.5 & PH3 Documentation & 10.0h & PH3.4 $<$ PH3.5 & PC, Latency Reports \\ 
+\rowcolor[HTML]{D6EAF8} 
+\multicolumn{5}{l}{\textbf{Sprint 5: Statistical Benchmark \& Validation}} \\ 
+PH4.1 & Local Evaluator Deploy & 20.00 & PH3.5 $<$ PH4.1 & Dual RTX 3090, Ollama \\ 
+PH4.2 & Metaheuristic Judge & 25.00 & PH4.1 $<$ PH4.2 & Ryzen 9, Python GA \\ 
+PH4.3a & VRAM Tier Config & 20.00 & PH4.2 $<$ PH4.3a & Dual RTX 3090, vLLM \\ 
+PH4.3b & Hardware Ablation Exec. & 15.00 & PH4.3a $<$ PH4.3b & Full HW Stack \\ 
+PH4.4 & PH4 Documentation & 10.00 & PH4.3b $<$ PH4.4 & PC, Comparative Analysis \\ 
+\rowcolor[HTML]{AED6F1} 
+\multicolumn{5}{l}{\textbf{Sprint 6: Final Documentation \& Defense}} \\ 
+DOC.1 & Thesis Redaction & 40.00 & PH4.4 $<$ DOC.1 & PC, LaTeX \\ 
+DOC.2 & Defense Preparation & 20.00 & DOC.1 $<$ DOC.2 & Slide Software, Director \\ \hline
+\rowcolor[HTML]{34495E} 
+\multicolumn{2}{l}{{\color[HTML]{FFFFFF} \textbf{Total Hours}}} & {\color[HTML]{FFFFFF} \textbf{540.00}} & \multicolumn{2}{l}{{\color[HTML]{FFFFFF} \textbf{Estimated Project Effort}}} \\ \hline
+\end{tabular}%
+}
+\source{Compiled by the author}
+\end{table}
+
+
+
+\begin{landscape}
+
+\pagestyle{plain} % Ensures the page number is visible on the rotated page
+
+\begin{figure}[p]
+    \centering
+    \vspace{0.5em}
+    
+    \definecolor{PMColor}{RGB}{231, 76, 60}   
+    \definecolor{PH0Color}{RGB}{52, 152, 219}  
+    \definecolor{PH1Color}{RGB}{155, 89, 182}  
+    \definecolor{PH2Color}{RGB}{46, 204, 113}  
+    \definecolor{PH3Color}{RGB}{241, 196, 15}  
+    \definecolor{PH4Color}{RGB}{230, 126, 34}  
+    \definecolor{DOCColor}{RGB}{149, 165, 166} 
+
+    \begin{ganttchart}[
+        hgrid,
+        vgrid,
+        % x unit=0.145cm is the optimal value to fill a landscape A4 without overflow
+        x unit=0.17cm, 
+        y unit title=0.7cm,
+        y unit chart=0.8cm,
+        time slot format=isodate,
+        title label font=\bfseries\tiny,
+        bar label font=\tiny,
+        group label font=\bfseries\tiny,
+        bar/.style={draw=black!60, line width=0.4pt},
+        bar height=0.6,
+        link/.style={-latex, line width=0.8pt, black!80},
+        link label font=\tiny\itshape,
+        group/.style={draw=black, fill=black!90},
+        group height=0.2,
+        inline=false
+    ]{2026-02-16}{2026-06-22}
+    
+    % Calendar Headers: Combined Year/Month
+    \gantttitlecalendar{year, month=name} \\
+    % Work Week Title: Each number centers over a 7-day (1 week) block
+    \gantttitle{Timeline: 18 Work Weeks}{127} \\
+    \gantttitlelist{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18}{7} \\
+    
+    \ganttgroup{Project Management}{2026-02-16}{2026-03-22} \\
+    \ganttbar[bar/.append style={fill=PMColor!40}]{PM Deliverables 1-3}{2026-02-16}{2026-03-15} \\
+    \ganttbar[bar/.append style={fill=PMColor!20}]{Supervisor Meetings}{2026-02-16}{2026-06-22} \\
+    
+    \ganttgroup{Technical Execution (TFG)}{2026-03-23}{2026-06-22} \\
+    \ganttbar[name=sp1, bar/.append style={fill=PH0Color!50}]{PH0: Research \& Baseline}{2026-02-16}{2026-02-28} \\
+    \ganttbar[name=sp2, bar/.append style={fill=PH1Color!50}]{PH1: Choquet Opt.}{2026-03-04}{2026-03-24} \\
+    \ganttbar[name=sp3, bar/.append style={fill=PH2Color!50}]{PH2: Alignment}{2026-03-28}{2026-04-21} \\
+    \ganttbar[name=sp4, bar/.append style={fill=PH3Color!50}]{PH3: Hardware}{2026-04-25}{2026-05-15} \\
+    \ganttbar[name=sp5, bar/.append style={fill=PH4Color!50}]{PH4: Validation}{2026-05-19}{2026-06-05} \\
+    \ganttbar[name=docPH0, bar/.append style={fill=DOCColor!60}]{Phase Documentation}{2026-03-01}{2026-03-03}
+        \ganttbar[name=docPH1, bar/.append style={fill=DOCColor!60}]{}{2026-03-25}{2026-03-27}
+        \ganttbar[name=docPH2, bar/.append style={fill=DOCColor!60}]{}{2026-04-22}{2026-04-24}
+        \ganttbar[name=docPH3, bar/.append style={fill=DOCColor!60}]{}{2026-05-16}{2026-05-18}
+        \ganttbar[name=docPH4, bar/.append style={fill=DOCColor!60}]{}{2026-06-06}{2026-06-08} \\
+    
+    \ganttgroup{Finalization}{2026-06-05}{2026-06-22} \\
+    \ganttbar[name=doc1, bar/.append style={fill=DOCColor!60}]{DOC.1: Redaction}{2026-06-05}{2026-06-18} \\
+    \ganttbar[name=doc2, bar/.append style={fill=DOCColor!90}]{DOC.2: Defense Prep}{2026-06-19}{2026-06-22} \\
+    
+    % Dependencies (T1 < T2)
+    \ganttlink{sp1}{docPH0}
+    \ganttlink[link label={PH0 < PH1}]{docPH0}{sp2}
+    \ganttlink{sp2}{docPH1}
+    \ganttlink[link label={PH1 < PH2}]{docPH1}{sp3}
+    \ganttlink{sp3}{docPH2}
+    \ganttlink[link label={PH2 < PH3}]{docPH2}{sp4}
+    \ganttlink{sp4}{docPH3}
+    \ganttlink[link label={PH3 < PH4}]{docPH3}{sp5}
+    \ganttlink{sp5}{docPH4}
+    \ganttlink[link label={BM < DOC}]{docPH4}{doc1}
+    \ganttlink[link label={Done}]{doc1}{doc2}
+    
+    \end{ganttchart}
+    \caption{Full-Page Gantt Chart: Agile Sprint Sequence and $T1 < T2$ Precedence Dependencies.}
+    \label{fig:gantt_chart}
+    \source{Compiled by the author}
+\end{figure}
+\end{landscape}

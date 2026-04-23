@@ -1,0 +1,55 @@
+\chapter{Conclusions and Future Work}
+\label{chap:conclusions-future-work}
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+This report evaluated whether synthetic data generated through the CART method preserves enough geometric fidelity for clustering tasks. The central result is that synthetic-data utility is not neutral with respect to the downstream algorithm. The same synthetic generator can be adequate for one clustering method and problematic for another. At the same time, the study should be interpreted strictly as a utility evaluation: privacy motivated the work, but privacy itself was not measured empirically in this report.
+
+\subsection*{Objective 1: Cluster-number recovery}
+The first research question asked whether clustering algorithms can still recover the correct number of groups after synthesis. The answer is condition-dependent. In the normal and well-separated scenarios, both algorithms remain highly reliable. Once overlap and skew increase, the recovery rate drops, especially for k-means.
+
+\subsection*{Objective 2: Structural degradation}
+The second research question concerned the extent to which synthesis degrades structure. The visual analyses and the centroid/variance metrics show that degradation is real and increases with overlap, dimensionality, and correlation. The Gini-based discussion also indicates that absolute balance measures must be interpreted carefully: fidelity is a difference-to-real quantity, not the raw Gini value alone.
+
+\subsection*{Objective 3: Algorithm robustness}
+The third research question compared algorithm robustness under the distortions introduced by CART. Here the conclusion is the clearest one in the report: Hierarchical Clustering is more robust than k-means on skewed gamma data because it adapts better to connected and irregular geometries. k-means remains a good option when the geometry is close to spherical, but becomes fragile once the synthetic generator introduces non-convex artifacts.
+
+\section{Comparison with Published Work}
+\label{sec:comparison-published-work}
+
+The results are broadly consistent with published clustering-benchmark work such as MDCGen \cite{iglesias2019}, which emphasizes how overlap, dimensionality, and distributional shape alter clustering difficulty. The difference is that MDCGen studies benchmark generation itself, while the present report focuses on what happens after a privacy-motivated synthesis step. In that sense, this report contributes a more specific claim: the utility of synthetic data depends not only on the generator, but also on how its distortions interact with the assumptions of the downstream clustering algorithm.
+
+\section{Limitations}
+\label{sec:limitations}
+
+The scope of the report introduces several limits:
+\begin{itemize}
+  \item only the CART synthesis method from \texttt{synthpop} was evaluated;
+  \item only K-Means and Agglomerative Hierarchical Clustering were compared;
+  \item privacy was not evaluated directly, so the report should not be read as an empirical privacy--utility trade-off study;
+  \item the study relied on controlled Normal and Gamma simulations rather than messy real administrative datasets with mixed variable types.
+\end{itemize}
+
+These limitations do not invalidate the results, but they do bound their direct applicability.
+
+\section{Generalization}
+\label{sec:generalization}
+
+Even with those limitations, the findings suggest a broader principle. Methods that rely on convex, distance-minimizing assumptions are likely to degrade more severely when synthetic data introduces axis-aligned, blocky artifacts. By contrast, methods that depend on local connectivity or neighborhood structure are more likely to remain stable under the same distortions.
+
+This matters operationally: the choice of clustering algorithm should be treated as part of the privacy--utility design, not as a downstream implementation detail.
+
+\section{Future Work}
+\label{sec:futurework}
+
+Several extensions follow naturally from this study:
+\begin{itemize}
+  \item evaluate alternative synthesis families such as GAN-based or VAE-based generators;
+  \item compare additional clustering methods such as DBSCAN, K-Medoids, or model-based clustering;
+  \item develop utility scores that directly optimize for unsupervised structural preservation;
+  \item test the same framework on real-world restricted datasets once access conditions allow it;
+  \item complement utility measurements with explicit privacy-risk evaluation, following recent synthetic-data evaluation practice \cite{qian2024}.
+\end{itemize}
+
+In practical terms, the report supports a clear recommendation: if the original data is skewed or its geometry is uncertain, Hierarchical Clustering should be preferred over k-means when working with CART-generated synthetic data. That recommendation is the most actionable conclusion of the project.

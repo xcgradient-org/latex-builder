@@ -1,0 +1,80 @@
+\appendix
+
+\chapter{Configuration and Environment}
+\label{chap:appendices}
+
+This appendix provides the exact configuration files, time complexity breakdown, and hardware specifications used to conduct the systematic simulations.
+
+\section{Hardware Specification}
+\label{sec:app-hardware}
+Due to the computational intensity of generating and evaluating over 1.8 million synthetic datasets, the entire experimental pipeline was executed on a high-performance local server, leveraging parallelized multi-core computing. The exact hardware specifications of the workstation are detailed below:
+\begin{itemize}
+    \item \textbf{CPU:} AMD Ryzen 9 9900X (12 Cores, 24 Threads)
+    \item \textbf{RAM:} 48GB Corsair Vengeance DDR5 6000MHz CL36
+    \item \textbf{GPU:} Dual NVIDIA GeForce RTX 3090 (2x 24GB GDDR6X)
+    \item \textbf{Storage:} 1TB NVMe SSD (7250 MB/s Sequential Read)
+    \item \textbf{OS:} Kubuntu 24.04 LTS
+\end{itemize}
+
+\section{Computational Time Complexity}
+\label{sec:app-time-complexity}
+To ensure statistical robustness, the regression experiment was run for $M = 1,000$ iterations per scenario across $N \in \{100, 500, 1000\}$ and $p \in \{2, 5, 10\}$. This extensive grid required the synthesis and fitting of 1.8 million individual datasets.
+
+The parallel execution utilized a dynamic work-stealing queue to distribute the load across the 24 available CPU threads. The time complexity breakdown for the full $M$-run is as follows:
+\begin{itemize}
+    \item \textbf{Total Worker Time (Sequential Equivalent):} 668,697.38 seconds ($\approx 185.75$ hours)
+    \item \textbf{Total Wall-Clock Time (Parallelized):} 37,409.08 seconds ($\approx 10.39$ hours)
+    \item \textbf{Linear Regression (Continuous \& Binary):} 1,909.65 wall-clock seconds ($\approx 0.53$ hours)
+    \item \textbf{Logistic Regression (Continuous \& Binary):} 35,499.42 wall-clock seconds ($\approx 9.86$ hours)
+\end{itemize}
+Logistic regression synthesis and fitting represented approximately 95\% of the total computational overhead due to the iterative nature of maximum likelihood estimation and the high rate of non-convergence (separation) in small-$N$ scenarios.
+
+\section{Run Configurations (JSON)}
+\label{sec:app-json}
+
+The exact boundaries of the simulation space were defined by declarative JSON configurations, guaranteeing reproducibility.
+
+\subsection{Run 1: Clustering Experiment Configuration}
+\begin{verbatim}
+{
+  "simulation": {
+    "N": 1000,
+    "n": 5,
+    "m": 100,
+    "random_seed_base": 16
+  },
+  "parameters": {
+    "p": [2, 5, 10],
+    "k": [2, 3, 4],
+    "separation": [0.1, 2, 6, 10],
+    "rho": [0.0, 0.4],
+    "distribution": [
+      { "name": "normal" },
+      { "name": "gamma", "shape": 1.5, "rate": 5.0 }
+    ]
+  }
+}
+\end{verbatim}
+
+\subsection{Run 2: Regression Experiment Configuration}
+\begin{verbatim}
+{
+  "simulation": {
+    "N": [100, 500, 1000],
+    "p": [2, 5, 10],
+    "var_type": ["continuous", "binary"],
+    "random_seed_base": 16,
+    "M": 1000
+  },
+  "parameters": {
+    "rho": [0.0, 0.3, 0.6],
+    "sigma_2": [0.5, 1.0, 2.0],
+    "p1": [0.5],
+    "beta": [1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1]
+  },
+  "synthesis": {
+    "continuous_methods": ["cart", "norm"],
+    "binary_methods": ["cart", "logreg"]
+  }
+}
+\end{verbatim}

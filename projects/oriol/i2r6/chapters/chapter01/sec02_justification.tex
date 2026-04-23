@@ -1,0 +1,198 @@
+%% ============================================================
+%%  sec02_justification.tex
+%% ============================================================
+\section{Justification of the Chosen Alternative}
+\label{sec:justification}
+
+A pervasive flaw in contemporary applied Machine Learning research is the reliance on empirical heuristics—stacking architectures and prompting techniques until an acceptable result is observed, without formal mathematical guarantees. This thesis explicitly departs from that methodology by abstracting the post-retrieval process into a rigorous probabilistic framework.
+
+\subsection{Evolution of RAG}
+\label{subsec:evolution-rag}
+The birth of Retrieval-Augmented Generation (RAG)\footnote{The concept of RAG was popularized by the seminal paper introduced by the Facebook AI Research (FAIR) team in 2020: \cite{FAISRAG2020}.}marked a paradigm shift from closed-book LLMs, which relied solely on internal weights, to open-book systems grounded in external knowledge. Initially, these systems were designed to mitigate hallucinations by providing a static set of documents. However, as enterprise needs shifted from simple fact-retrieval to complex multi-hop reasoning, the industry moved from basic vector search to Retrieve-then-Rerank pipelines. Despite this evolution, the selection of the final context remains the most significant point of failure in current implementations.
+
+\subsection{Current State of the Art (SOTA) and Alternatives}
+\label{subsec:sota-alternatives}
+Current industry standards for post-retrieval processing fall into three broad categories: \emph{reranking methods}, which select a reduced subset of $F \ll K$ fragments to pass to the generator; \emph{brute-force context injection}, which feeds the full top-$K$ set directly; and \emph{LLM-as-a-Judge filtering}, which delegates selection to a secondary model. Each presents a distinct trade-off between accuracy, latency, and deployment cost:
+
+\begin{itemize}
+    \item \textbf{Long-Context Brute Force:} Feeding the entire top-$K$ set directly into the model~\cite{LongContext}. This maximises recall but significantly increases Time to Last Token (TTLT) and risks the \emph{lost in the middle} phenomenon, where the model fails to attend to fragments positioned away from context boundaries.
+    \item \textbf{LLM-as-a-Judge:} Using a secondary high-parameter model to filter results~\cite{LLLMJudges}. While accurate, the associated API costs and latency are prohibitive for multi-tenant, locally-deployed enterprise systems.
+    \item \textbf{Reranking Methods:} A family of techniques that score and select the $F$ most relevant fragments from the retrieved $K$, reducing generation cost while preserving answer quality. Two distinct paradigms exist within this category:
+    \begin{itemize}
+        \item \textbf{Pointwise Reranking (SOTA):} The dominant industry approach~\cite{CrossEncoder}, which scores each fragment independently against the query. Widely adopted for its simplicity and low latency, but structurally incapable of capturing \emph{synergy} between fragments.
+        \item \textbf{Coalition-Based Reranking (Proposed):} A non-pointwise approach that models fragments as players in a cooperative game, selecting the minimum subset that maximizes the joint informational value.
+    \end{itemize}
+\end{itemize}
+
+\subsection{The Mathematical Blind Spot}
+\label{subsec:blind-spot}
+The fundamental Blind Spot in SOTA methods is the assumption of \textit{informational additivity}. By evaluating chunks $1, \dots, K$ individually, pointwise systems assume that the total value of the context is the sum of its parts ($V(A) + V(B)$). In reality, complex queries often exhibit \textbf{super-additivity}, where the intersection of two documents provides value that neither contains alone. Pointwise systems are mathematically blind to this synergy, often discarding critical multi-hop clues in favor of highly relevant but redundant information.
+
+\subsection{Comparative Analysis of Alternatives}
+\label{subsec:comparison-table}
+
+\definecolor{cellgreen}{RGB}{188,229,188}
+\definecolor{cellred}{RGB}{229,188,188}
+\definecolor{cellyellow}{RGB}{255,235,180}
+
+The following table provides a qualitative overview of the trade-offs between existing SOTA approaches and the proposed framework. Ratings reflect architectural design intent and known structural limitations—not empirical measurements. Cells are colour-coded: green indicates a favourable property, red an unfavourable one, and yellow a partial trade-off.
+
+\begin{table}[H]
+\centering
+\caption{Comparison of post-retrieval architectures. TTLT is cost (lower is better); all other columns are benefits (higher is better). Empirical benchmarks are presented in Chapter~7.}
+\label{tab:comparison}
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Approach} & \textbf{Synergy} & \textbf{TTLT} & \textbf{Local} & \textbf{Accuracy} \\ \hline
+
+Brute-Force     
+  & \cellcolor{cellyellow}Medium 
+  & \cellcolor{cellred}Very High 
+  & \cellcolor{cellred}Low 
+  & \cellcolor{cellyellow}Medium \\ \hline
+
+LLM-as-a-Judge  
+  & \cellcolor{cellgreen}High 
+  & \cellcolor{cellred}High 
+  & \cellcolor{cellred}Low 
+  & \cellcolor{cellgreen}High \\ \hline
+
+Pointwise Rerank 
+  & \cellcolor{cellred}Low 
+  & \cellcolor{cellgreen}Low 
+  & \cellcolor{cellgreen}High 
+  & \cellcolor{cellyellow}Medium \\ \hline
+
+\textbf{Proposed}
+  & \cellcolor{cellgreen}\textbf{Very High}
+  & \cellcolor{cellyellow}\textbf{Medium}
+  & \cellcolor{cellgreen}\textbf{High}
+  & \cellcolor{cellgreen}\textbf{Very High} \\ \hline
+\end{tabular}
+\source{Compiled by the author}
+\end{table}
+
+
+
+
+\subsection{The Cascading Problem Stack}
+\label{subsec:cascading-problems}
+
+Solving the selection problem exposed by pointwise rerankers does not, 
+by itself, yield a deployable enterprise system. Each solution reveals 
+a deeper problem in the subsequent stage of the pipeline. The four 
+phases of this thesis are therefore not parallel contributions; they 
+form a \textbf{causal cascade}, where each phase is necessary precisely 
+because of what the previous phase exposes.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=0.55cm and 2.6cm,
+    box/.style={
+        rectangle, rounded corners=4pt, draw=black,
+        minimum width=3.0cm, minimum height=1.0cm,
+        align=center, font=\small\bfseries
+    },
+    problem/.style={
+        rectangle, rounded corners=4pt, draw=gray,
+        fill=cellred, minimum width=3.8cm, minimum height=0.85cm,
+        align=center, font=\footnotesize
+    },
+    solution/.style={
+        rectangle, rounded corners=4pt, draw=gray,
+        fill=cellgreen, minimum width=3.8cm, minimum height=0.85cm,
+        align=center, font=\footnotesize
+    },
+    arrow/.style={->, >=stealth, thick},
+    darrow/.style={->, >=stealth, thick, dashed, gray}
+]
+
+%% Phase boxes (left column)
+\node[box, fill=upcblue!15] (p1) {Phase 1\\Selection};
+\node[box, fill=upcblue!15, below=of p1] (p2) {Phase 2\\Alignment};
+\node[box, fill=upcblue!15, below=of p2] (p3) {Phase 3\\Serving};
+\node[box, fill=upcblue!15, below=of p3] (p4) {Phase 4\\Evaluation};
+
+%% Problem boxes (middle column)
+\node[problem, right=of p1] (prob1) {Synergy blindness\\in pointwise rerankers};
+\node[problem, right=of p2] (prob2) {Generic LLMs produce\\uniform outputs regardless\\of role or company syntax};
+\node[problem, right=of p3] (prob3) {Industrial data cannot\\leave premises under GDPR};
+\node[problem, right=of p4] (prob4) {No benchmark measures\\synergy gain in\\domain-specific RAG};
+
+%% Solution boxes (right column)
+\node[solution, right=of prob1] (sol1) {Coalition-based Reranking\\via different Approaches};
+\node[solution, right=of prob2] (sol2) {Per-role QDoRA adapters\\via RAFT alignment};
+\node[solution, right=of prob3] (sol3) {Hardware-efficient inference\\enabling self-hosted LLMs};
+\node[solution, right=of prob4] (sol4) {Industry-standard metrics\\+ domain-specific framework};
+
+%% Horizontal arrows
+\draw[arrow] (p1) -- (prob1);
+\draw[arrow] (prob1) -- (sol1);
+\draw[arrow] (p2) -- (prob2);
+\draw[arrow] (prob2) -- (sol2);
+\draw[arrow] (p3) -- (prob3);
+\draw[arrow] (prob3) -- (sol3);
+\draw[arrow] (p4) -- (prob4);
+\draw[arrow] (prob4) -- (sol4);
+
+%% Cascade arrows (vertical dashed)
+\draw[darrow] (sol1.south) -- ++(0,-0.3) -| (p2.north);
+\draw[darrow] (sol2.south) -- ++(0,-0.3) -| (p3.north);
+\draw[darrow] (sol3.south) -- ++(0,-0.3) -| (p4.north);
+
+\end{tikzpicture}
+\caption{Causal cascade across the four thesis phases. Dashed arrows 
+indicate that each solution exposes the problem addressed by the 
+subsequent phase.}
+\label{fig:cascade}
+\source{Compiled by the author}
+\end{figure}
+
+The formal mathematical framework that unifies these four phases into a single architecture is introduced in the following section.
+
+
+
+\subsection{The Selected Solution: The Post-Retrieval Markov Decision Process}
+\label{subsec:markov-chain}
+
+To resolve the identified blind spots while independently optimising for both latency and accuracy, the end-to-end pipeline is formally modelled as a \textbf{finite-horizon constrained Markov Decision Process (CMDP)}\cite{markov, markov2}\footnote{This framing is structurally analogous to how Tesla FSD models autonomous driving as an MDP, where states are sensor inputs, actions are vehicle controls, and rewards encode safety and efficiency~\cite{tesla_fsd}. The key differences are operational: Tesla's MDP is continuous, infinite-horizon, and solved via online RL with real-time policy updates. The pipeline presented here is discrete, finite-horizon ($H=2$), and solved via offline methods — Branch \& Bound for $a_1$ and RAFT+ORPO for $a_2$. The mathematical object is identical; the solver is not.}. The pipeline executes as a single-episode, two-step trajectory over three states:
+
+\begin{equation}
+  X \xrightarrow{a_1:\,\text{Coalition Selection}} Z \xrightarrow{a_2:\,\text{Generation}} Y
+\end{equation}
+
+where $X$ is the stochastic input (top-$K$ retrieved chunks), $Z$ is the intermediate decision state (the \emph{Optimal Coalition} of $F \ll K$ fragments), and $Y$ is the target output (the high-fidelity answer). The full formal definition of the CMDP tuple — state space, transition kernel, reward, and cost constraint — is deferred to Chapter~4, where each component is constructed alongside its corresponding implementation.
+
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        ->, >=stealth, thick,
+        node distance=4.5cm,
+        main node/.style={circle, draw=black, fill=white, minimum size=1.2cm, font=\Large\bfseries},
+        desc node/.style={rectangle, text width=3.5cm, align=center, font=\small, color=darkgray},
+        action node/.style={font=\small\bfseries}
+    ]
+        \node[main node] (X) {$X$};
+        \node[main node] (Z) [right of=X] {$Z$};
+        \node[main node] (Y) [right of=Z] {$Y$};
+
+        \node[desc node] [below=0.2cm of X] {Stochastic Input\\(Top-$K$ Chunks)};
+        \node[desc node] [below=0.2cm of Z] {Decision State\\(Optimal Coalition, $F \ll K$)};
+        \node[desc node] [below=0.2cm of Y] {Target Output\\(High-Fidelity Answer)};
+
+        \draw (X) -- (Z) node[midway, above, action node] {$a_1$: Selection}
+                         node[midway, below=0.55cm, font=\small, color=darkgray] {};
+        \draw (Z) -- (Y) node[midway, above, action node] {$a_2$: Generation}
+                         node[midway, below=0.55cm, font=\small, color=darkgray] {};
+    \end{tikzpicture}
+    \caption{The post-retrieval RAG pipeline formalised as a finite-horizon constrained MDP ($H=2$). The intermediate state $Z$ is the Information Bottleneck between input and output: action $a_1$ compresses $X$ into the minimal sufficient coalition; action $a_2$ generates the answer from that coalition. Full CMDP formalisation in Chapter~4.}
+    \label{fig:markov_chain}
+    \source{Compiled by the author}
+\end{figure}
+
+
+This structure is not an arbitrary engineering choice. By the \textbf{Information Bottleneck (IB) Principle}\cite{IT, ITBottleneck}, the optimal intermediate representation $Z$ is the one that simultaneously maximises mutual information with the target and minimises redundancy from the source. The formal mathematical proof of this claim is developed in Chapter~4.

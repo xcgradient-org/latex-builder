@@ -1,0 +1,70 @@
+\chapter{State of the Art}
+\label{chap:state-of-the-art}
+
+\section{Clustering Foundations}
+\label{sec:clustering-foundations}
+
+\subsection{K-Means Clustering}
+k-means is a partition-based algorithm that divides a dataset $X = \{x_1, x_2, ..., x_N\}$ into $k$ non-overlapping clusters by minimizing the within-cluster sum of squares \cite{macqueen1967}. Let each observation satisfy $x_i \in \mathbb{R}^d$, where $d$ denotes the number of variables or features. The objective function is:
+\begin{equation}
+  J = \sum_{j=1}^{k} \sum_{x_i \in S_j} ||x_i - \mu_j||^2
+\end{equation}
+where $\mu_j$ is the centroid of cluster $S_j$.
+
+Its standard iterative procedure alternates between assigning each point to the nearest centroid and recomputing centroids from the assigned points. k-means is attractive because of its computational efficiency, but it assumes clusters are approximately spherical, compact, and separable in Euclidean space. It is also sensitive to initialization and to outliers.
+
+\subsection{Agglomerative Hierarchical Clustering}
+Hierarchical Clustering constructs a nested family of clusterings represented by a dendrogram. This study uses the agglomerative variant, where each observation begins as a singleton cluster and clusters are merged iteratively according to a linkage rule \cite{ward1963}.
+
+The linkage rule adopted here is \textbf{Ward's method}, which chooses the merge that minimizes the increase in within-cluster variance. For clusters $A$ and $B$, the merge cost is:
+\begin{equation}
+  D(A, B) = \text{ESS}_{A \cup B} - (\text{ESS}_A + \text{ESS}_B)
+\end{equation}
+where $\text{ESS}_X = \sum_{x \in X} ||x - \mu_X||^2$.
+
+Compared with k-means, Hierarchical Clustering is computationally more expensive, but it offers two relevant advantages for this report: it is deterministic and it can better preserve connectivity-based structure in non-convex or skewed settings.
+
+\subsection{Comparative Summary}
+Table~\ref{tab:kmeans_vs_hc} summarizes the main operational differences between the two clustering strategies considered in this study.
+
+\begin{table}[H]
+  \centering
+  \caption{Comparison of K-Means and Hierarchical Clustering}
+  \label{tab:kmeans_vs_hc}
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{@{}lp{5.8cm}p{5.8cm}@{}}
+    \toprule
+    \textbf{Feature} & \textbf{k-means} & \textbf{Hierarchical (Ward)} \\ \midrule
+    Complexity & Approximately linear in $N$ for fixed $k$ and iteration budget & Between $O(N^2)$ and $O(N^3)$ depending on implementation \\
+    Geometry & Assumes spherical and convex clusters & More flexible, based on connectivity and variance increase \\
+    Parameters & Requires $k$ in advance & Allows a post-hoc choice of $k$ from the dendrogram \\
+    Robustness & Sensitive to initialization, outliers, and skew & More robust to irregular shapes, though computationally heavier \\
+    Deterministic & No & Yes \\ \bottomrule
+  \end{tabular}
+  \source{Compiled by the author}
+\end{table}
+
+\section{Synthetic Data Utility}
+\label{sec:synthetic-data-utility}
+
+Synthetic data has become a common strategy for reconciling privacy constraints with analytical demand. The promise is straightforward: replace restricted real records with generated observations that preserve enough statistical structure to support downstream analysis without exposing personal information \cite{nowok2016,qian2024}.
+
+For clustering, however, utility is not just a matter of matching marginal distributions. The generated data must preserve cluster geometry, balance, separability, and dispersion. A synthetic dataset can look statistically plausible overall while still failing to support valid unsupervised analysis if cluster boundaries are distorted.
+
+\subsection{CART-Based Synthesis}
+The synthetic datasets in this report are generated with the CART method from the \texttt{synthpop} package \cite{nowok2016}. CART synthesis models variables sequentially through conditional regression trees. This gives it flexibility for non-linear relationships, but also introduces a characteristic artifact: smooth boundaries can become orthogonal and block-like because decision trees partition space through axis-aligned splits.
+
+That property is especially relevant when the downstream task depends on distance geometry. Centroid-based algorithms may react poorly to staircase-like boundaries, while connectivity-based methods may remain more stable. This distinction is also why the present work separates the fidelity of the synthetic data from the robustness of the clustering algorithm itself.
+
+\section{Related Work and Positioning}
+\label{sec:related-work}
+
+This report extends previous synthetic-data utility work by moving from general utility claims to a clustering-specific analysis. Prior evaluations often emphasize supervised performance or broad descriptive similarity. Those criteria do not directly answer whether unsupervised methods still recover meaningful structure after synthesis.
+
+The present study therefore positions utility as an interaction between:
+\begin{itemize}
+  \item the \textbf{generation method}, which can preserve or distort geometry; and
+  \item the \textbf{analysis method}, which may be more or less sensitive to those distortions.
+\end{itemize}
+
+This framing also differentiates the present report from published clustering benchmarks such as MDCGen \cite{iglesias2019}, which focus on generating synthetic cluster scenarios for algorithm testing. Here the question is different: starting from a real reference dataset, does privacy-motivated synthesis preserve enough structure for downstream unsupervised analysis? Rather than asking whether synthetic data is useful in general, this study asks \textit{for which clustering algorithms, under which distributional conditions, and according to which structural criteria} synthetic data remains useful.

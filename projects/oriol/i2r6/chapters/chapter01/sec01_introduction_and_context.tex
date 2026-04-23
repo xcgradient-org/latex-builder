@@ -1,0 +1,136 @@
+%% ============================================================
+%%  sec01_introduction_and_context.tex
+%% ============================================================
+\section{Introduction and Contextualization}
+\label{sec:introduction-and-contextualization}
+
+For the past few years, especially following the massive popularization of Generative AI\footnote{Generative AI: AI systems that learn from existing data patterns to create new text, images, or code.}, LLMs\footnote{Large Language Models (LLMs): Neural networks trained on vast amounts of data to generate human-like responses.} have risen to the point where they are an essential part of modern enterprise operations. The number of business use cases is vast; they are utilized in automated customer support, legal document analysis, internal knowledge bases, and complex data extraction. 
+
+With all these different functions, it is reasonable to assume that AI deployment appears in various forms, each tailored to specific corporate needs. To make an LLM understand private, localized company data, systems predominantly rely on a technique called RAG\footnote{A detailed technical formulation of the RAG framework and its limitations is provided in Section~\ref{subsec:terms-and-concepts}.}. 
+
+On the one hand, for specific and simple queries, standard RAG tends to be enough; for example, asking for a summary of a single policy or retrieving a specific employee's contact information—situations where complex logic is not required and basic semantic search is sufficient. On the other hand, if more demanding operations are needed, such as multi-hop reasoning (connecting a clue in Document A with a fact in Document B) or serving multiple different enterprise clients (tenants) simultaneously, basic RAG falls short\cite{trivedi2023ircot}. The system either floods the AI with disconnected information, causing hallucinations, or the physical hardware simply runs out of memory (VRAM\footnote{VRAM (Video RAM): The specialized memory on GPUs that serves as the primary bottleneck for running large AI models locally.})\cite{barnett2024seven}. It is in those complex scenarios where the need for a more sophisticated architecture arises.
+
+In this thesis, that exact architecture is built. This project develops an end-to-end, hardware-efficient AI pipeline designed to run locally on accessible consumer-grade hardware\footnote{Consumer-grade hardware: Accessible retail Nvidia GPUs, as opposed to massive data centers.}. Instead of relying on basic RAG or closed-source cloud APIs\footnote{Application Programming Interface (API): Protocols and tools for building software; here, it refers to cloud-based services providing AI capabilities without needing local execution.}, the intention is to modernize the enterprise AI stack by utilizing new frameworks grounded in Information Theory and Game Theory.
+
+\subsection{Academic and Professional Context}
+\label{subsec:context}
+
+This document constitutes a Bachelor's Thesis for the Degree in Informatics Engineering, with a specialization in Computing, conducted at the Facultat d'Informàtica de Barcelona (FIB) of the Universitat Politècnica de Catalunya (UPC) during the Spring semester (Q2) of the 2025--2026 academic year. The research, mathematical formulation, and software development presented herein have been supervised by Dr. Lluís Padró.
+
+%% ============================================================
+%%  subsec_terms_and_concepts.tex
+%% ============================================================
+\subsection{Domain Concepts and Terminology}
+\label{subsec:terms-and-concepts}
+
+To ensure a rigorous comprehension of the architectural and mathematical formulations presented in this thesis, the following foundational concepts are defined:
+
+\begin{description}
+    \item[Retrieval-Augmented Generation (RAG):] A framework that grounds 
+    Large Language Models on external knowledge bases to mitigate 
+    hallucinations. RAG retrieves a set of top-$K$ relevant text chunks 
+    from a database and feeds them into the generative model to produce 
+    an answer.
+
+    \item[Hallucination:] The tendency of a generative model to produce 
+    factually incorrect or fabricated outputs that are not grounded in 
+    the provided context. In RAG systems, hallucinations typically arise 
+    when the retrieved context is insufficient, redundant, or 
+    contradictory.
+
+    \item[Multi-Hop Reasoning:] A class of queries that cannot be
+    answered from a single document, but require connecting a chain of
+    facts distributed across two or more independent sources. Each
+    retrieved fragment provides a necessary but insufficient piece of
+    evidence; only their combination yields the answer. For example,
+    consider the query \textit{``What city does the project lead work
+    in?''}:
+
+    \begin{align*}
+        d_i &: \textit{``The project lead is Ana.''} \\
+        d_j &: \textit{``Ana is based in the Munich office.''}
+    \end{align*}
+
+    Neither fragment answers the query alone. Only their
+    conjunction yields $a$: \textit{Munich}. A pointwise reranker may
+    discard $d_i$ or $d_j$ individually as insufficiently relevant,
+    producing no answer or a hallucinated one.
+
+    \item[Cooperative Game Theory:] A mathematical branch analyzing how 
+    coalitions of actors (retrieved text fragments) create joint 
+    value\cite{cooperativegametheory}. In this architecture, the 
+    objective is to identify an optimal context state that satisfies:
+    \begin{itemize}
+        \item \textbf{Nash Equilibrium (NE):} A stable state where no 
+        individual fragment within the selected context can be 
+        unilaterally swapped to improve the overall synergy 
+        score\cite{NE}.
+        \item \textbf{Pareto Efficiency (PE):} A context allocation where 
+        combined information value is maximized, such that no alternative 
+        combination could yield higher relevance without introducing 
+        redundancy\cite{PE}.
+    \end{itemize}
+
+    \item[Inference Latency:] The elapsed time between query submission 
+    and response generation, measured at two critical checkpoints:
+    \begin{itemize}
+        \item \textbf{Time to First Token (TTFT):} The delay from query 
+        submission to the generation of the first output token. 
+        Determines perceived responsiveness.
+        \item \textbf{Time to Last Token (TTLT):} The total elapsed time 
+        until the final token is generated. Determines end-to-end 
+        throughput and is the primary latency metric optimized in this 
+        thesis.
+    \end{itemize}
+
+\end{description}
+
+%% ============================================================
+%%  subsec_problem_statement.tex
+%% ============================================================
+\subsection{Problem Statement}
+\label{subsec:problem-statement}
+
+In modern RAG pipelines, the initial retrieval phase typically succeeds in extracting a top-$K$ set of candidate text fragments (e.g., $K=64$) from a vector database. However, a critical architectural bottleneck occurs immediately after: the \textbf{Selection and Refinement} phase.
+
+Current State-of-the-Art\footnote{State-of-the-Art (SOTA): The best known performance on a specific task at the time of writing.} methods primarily rely on pointwise rerankers that evaluate each fragment's relevance in isolation\footnote{Usually this is done by lightweight methods such as cosine similarity.}. This approach is mathematically blind to the \textit{semantic synergy}---or super-additivity---that occurs when complementary pieces of information are combined. If the answer to a query requires connecting a clue from Fragment A with a specific fact from Fragment B, a pointwise system might discard one of them because, individually, they appear less relevant than a third, redundant Fragment C. This results in the lost in the middle phenomenon and the generation of incomplete or hallucinated responses.
+
+Furthermore, there is a fundamental engineering conflict between two primary optimization goals:
+\begin{itemize}
+    \item \textbf{Accuracy (\boldmath$A(Z, Y)$):} Maximizing the factual correctness and reasoning depth by providing sufficient context to ensure multi-hop fidelity.
+    \item \textbf{Latency (\boldmath$T(X \rightarrow Y)$):} Minimizing the Time to Last Token to ensure the system remains within the strictly accepted enterprise responsiveness threshold of $< 2.0$ seconds.
+\end{itemize}
+
+
+Feeding all $K$ retrieved fragments to an LLM might improve accuracy, but it destroys real-time performance and risks exceeding the model's effective context window. Conversely, picking only the top 1--2 fragments ensures speed but frequently misses the nuances required for complex, multi-hop reasoning.
+
+
+
+By utilizing Cooperative Game Theory, the architecture moves beyond pointwise assumptions to identify the specific subset of fragments that provides the highest marginal utility. The goal is to develop an approach that stays above current SOTA benchmarks by maximizing the information density of the context while minimizing the computational footprint, executing the context filtration within a strict 50ms CPU budget.
+
+
+The resolution of this problem is executed through four distinct phases:
+
+\begin{enumerate}
+    \item \textbf{Phase 1: Game-Theoretic Subset Optimization:} Modeling the $K$ retrieved fragments as players in a cooperative game to identify the \emph{Optimal Coalition}\footnote{Optimal Coalition: The minimal subset that contains all the information.}. This is formally equivalent to the Minimum Set Cover problem, which is NP-hard~\cite{karp1972reducibility, garey1979computers},\footnote{Given a universe $U$ and a collection of sets $S$, find the smallest sub-collection whose union equals $U$. No polynomial-time exact algorithm exists unless $\mathrm{P} = \mathrm{NP}$.} so multiple tractable strategies are explored and compared within a hard $\tau$ CPU budget, where $\tau$ is formally defined in its chapter.
+
+    \item \textbf{Phase 2: Role-Conditioned Alignment:} Processing the optimized context through an LLM fine-tuned via a Retrieval-Augmented Fine-Tuning (RAFT) paradigm. This ensures the model correctly leverages the synergistic data to generate responses tailored to specific enterprise roles.
+
+    \item \textbf{Phase 3: Hardware-Efficient Execution:} Deploying the pipeline on local consumer-grade hardware under a \emph{deterministic latency}\footnote{Latency is reported as P50/P95/P99 tail distributions rather than means, as enterprise workloads are sensitive to worst-case response time, not average performance.} guarantee, using advanced memory-management and speculative decoding techniques to ensure GDPR-compliant, cloud-free inference.
+
+    \item \textbf{Phase 4: Statistical Benchmark and Validation:} Evaluating the full pipeline against SOTA rerankers via a \emph{Pareto dominance}\footnote{System $A$ Pareto-dominates system $B$ iff $A$ achieves no worse accuracy and no worse latency than $B$, and strictly better in at least one dimension.} framework~\cite{PE}, proving that the proposed architecture expands the accuracy--latency frontier beyond all baselines.
+\end{enumerate}
+
+
+%% ============================================================
+%%  subsec_stakeholders.tex
+%% ============================================================
+\subsection{Stakeholders}
+\label{subsec:stakeholders}
+
+The development and outcomes of this thesis impact various parties, which can be categorized into two primary groups based on their level of direct interaction with the project and the strategic benefits they derive from its results.
+
+The first group comprises the stakeholders directly involved in the execution and supervision of the research. Dr. Lluís Padró, acting as the project director, provides the fundamental academic guidance, validates the theoretical frameworks, and ensures the methodological rigor of the study. The researcher, Oriol Farrés i Vilar, is responsible for the mathematical formulation, the end-to-end software implementation of the S-QDora architecture, the execution of the hardware benchmarks, and the comprehensive documentation of the findings.
+
+The second group consists of indirect stakeholders who do not participate in the development process but stand to benefit significantly from the proposed solutions: companies, particularly those in the enterprise software sector, that require efficient, multi-tenant LLM serving architectures; and the broader research community focused on LLM optimization, RAG architectures, and efficient inference techniques.
+
