@@ -1,0 +1,341 @@
+\documentclass[12pt,a4paper,twoside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+
+\geometry{top=2.0cm, bottom=1.5cm, left=1.5cm, right=1.5cm, headheight=15pt, headsep=0.5cm}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{Física · 4t ESO · Escola Cervetó}}
+\fancyhead[R]{\small\textit{Cinemàtica}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\section}[block]{\large\bfseries}{}{0em}{}[\vspace{2pt}\hrule\vspace{4pt}]
+
+\newcounter{exercici}
+% Exercici command with grade box on the same line
+\newcommand{\exercici}[2]{%
+  \stepcounter{exercici}
+  \section*{Exercici \theexercici\ \textnormal{(#1 punts)} \hfill \normalfont\large Nota: \framebox[2.5cm]{\rule{0pt}{20pt}} / #1}
+  \vspace{-10pt}
+  \textit{#2}
+  \vspace{5pt}
+}
+
+% Grade box - removed as it's now integrated in the header
+\newcommand{\gradebox}[1]{}
+
+% Plots filling most of the page with more boxes
+\newcommand{\drawplots}[1]{%
+  \vfill
+  \begin{center}
+    \begin{tikzpicture}[xscale=2.1, yscale=2.4]
+      % Position Grid (Top)
+      \draw[step=0.2, gray!50, thin] (0,6.6) grid (8.5,9.1);
+      \draw[->, thick] (0,7.85) -- (8.8,7.85) node[right] {$t$};
+      \draw[->, thick] (0,6.6) -- (0,9.4) node[above] {$#1$};
+      
+      % Velocity Grid (Middle)
+      \draw[step=0.2, gray!50, thin] (0,3.3) grid (8.5,5.8);
+      \draw[->, thick] (0,4.55) -- (8.8,4.55) node[right] {$t$};
+      \draw[->, thick] (0,3.3) -- (0,6.1) node[above] {$v$};
+
+      % Acceleration Grid (Bottom)
+      \draw[step=0.2, gray!50, thin] (0,0) grid (8.5,2.5);
+      \draw[->, thick] (0,1.25) -- (8.8,1.25) node[right] {$t$};
+      \draw[->, thick] (0,0) -- (0,2.8) node[above] {$a$};
+    \end{tikzpicture}
+  \end{center}
+}
+
+\begin{document}
+
+% ================================================================
+% PÀGINA 1: INSTRUCCIONS I PUNTUACIÓ
+% ================================================================
+\begin{center}
+  \vspace*{-15pt}
+  {\Huge\bfseries Col·lecció 2: Cinemàtica}\\[8pt]
+  {\Large Física · 4t ESO \quad·\quad Escola Cervetó \quad·\quad Prof.\ Oriol Farrés}\\[12pt]
+  \hrule height 1.5pt
+  \vspace{5pt}
+\end{center}
+
+\noindent
+\begin{tabularx}{\textwidth}{|X|}
+  \hline
+  \rule{0pt}{15pt}\textbf{\large Nom i cognoms:}\\[5pt]
+  \hline
+\end{tabularx}
+
+\vspace{0.6cm}
+
+\section*{Instruccions de l'Examen}
+
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt, parsep=0pt]
+  \item \textbf{Constants:} Usa $g = 9{,}81\ \mathrm{m/s^2}$. Es permet usar $\mathbf{\frac{1}{2} g = 4{,}9}$ per simplificar.
+  \item \textbf{Càlculs:} Arrodoneix a \textbf{2 decimals} a cada pas del procés.
+  \item \textbf{Unitats:} \textbf{Mostra sempre la conversió al SI} de forma explícita.
+  \item \textbf{Estructura Obligatòria:} Cal seguir els 4 passos per a cada exercici: (1)~Fórmules, (2)~Dades/SI, (3)~Esquema del problema, (4)~Resolució de cada apartat.
+  \item \textbf{Gràfiques:} Usa els eixos proporcionats. Deuen ser qualitativament correctes. \textbf{És obligatori indicar les mètriques i els punts rellevants als eixos}. Dibuixar només la forma de la gràfica sense valors és fonamentalment invàlid i es considerarà com no realitzat.
+\end{itemize}
+
+\vspace{0.3cm}
+
+\section*{Taula de Conversió de Longitud}
+\noindent
+\begin{tabularx}{\textwidth}{|*{7}{>{\centering\arraybackslash}X|}}
+  \hline
+  \rule{0pt}{12pt}\textbf{km} & \textbf{hm} & \textbf{dam} & \textbf{m} & \textbf{dm} & \textbf{cm} & \textbf{mm} \\[2pt]
+  \hline
+  \rule{0pt}{15pt} 0 & 2 & 0 & 0 & 0 & 0 & 0 \\[5pt]
+  \hline
+  \rule{0pt}{15pt} 0 & 7 & 5 & 0 & 0 & 0 & 0 \\[5pt]
+  \hline
+  \rule{0pt}{15pt} & & & & & & \\[5pt]
+  \hline
+  \rule{0pt}{15pt} & & & & & & \\[5pt]
+  \hline
+  \rule{0pt}{15pt} & & & & & & \\[5pt]
+\end{tabularx}
+
+\vfill
+
+\section*{Graella de Puntuació}
+\noindent
+\begin{tabularx}{\textwidth}{|X r|}
+  \hline
+  \rule{0pt}{40pt} \textbf{\Huge Nota final:} & \fontsize{35}{42}\selectfont \hspace{4cm} \textbf{/ 10} \\[15pt]
+  \hline
+\end{tabularx}
+
+\cleardoublepage
+
+% ================================================================
+% PÀGINA 2: EXERCICI 1
+% ================================================================
+\exercici{2,5}{MRU · Sherlock Holmes i la persecució a Londres}
+
+El 1891, Sherlock Holmes rep una pista sobre el parador de Moriarty als molls de Londres. Holmes surt del 221B de Baker Street a peu a una velocitat constant de $\mathbf{9\text{ km/h}}$. L'amagatall es troba a una distància exacta de $\mathbf{120\text{ decàmetres}}$ de casa seva. 
+
+El Dr.\ Watson, que s'estava posant l'abric, s'adona $\mathbf{4\text{ minuts}}$ més tard que Holmes s'ha deixat la seva famosa lupa i decideix agafar un cotxe de cavalls per atrapar-lo. El cotxe de cavalls es mou a una velocitat constant de $\mathbf{200\text{ m/minut}}$.
+
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Escriu les equacions de posició $x(t)$ per a Holmes i Watson.
+  \item Arribarà Holmes a l'amagatall abans de $15\text{ minuts}$? Si és que sí, amb quin temps de marge?
+  \item Aconseguirà Watson lliurar-li la lupa a Holmes abans que aquest arribi a l'amagatall? Si és que no, a quina distància (en metres) es trobarà Watson de l'amagatall quan Holmes hi entri?
+  \item Dibuixa les 3 gràfiques del moviment ($x-t$, $v-t$, $a-t$) per a tots dos personatges en els mateixos eixos.
+\end{enumerate}
+
+\drawplots{x}
+\gradebox{2,5}
+
+\newpage
+
+% ================================================================
+% PÀGINA 3: EXERCICI 2
+% ================================================================
+\exercici{2,5}{MRUA · Maglev: El tren del futur}
+
+L'any 2023, durant unes proves de velocitat a la Xina, un prototip de tren de levitació magnètica (Maglev) arrenca des del repòs en una via de proves rectilínia. El tren accelera de forma uniforme fins a assolir la seva velocitat de creuer de $\mathbf{540\text{ km/h}}$ en un temps de $\mathbf{0,5\text{ minuts}}$. 
+
+Just en arribar a aquesta velocitat, el sistema de seguretat detecta un obstacle a la via i el conductor activa el fre magnètic, aturant el tren completament i de manera uniforme en una distància de $\mathbf{25\,000\text{ decímetres}}$.
+
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Quina ha estat l'acceleració (en $\text{m/s}^2$) en cadascun dels dos trams ($a_1$ i $a_2$)?
+  \item Escriu les equacions del moviment per a cadascun dels dos trams.
+  \item Quina distància total (en quilòmetres) ha recorregut el tren des de l'inici fins que s'ha aturat definitivament?
+  \item Dibuixa les 3 gràfiques ($x-t$, $v-t$, $a-t$) del moviment complet.
+\end{enumerate}
+
+\drawplots{x}
+\gradebox{2,5}
+
+\newpage
+
+% ================================================================
+% PÀGINA 4: EXERCICI 3
+% ================================================================
+\exercici{2,5}{Caiguda Lliure · Leonardo da Vinci i la Catedral de Milà}
+
+Diu la llegenda que Leonardo da Vinci, mentre observava la construcció de la catedral, volia estudiar el pes de l'aire. Des d'una de les agulles de la catedral, situada a $\mathbf{6,2\text{ decàmetres}}$ d'altura, deixa caure una esfera de bronze ($v_0=0$). 
+
+Exactament en el mateix instant, un aprenent situat en un nivell inferior, a $\mathbf{32\,000\text{ mil·límetres}}$ d'altura, llança una segona esfera verticalment cap avall amb una velocitat inicial de $\mathbf{900\text{ cm/s}}$.
+
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Escriu les equacions de posició $y(t)$ per a les dues esferes.
+  \item Arribaran a xocar les dues esferes a l'aire abans d'impactar contra el terra? Si és que sí, calcula l'altura (en metres) i l'instant exacte del xoc.
+  \item Si no xoquen, quin dels dos objectes arribarà primer al terra i amb quina velocitat (en $\text{km/h}$) impactarà cadascun?
+  \item Dibuixa les 3 gràfiques ($y-t$, $v-t$, $a-t$) d'ambdós objectes.
+\end{enumerate}
+
+\drawplots{y}
+\gradebox{2,5}
+
+\newpage
+
+% ================================================================
+% PÀGINA 5: EXERCICI 4
+% ================================================================
+\exercici{2,5}{Tir Vertical · El llançament olímpic de bàsquet}
+
+Durant la final dels Jocs Olímpics, un jugador de bàsquet llança la pilota verticalment cap amunt des de la seva mà, situada a una altura inicial de $\mathbf{215\text{ centímetres}}$ de la pista, per celebrar la victòria. Imprimeix a la pilota una velocitat inicial de $\mathbf{21,6\text{ km/h}}$. La pilota puja fins al seu punt més alt i després cau lliurement fins a tocar el parquet de la pista.
+
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Escriu l'equació de posició $y(t)$ de la pilota.
+  \item A quina altura màxima, respecte al terra de la pista, arribarà la pilota ($y_{\max}$) i en quin instant de temps s'assoleix aquest punt ($t_{\max}$)?
+  \item Quant de temps (en segons) estarà la pilota en l'aire des que surt de la mà fins que toca el terra per primer cop?
+  \item Amb quina velocitat (en $\text{m/s}$) impacta la pilota contra el parquet?
+  \item Dibuixa les 3 gràfiques ($y-t$, $v-t$, $a-t$) de l'acció completa, indicant-hi els punts rellevants.
+\end{enumerate}
+
+\drawplots{y}
+\gradebox{2,5}
+
+\newpage
+
+% ================================================================
+% PÀGINA 6: EXERCICI 5
+% ================================================================
+\exercici{2,5}{MRU · Marie Curie i el transport de ràdi}
+
+L'any 1914, durant la Primera Guerra Mundial, Marie Curie condueix una unitat mòbil de radiografia (les ``Petites Curies'') cap al front de batalla. Surt de l'Institut del Radi a una velocitat constant de $\mathbf{54\text{ km/h}}$. L'hospital de campanya es troba a una distància de $\mathbf{180\text{ hectòmetres}}$ de París.
+
+Un comboi militar de suport, que ha d'escortar la unitat, s'adona $\mathbf{10\text{ minuts}}$ més tard que la Marie ja ha marxat i surt immediatament darrere seu a una velocitat constant de $\mathbf{1\,200\text{ m/minut}}$.
+
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Escriu les equacions de posició $x(t)$ per a la Marie Curie i per al comboi d'escorta.
+  \item Arribarà la Marie a l'hospital abans de $25\text{ minuts}$? Si és que sí, amb quin temps de marge (en minuts)?
+  \item Aconseguirà el comboi atrapar la unitat mòbil abans que arribi a la destinació? Si és que no, a quina distància (en metres) es trobarà el comboi de l'hospital quan la Marie hi entri?
+  \item Dibuixa les 3 gràfiques del moviment ($x-t$, $v-t$, $a-t$) per a tots dos vehicles en els mateixos eixos.
+\end{enumerate}
+
+\drawplots{x}
+\gradebox{2,5}
+
+\newpage
+
+% ================================================================
+% PÀGINA 7: EXERCICI 6
+% ================================================================
+\exercici{2,5}{MRUA · Falcon 9 i el retorn a la Terra}
+
+Durant una missió de SpaceX, el coet Falcon 9 realitza una maniobra de prova en una plataforma horitzontal. El coet arrenca des del repòs i accelera constantment fins a assolir una velocitat de $\mathbf{720\text{ km/h}}$ en un temps de $\mathbf{0,25\text{ minuts}}$.
+
+En arribar a aquesta velocitat, s'activa el protocol de seguretat per un error en els sensors de telemetria. El motor de retropropulsió entra en funcionament, aturant el coet completament i de manera uniforme en un espai de $\mathbf{150\,000\text{ decímetres}}$.
+
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Quina ha estat l'acceleració (en $\text{m/s}^2$) en cadascun dels dos trams ($a_1$ i $a_2$)?
+  \item Escriu les equacions del moviment per a cadascun dels dos trams.
+  \item Quina distància total (en quilòmetres) ha recorregut des de l'arrencada fins a la detenció total?
+  \item Dibuixa les 3 gràfiques ($x-t$, $v-t$, $a-t$) de tot el moviment complet (unint els dos trams).
+\end{enumerate}
+
+\drawplots{x}
+\gradebox{2,5}
+
+\newpage
+
+% ================================================================
+% PÀGINA 8: EXERCICI 7
+% ================================================================
+\exercici{2,5}{Caiguda Lliure · L'experiment del Far de Sant Sebastià}
+
+Per verificar les lleis de la gravetat, es realitza un experiment des d'un penya-segat a la costa catalana. Es deixa caure des de la llanterna del far, situada a $\mathbf{9,2\text{ decàmetres}}$ sobre el nivell del mar, una esfera de plom ($v_0 = 0$).
+
+Exactament en el mateix instant, des d'una plataforma d'observació situada més avall, a $\mathbf{55\,000\text{ mil·límetres}}$ d'altura respecte al mar, es llança una segona esfera de fusta verticalment cap avall amb una velocitat inicial de $\mathbf{650\text{ cm/s}}$.
+
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Escriu les equacions de posició $y(t)$ per a totes dues esferes.
+  \item Arribaran a xocar les dues esferes a l'aire abans d'impactar contra l'aigua? Si és que sí, calcula l'altura (en metres) i l'instant de temps de l'impacte.
+  \item Si no xoquen, quina esfera arribarà primer a l'aigua i amb quina velocitat (en $\text{km/h}$) ho farà cada una?
+  \item Dibuixa les 3 gràfiques ($y-t$, $v-t$, $a-t$) d'ambdós objectes.
+\end{enumerate}
+
+\drawplots{y}
+\gradebox{2,5}
+
+\newpage
+
+% ================================================================
+% PÀGINA 9: EXERCICI 8
+% ================================================================
+\exercici{2,5}{Tir Vertical · L'erupció de l'Etna}
+
+Durant una petita explosió estromboliana al volcà Etna, un fragment de lava (bomba volcànica) és projectat verticalment cap amunt des d'una fissura situada a una altura de $\mathbf{1\,200\text{ centímetres}}$ respecte a la base del cràter. El fragment surt amb una velocitat inicial de $\mathbf{108\text{ km/h}}$. El fragment puja fins al seu punt màxim, on la velocitat s'anul·la, i després cau lliurement fins a la base del cràter.
+
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Escriu l'equació de posició $y(t)$ del fragment de lava.
+  \item A quina altura màxima, respecte a la base del cràter, arribarà el fragment ($y_{\max}$) i en quin instant s'assoleix aquest punt ($t_{\max}$)?
+  \item Quant de temps (en segons) estarà volant el fragment des que surt de la fissura fins que impacta contra la base del cràter?
+  \item Amb quina velocitat impacta el fragment contra el terra?
+  \item Dibuixa les 3 gràfiques ($y-t$, $v-t$, $a-t$) de l'acció completa, explicant els punts i instants rellevants.
+\end{enumerate}
+
+\drawplots{y}
+\gradebox{2,5}
+
+\newpage
+
+% ================================================================
+% PÀGINA 10: DEMOSTRACIONS I EXTRA
+% ================================================================
+\section*{Punts Extra: Demostracions Teòriques}
+
+\textbf{Instruccions:} Per a cadascuna de les següents deduccions, primer explica sota quines condicions són aplicables i després desenvolupa el procés matemàtic pas a pas.
+
+\vspace{10pt}
+
+\section*{Exercici Extra 1 \textnormal{(2 punts)} \hfill \normalsize\normalfont\textit{Deducció de fórmules}}
+
+A partir de les equacions generals del MRUA per a un llançament vertical cap amunt:
+
+\begin{enumerate}[label=\textbf{\alph*)}, itemsep=15pt]
+  \item \textbf{Temps Màxim ($t_{\max}$):} Demostra que el temps necessari per arribar al punt més alt del llançament es pot calcular com $t_{\max} = \frac{v_0}{g}$. \textit{(1 punt)}
+  \item \textbf{Altura Màxima ($y_{\max}$):} Utilitzant el resultat anterior, demostra que l'altura màxima assolida (partint d'una altura inicial $\mathbf{y_0 = h}$) és $y_{\max} = h + \frac{v_0^2}{2g}$. \textit{(1 punt)}
+\end{enumerate}
+
+\vfill
+
+\noindent
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{5cm}|}
+  \hline
+  \rule{0pt}{22pt}\textbf{Demostració A ($t_{\max}$)} & \Large\hspace{2.5cm}~/~1,0 \\[8pt]
+  \hline
+  \rule{0pt}{22pt}\textbf{Demostració B ($y_{\max}$)} & \Large\hspace{2.5cm}~/~1,0 \\[8pt]
+  \hline
+  \rule{0pt}{22pt}\textbf{\Large TOTAL EXTRA} & \Large\textbf{\hspace{2.5cm}~/~2,0} \\[8pt]
+  \hline
+\end{tabularx}
+
+\cleardoublepage
+
+% ================================================================
+% PÀGINES EXTRA: ESBORRANY
+% ================================================================
+\pagestyle{empty}
+\begin{center}
+  \vspace*{2cm}
+  {\Large\bfseries ESPAI PER A CÀLCULS I ESBORRANY}\\[1cm]
+  \textit{(Aquestes pàgines no seran avaluades si no s'indica el contrari)}
+\end{center}
+
+\newpage
+\mbox{}
+
+\end{document}
