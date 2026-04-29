@@ -1,32 +1,28 @@
-\chapter{Introduction to Regression Research}
+\chapter{Regression Utility Study}
 \label{chap:regression-introduction}
 
-\section{Motivation and Background}
+\section{Regression as an Inferential Utility Test}
 \label{sec:reg-motivation}
 
-\subsection{Why Synthetic Data Matters in Applied Research}
-The increasing complexity of data privacy regulations (GDPR, HIPAA) and the ethical constraints associated with sharing sensitive information have created significant barriers to empirical research. In fields like medicine, social sciences, and economics, access to high-quality granular data is essential for model validation and reproducibility. Synthetic data emerges as a powerful candidate to overcome this tension by providing artificial datasets that mimic the statistical properties of real populations without disclosing individual identities \cite{rubin1993, little1993}.
+Part II evaluates synthetic-data utility in the regression setting. Within the general thesis framework, regression is used as a test of \textbf{inferential utility}: whether synthetic data preserves the statistical conclusions that would be obtained from the original data.
 
-\subsection{Why Regression Analysis is a Relevant Use Case}
 Regression analysis remains the most widely used statistical tool for inferential research. Researchers rely on linear and logistic models to quantify relationships, test hypotheses, and inform policy. If synthetic data is to be used as a proxy for real data in academic and professional publications, it must preserve not only the marginal distributions but also the conditional relationships (coefficients) and their associated uncertainty (standard errors and confidence intervals) \cite{reiter2003, drechsler2011}.
 
-\subsection{Current Challenges in Evaluating Synthetic Data for Inference}
-Most synthetic data evaluations focus on "utility" through predictive accuracy or distributional similarity (e.g., mean squared error, Kolmogorov-Smirnov tests). However, for inferential research, the primary concern is whether the same scientific conclusion would be reached on synthetic data as on original data \cite{snoke2018}. This requires specialized metrics like Confidence Interval Overlap (CIO) and a systematic understanding of how data complexity (sample size, dimensionality, correlation) impacts inferential fidelity.
+Most synthetic data evaluations focus on utility through predictive accuracy or distributional similarity. However, for inference, the primary concern is whether the same scientific conclusion would be reached on synthetic data as on original data \cite{snoke2018}. This requires specialized metrics such as Confidence Interval Overlap (CIO) and a systematic understanding of how data complexity, sample size, dimensionality, and correlation affect inferential fidelity.
 
-\section{Purpose of the Research}
+\section{Objectives and Research Questions}
 \label{sec:reg-purpose}
 
-\subsection{General Objective}
 The primary objective of this part of the study is to evaluate the inferential utility of synthetic data generators across a wide range of simulated regression scenarios, determining which methods best preserve the coefficients and confidence intervals of the original data.
 
-\subsection{Specific Objectives}
+The specific objectives are:
 \begin{enumerate}
     \item To compare the performance of CART-based synthesis against parametric generators (Normal, Logistic) in linear and logistic regression models.
     \item To quantify the impact of sample size ($N$), number of predictors ($p$), and correlation structure ($\rho$) on the quality of synthetic inference.
     \item To identify the specific conditions under which synthetic data leads to biased or overly optimistic/pessimistic conclusions.
 \end{enumerate}
 
-\subsection{Research Questions}
+The regression study is guided by the following research questions:
 \begin{itemize}
     \item \textbf{RQ1:} How reliably can synthetic data reproduce the confidence intervals of a linear regression model compared to a logistic one?
     \item \textbf{RQ2:} Does increasing the dimensionality ($p$) or complexity of the correlation structure ($\rho$) significantly degrade the CIO?
@@ -36,15 +32,12 @@ The primary objective of this part of the study is to evaluate the inferential u
 \section{Scope and Contributions}
 \label{sec:reg-scope}
 
-\subsection{What is Covered}
 This study covers univariate and multivariate simulations for linear and logistic regression. It evaluates synthesis methods provided by the \texttt{synthpop} package, specifically focusing on the CART (Classification and Regression Trees), Normal, and Logistic regression synthesis arms.
 
-\subsection{What is Not Covered}
 The study focuses exclusively on \textbf{sequential synthetic data generation (1 to 1)}, meaning variables are synthesized one by one conditioned on previously generated ones. It does not cover joint/simultaneous generation methods, deep learning approaches (GANs, VAEs), or explicit privacy-risk measurements (e.g., membership inference attacks).
 
-\subsection{Main Contributions of the Study}
 The study provides a systematic benchmarking of common synthesis methods across 1,800+ scenarios. It introduces a structured evaluation framework based on CIO, Bias Ratio, and Width Ratio, offering practical guidance for researchers on which generator to choose depending on their data's characteristics.
 
-\section{Structure of the Document}
+\section{Structure of Part II}
 \label{sec:reg-structure}
-The remainder of this part is organized as follows: Chapter~\ref{chap:regression-methods} describes the experimental design and metrics; Chapter~\ref{chap:regression-linear} presents the results for linear models; Chapter~\ref{chap:regression-logistic} details the logistic regression findings; and Chapter~\ref{chap:regression-conclusions} synthesizes the overall conclusions.
+This part is organized as follows: Chapter~\ref{chap:regression-methods} describes the experimental design and metrics; Chapter~\ref{chap:regression-linear} presents the results for linear models; Chapter~\ref{chap:regression-logistic} details the logistic regression findings; and Chapter~\ref{chap:regression-conclusions} synthesizes the regression conclusions.

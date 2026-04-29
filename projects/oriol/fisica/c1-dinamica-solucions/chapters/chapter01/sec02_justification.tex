@@ -1,0 +1,38 @@
+\section{Justification}
+\label{sec:justification}
+
+The generator standardizes the setup work that otherwise gets repeated manually for every report.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{@{}lll@{}}
+    \toprule
+    Component & Decision & Motivation \\
+    \midrule
+    Document class & report & Chapter-oriented thesis layout \\
+    Bibliography & biblatex + biber & Stable citation workflow \\
+    Build tool & latexmk & Correct multi-pass compilation \\
+    Source layout & chapter folders & Maintainable long-form writing \\
+    \bottomrule
+  \end{tabular}
+  \caption{Key document decisions inherited from the reference project. \textit{Source: Compiled by the author.}}
+  \label{tab:template-decisions}
+\end{table}
+
+\begin{definition}
+  A reusable LaTeX scaffold is a project skeleton that preserves formatting and build conventions while minimizing setup cost.
+\end{definition}
+\loesource{Compiled by the author.}
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[node distance=2.3cm, >=Latex]
+    \node[draw, rounded corners, fill=blue!5, minimum width=3.1cm, minimum height=1cm] (template) {Builder};
+    \node[draw, rounded corners, fill=red!5, right=of template, minimum width=3.3cm, minimum height=1cm] (generator) {Scaffold Script};
+    \node[draw, rounded corners, fill=green!5, right=of generator, minimum width=3.1cm, minimum height=1cm] (project) {New Report};
+    \draw[->, thick] (template) -- (generator);
+    \draw[->, thick] (generator) -- (project);
+  \end{tikzpicture}
+  \caption{Flow from reusable builder to generated LaTeX project. \textit{Source: Compiled by the author.}}
+  \label{fig:scaffold-flow}
+\end{figure}

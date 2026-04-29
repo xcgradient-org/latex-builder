@@ -22,7 +22,7 @@ Principal Component Analysis (PCA) preserves global linear structure and is ther
 \subsubsection{Normal Distribution}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\linewidth]{images/normal_pca.png}
+  \includegraphics[width=0.9\linewidth]{images/clustering/normal_pca.png}
   \caption{\textbf{PCA Projection: Normal Distribution ($N=1000, k=2$).} Comparison of real (top) versus synthetic (bottom) data, with true labels (left), k-means partitions (center), and hierarchical-clustering partitions (right).}
   \label{fig:pca_normal}
   \source{Compiled by the author}
@@ -33,7 +33,7 @@ For normally distributed data, the synthetic clusters remain close to the spheri
 \subsubsection{Gamma Distribution}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\linewidth]{images/gamma_pca.png}
+  \includegraphics[width=1\linewidth]{images/clustering/gamma_pca.png}
   \caption{\textbf{PCA Projection: Gamma Distribution ($N=1000, k=2$).} Comparison of real (top) versus synthetic (bottom) data, with true labels (left), k-means partitions (center), and hierarchical-clustering partitions (right).}
   \label{fig:pca_gamma}
   \source{Compiled by the author}
@@ -47,7 +47,7 @@ t-SNE provides a non-linear view of the multidimensional data and helps reveal l
 \subsubsection{Normal Distribution}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\linewidth]{images/normal_tsne.png}
+  \includegraphics[width=1\linewidth]{images/clustering/normal_tsne.png}
   \caption{\textbf{t-SNE Projection: Normal Distribution.} Comparison of real (top) versus synthetic (bottom) data, with true labels (left), k-means partitions (center), and hierarchical-clustering partitions (right).}
   \label{fig:tsne_normal}
   \source{Compiled by the author}
@@ -58,7 +58,7 @@ The normal case remains cohesive and well separated after synthesis. Both cluste
 \subsubsection{Gamma Distribution}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\linewidth]{images/gamma_tsne.png}
+  \includegraphics[width=1\linewidth]{images/clustering/gamma_tsne.png}
   \caption{\textbf{t-SNE Projection: Gamma Distribution.} Comparison of real (top) versus synthetic (bottom) data, with true labels (left), k-means partitions (center), and hierarchical-clustering partitions (right).}
   \label{fig:tsne_gamma}
   \source{Compiled by the author}
@@ -72,7 +72,7 @@ The gamma case exposes the central failure mode of K-Means. On the synthetic dat
 \subsection*{Normal Distribution}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\linewidth]{images/dsr_normal.png}
+  \includegraphics[width=1\linewidth]{images/clustering/dsr_normal.png}
   \caption{\textbf{Success Rate on Normal Distribution.} Left: K-Means. Right: Hierarchical Clustering.}
   \label{fig:success_normal}
   \source{Compiled by the author}
@@ -83,7 +83,7 @@ For well-separated normal clusters, both algorithms achieve near-perfect recover
 \subsection*{Gamma Distribution}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\linewidth]{images/dsr_gamma.png}
+  \includegraphics[width=1\linewidth]{images/clustering/dsr_gamma.png}
   \caption{\textbf{Success Rate on Gamma Distribution.} Left: K-Means. Right: Hierarchical Clustering.}
   \label{fig:success_gamma}
   \source{Compiled by the author}
@@ -97,7 +97,7 @@ The gamma experiments show a clear divergence. K-Means collapses across a larger
 \subsection{Gini Coefficient}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{images/gini_normal.png}
+  \includegraphics[width=\textwidth]{images/clustering/gini_normal.png}
   \caption{\textbf{Absolute Gini Coefficients (Normal Distribution).} Row 1: K-Means. Row 2: Hierarchical Clustering.}
   \label{fig:gini_absolute_normal}
   \source{Compiled by the author}
@@ -105,7 +105,7 @@ The gamma experiments show a clear divergence. K-Means collapses across a larger
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{images/gini_gamma.png}
+  \includegraphics[width=\textwidth]{images/clustering/gini_gamma.png}
   \caption{\textbf{Absolute Gini Coefficients (Gamma Distribution).} Row 1: K-Means. Row 2: Hierarchical Clustering.}
   \label{fig:gini_absolute_gamma}
   \source{Compiled by the author}
@@ -118,7 +118,7 @@ Within that limitation, the normal regime shows that both algorithms converge to
 \subsection{Mean Centroid Distance}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{images/mcd_normal.png}
+  \includegraphics[width=\textwidth]{images/clustering/mcd_normal.png}
   \caption{\textbf{Mean Centroid Distance (Normal Distribution).} Row 1: K-Means. Row 2: Hierarchical Clustering.}
   \label{fig:mcd_normal}
   \source{Compiled by the author}
@@ -126,7 +126,7 @@ Within that limitation, the normal regime shows that both algorithms converge to
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{images/mcd_gamma.png}
+  \includegraphics[width=\textwidth]{images/clustering/mcd_gamma.png}
   \caption{\textbf{Mean Centroid Distance (Gamma Distribution).} Row 1: K-Means. Row 2: Hierarchical Clustering.}
   \label{fig:mcd_gamma}
   \source{Compiled by the author}
@@ -137,7 +137,7 @@ For both distributions, centroid drift is largest when cluster separation is low
 \subsection{Mean Variance Difference}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{images/mvd_normal.png}
+  \includegraphics[width=\textwidth]{images/clustering/mvd_normal.png}
   \caption{\textbf{Mean Variance Difference (Normal Distribution).} Row 1: K-Means. Row 2: Hierarchical Clustering.}
   \label{fig:mvd_normal}
   \source{Compiled by the author}
@@ -145,7 +145,7 @@ For both distributions, centroid drift is largest when cluster separation is low
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{images/mvd_gamma.png}
+  \includegraphics[width=\textwidth]{images/clustering/mvd_gamma.png}
   \caption{\textbf{Mean Variance Difference (Gamma Distribution).} Row 1: K-Means. Row 2: Hierarchical Clustering.}
   \label{fig:mvd_gamma}
   \source{Compiled by the author}

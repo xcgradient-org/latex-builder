@@ -1,0 +1,631 @@
+\documentclass[12pt,a4paper,twoside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{xcolor}
+
+\geometry{top=2.0cm, bottom=1.5cm, left=1.5cm, right=1.5cm, headheight=15pt, headsep=0.5cm}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{Física · 4t ESO · Escola Cervetó}}
+\fancyhead[R]{\small\textit{Dinàmica}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\section}[block]{\large\bfseries}{}{0em}{}[\vspace{2pt}\hrule\vspace{4pt}]
+
+\newcounter{exercici}
+\newcommand{\exercici}[1]{%
+  \stepcounter{exercici}
+  \section*{Exercici \theexercici\ \textnormal{· #1}}
+  \vspace{-10pt}
+}
+
+\begin{document}
+
+\begin{center}
+  \vspace*{-15pt}
+  {\Huge\bfseries Col·lecció 1: Dinàmica - Solucions}\\[8pt]
+  {\Large Física · 4t ESO \quad·\quad Escola Cervetó \quad·\quad Prof.\ Oriol Farrés}\\[12pt]
+  \hrule height 1.5pt
+  \vspace{5pt}
+\end{center}
+
+\vspace{0.3cm}
+
+\subsection*{Bloc 1: Dinàmica i Lleis de Newton (I)}
+
+\exercici{El Laboratori de Partícules (Superfície Horitzontal)}
+En una prova de laboratori, s'empeny una caixa de material experimental de $15 \text{ kg}$ sobre una superfície horitzontal. S'aplica una força constant i paral·lela al terra de $60 \text{ N}$. El coeficient de fregament cinètic entre la caixa i el terra és $\mu = 0{,}20$.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Dibuixa el DCL detallat de la caixa, indicant totes les forces que hi actuen ($P, N, F, F_{fr}$).
+  \item Calcula el valor de la força del pes ($P$) i de la força normal ($N$).
+  \item Determina la força de fregament ($F_{fr}$) i l'acceleració ($a$) que adquireix el sistema.
+  \item Dibuixa la gràfica $F_{fr}$ vs $N$ si anéssim variant la massa de la caixa, indicant què representa el pendent.
+\end{enumerate}
+
+{\color{blue}
+\textbf{a) Diagrama de Cos Lliure (DCL):}
+\begin{center}
+\begin{tikzpicture}
+  \draw[thick] (-2,0) -- (3,0);
+  \draw[thick, fill=blue!10] (-0.5,0) rectangle (0.5,1);
+  \filldraw (0,0.5) circle (2pt);
+  \draw[->, thick, red] (0.5,0.5) -- (2,0.5) node[right] {$F = 60\text{ N}$};
+  \draw[->, thick, red] (-0.5,0.5) -- (-1.5,0.5) node[left] {$F_{fr}$};
+  \draw[->, thick, purple] (0,1) -- (0,2) node[above] {$N$};
+  \draw[->, thick, purple] (0,0) -- (0,-1) node[below] {$P$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{b) Càlcul de Pes i Normal:}
+El pes es calcula com $P = m \cdot g = 15 \cdot 9{,}81 = 147{,}15\text{ N}$. En l'eix vertical no hi ha moviment, per tant $\sum F_y = 0 \implies N - P = 0 \implies N = 147{,}15\text{ N}$.
+
+\textbf{c) Fregament i acceleració:}
+$F_{fr} = \mu \cdot N = 0{,}20 \cdot 147{,}15 = 29{,}43\text{ N}$.
+En l'eix horitzontal: $\sum F_x = m \cdot a \implies F - F_{fr} = m \cdot a \implies 60 - 29{,}43 = 15 \cdot a \implies 30{,}57 = 15 \cdot a \implies a = 2{,}038\text{ m/s}^2$.
+
+\textbf{d) Gràfica $\mathbf{F_{fr}}$ vs $\mathbf{N}$:}
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[
+    width=6cm, height=5cm,
+    xlabel={$N$ (N)}, ylabel={$F_{fr}$ (N)},
+    xmin=0, xmax=200, ymin=0, ymax=50,
+    axis lines=left, grid=both,
+    every axis plot/.append style={thick, blue}
+  ]
+  \addplot[domain=0:200] {0.2*x};
+  \node[anchor=north west, text=black] at (axis cs:20,40) {Pendent = $\mu = 0{,}20$};
+  \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[title=Respostes Finals,colframe=red!70!black,colback=red!5,sharp corners=south,fontupper=\color{blue}]
+\textbf{b)} $P = \mathbf{147{,}15\text{ N}} \quad N = \mathbf{147{,}15\text{ N}}$\\
+\textbf{c)} $F_{fr} = \mathbf{29{,}43\text{ N}} \quad a = \mathbf{2{,}04\text{ m/s}^2}$
+\end{tcolorbox}
+}
+
+\vspace{0.5cm}
+\exercici{La Rampa de Galileu (Pla inclinat sense fregament)}
+Recuperant els experiments de Galileu, deixem lliscar una esfera de bronze de $8 \text{ kg}$ per una rampa perfectament polida (sense fregament) que té una inclinació de $\alpha = 30^\circ$ respecte a l'horitzontal.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Dibuixa l'esquema del pla inclinat i el DCL de l'esfera, descomponent el pes en els eixos $x$ i $y$.
+  \item Calcula les components del pes: $P_x$ (paral·lela al pla) i $P_y$ (perpendicular al pla).
+  \item Troba el valor de la força normal ($N$) i l'acceleració de baixada de l'esfera.
+  \item Dibuixa una gràfica qualitativa $v-t$ del moviment de l'esfera mentre baixa per la rampa.
+\end{enumerate}
+
+{\color{blue}
+\textbf{a) DCL al pla inclinat:}
+\begin{center}
+\begin{tikzpicture}[rotate=30]
+  \draw[thick] (-2,0) -- (3,0);
+  \draw[thick, fill=blue!10] (0,0) circle (0.4);
+  \filldraw (0,0) circle (2pt);
+  \draw[->, thick, purple] (0,0.4) -- (0,1.5) node[above] {$N$};
+  \draw[->, thick, purple, dashed] (0,0) -- (0,-1.5) node[below] {$P_y$};
+  \draw[->, thick, red] (0,0) -- (-1.5,0) node[left] {$P_x$};
+  \draw[->, thick, black] (0,0) -- (-1.5,-1.5) node[right] {$P$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{b) Components del pes:}
+$P = m \cdot g = 8 \cdot 9{,}81 = 78{,}48\text{ N}$.\\
+L'eix $x$ paral·lel a la rampa: $P_x = P \cdot \sin(30^\circ) = 78{,}48 \cdot 0{,}5 = 39{,}24\text{ N}$.\\
+L'eix $y$ perpendicular a la rampa: $P_y = P \cdot \cos(30^\circ) = 78{,}48 \cdot 0{,}866 = 67{,}97\text{ N}$.
+
+\textbf{c) Normal i Acceleració:}
+A l'eix $y$: $N - P_y = 0 \implies N = 67{,}97\text{ N}$.\\
+A l'eix $x$: $\sum F_x = m \cdot a \implies P_x = m \cdot a \implies 39{,}24 = 8 \cdot a \implies a = 4{,}905\text{ m/s}^2$.
+
+\textbf{d) Gràfica $\mathbf{v-t}$:}
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[
+    width=6cm, height=4.5cm,
+    xlabel={$t$ (s)}, ylabel={$v$ (m/s)},
+    xmin=0, xmax=5, ymin=0, ymax=25,
+    axis lines=left, ticks=none,
+    every axis plot/.append style={thick, blue}
+  ]
+  \addplot[domain=0:4.5] {4.905*x};
+  \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[title=Respostes Finals,colframe=red!70!black,colback=red!5,sharp corners=south,fontupper=\color{blue}]
+\textbf{b)} $P_x = \mathbf{39{,}24\text{ N}} \quad P_y = \mathbf{67{,}97\text{ N}}$\\
+\textbf{c)} $N = \mathbf{67{,}97\text{ N}} \quad a = \mathbf{4{,}91\text{ m/s}^2}$
+\end{tcolorbox}
+}
+
+\clearpage
+\exercici{Logística a la neu (Pla inclinat amb fregament)}
+Un trineu de subministraments de $25 \text{ kg}$ es troba en una pendent gelada de $20^\circ$. A diferència de l'exercici anterior, aquí sí que hi ha fregament, amb un coeficient $\mu = 0{,}15$.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Dibuixa el DCL complet, incloent-hi la força de fregament oposada al moviment.
+  \item Calcula la força normal i la força de fregament que actua sobre el trineu.
+  \item Utilitzant la fórmula directa de la xuleta ($a = g(\sin \alpha - \mu \cos \alpha)$), calcula l'acceleració amb la qual baixarà el trineu.
+  \item Si el pendent fos més suau, a quin angle límit ($\alpha_{lim}$) el trineu començaria a lliscar si el coeficient de fregament estàtic fos $\mu_e = 0{,}25$?
+\end{enumerate}
+
+{\color{blue}
+\textbf{a) DCL amb fregament:}
+\begin{center}
+\begin{tikzpicture}[rotate=20]
+  \draw[thick] (-2.5,0) -- (3,0);
+  \draw[thick, fill=blue!10] (-0.5,0) rectangle (0.5,0.8);
+  \filldraw (0,0.4) circle (2pt);
+  \draw[->, thick, purple] (0,0.8) -- (0,2) node[above] {$N$};
+  \draw[->, thick, purple, dashed] (0,0) -- (0,-1.5) node[below] {$P_y$};
+  \draw[->, thick, red] (0,0.4) -- (-1.5,0.4) node[left] {$P_x$};
+  \draw[->, thick, red] (0.5,0.4) -- (1.5,0.4) node[right] {$F_{fr}$};
+  \draw[->, thick, black] (0,0.4) -- (-0.8,-1.5) node[right] {$P$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{b) Força Normal i Fregament:}
+$P = 25 \cdot 9{,}81 = 245{,}25\text{ N}$.\\
+$N = P_y = P \cos(20^\circ) = 245{,}25 \cdot 0{,}9397 = 230{,}46\text{ N}$.\\
+$F_{fr} = \mu \cdot N = 0{,}15 \cdot 230{,}46 = 34{,}57\text{ N}$.
+
+\textbf{c) Acceleració:}
+Aplicant la fórmula directa: $a = 9{,}81 \cdot (\sin(20^\circ) - 0{,}15 \cos(20^\circ)) = 9{,}81 \cdot (0{,}3420 - 0{,}1410) = 9{,}81 \cdot 0{,}201 = 1{,}97\text{ m/s}^2$.
+
+\textbf{d) Angle límit ($\alpha_{lim}$):}
+Comença a lliscar quan la component $P_x$ iguala la força de fregament estàtica màxima:
+$P_x = F_{fr,e} \implies m g \sin \alpha_{lim} = \mu_e m g \cos \alpha_{lim} \implies \tan \alpha_{lim} = \mu_e$.\\
+$\alpha_{lim} = \arctan(0{,}25) \approx 14{,}04^\circ$.
+
+\begin{tcolorbox}[title=Respostes Finals,colframe=red!70!black,colback=red!5,sharp corners=south,fontupper=\color{blue}]
+\textbf{b)} $N = \mathbf{230{,}46\text{ N}} \quad F_{fr} = \mathbf{34{,}57\text{ N}}$\\
+\textbf{c)} $a = \mathbf{1{,}97\text{ m/s}^2}$\\
+\textbf{d)} $\alpha_{lim} = \mathbf{14{,}04^\circ}$
+\end{tcolorbox}
+}
+
+\vspace{0.5cm}
+\exercici{L'entrenament de l'astronauta (Ascensors)}
+Dins d'un simulador de gravetat a la base de la NASA, un astronauta de $75 \text{ kg}$ es troba sobre una bàscula mentre l'ascensor realitza diferents maniobres verticals.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Dibuixa el DCL de l'astronauta indicant les forces en l'eix vertical ($P$ i $N$).
+  \item Quina força marcarà la bàscula (la Normal) si el simulador puja amb una acceleració constant de $2{,}5 \text{ m/s}^2$?
+  \item Si de cop el simulador frena mentre puja amb una acceleració de $-3 \text{ m/s}^2$, quin serà el pes aparent de l'astronauta?
+  \item Dibuixa la gràfica $v-t$ de tot el trajecte si primer accelera positivament, després manté velocitat constant (equilibri) i finalment frena fins a aturar-se.
+\end{enumerate}
+
+{\color{blue}
+\textbf{a) DCL de l'astronauta:}
+\begin{center}
+\begin{tikzpicture}
+  \draw[thick] (-1,0) -- (1,0);
+  \draw[thick, fill=blue!10] (-0.3,0) rectangle (0.3,1.5);
+  \filldraw (0,0.75) circle (2pt);
+  \draw[->, thick, purple] (0,1.5) -- (0,3) node[right] {$N$ (Força de la bàscula)};
+  \draw[->, thick, black] (0,0) -- (0,-1.5) node[right] {$P$ (Pes real)};
+\end{tikzpicture}
+\end{center}
+
+\textbf{b) Pujant accelerant:}
+Aplicant $\sum F_y = m \cdot a \implies N - P = m \cdot a \implies N = P + m \cdot a = m(g + a)$.\\
+$N = 75 \cdot (9{,}81 + 2{,}5) = 75 \cdot 12{,}31 = 923{,}25\text{ N}$.
+
+\textbf{c) Frenant pujant:}
+L'acceleració és negativa: $a = -3\text{ m/s}^2$.\\
+Pes aparent $= N = m(g + a) = 75 \cdot (9{,}81 - 3) = 75 \cdot 6{,}81 = 510{,}75\text{ N}$.
+
+\textbf{d) Gràfica $\mathbf{v-t}$:}
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[
+    width=7cm, height=4cm,
+    xlabel={$t$}, ylabel={$v$},
+    xmin=0, xmax=10, ymin=0, ymax=5,
+    axis lines=left, ticks=none,
+    every axis plot/.append style={thick, blue}
+  ]
+  \addplot[domain=0:3] {1.5*x};
+  \addplot[domain=3:7] {4.5};
+  \addplot[domain=7:10] {4.5 - 1.5*(x-7)};
+  \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[title=Respostes Finals,colframe=red!70!black,colback=red!5,sharp corners=south,fontupper=\color{blue}]
+\textbf{b)} $N = \mathbf{923{,}25\text{ N}}$\\
+\textbf{c)} Pes aparent $= \mathbf{510{,}75\text{ N}}$
+\end{tcolorbox}
+}
+
+\clearpage
+\exercici{Remolcant el totterreny (Pla inclinat + Força externa)}
+Un cotxe de $1.200 \text{ kg}$ s'ha avariat en una rampa amb un pendent de $15^\circ$. Una grua l'està remolcant cap amunt aplicant una força paral·lela al pla. El coeficient de fregament entre els pneumàtics i l'asfalt és $\mu = 0{,}30$.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Dibuixa el DCL complet, identificant correctament la direcció de la força de la grua ($F$) i de la força de fregament ($F_{fr}$).
+  \item Calcula el valor de la força normal ($N$) i de la força de fregament cinètica.
+  \item Quina força mínima ha de fer la grua perquè el cotxe pugi amb una acceleració constant de $1{,}2 \text{ m/s}^2$?
+  \item Dibuixa la gràfica $F_{fr}$ vs $F_{apl}$ (força aplicada) explicant què passa quan el cotxe encara no s'ha començat a moure (zona estàtica).
+\end{enumerate}
+
+{\color{blue}
+\textbf{a) DCL del totterreny:}
+\begin{center}
+\begin{tikzpicture}[rotate=15]
+  \draw[thick] (-3,0) -- (3,0);
+  \draw[thick, fill=blue!10] (-1,0) rectangle (1,0.8);
+  \filldraw (0,0.4) circle (2pt);
+  \draw[->, thick, purple] (0,0.8) -- (0,2) node[above] {$N$};
+  \draw[->, thick, red] (1,0.4) -- (2.5,0.4) node[above] {$F$ (grua)};
+  \draw[->, thick, red] (-1,0.4) -- (-2,0.4) node[above] {$F_{fr}$};
+  \draw[->, thick, purple, dashed] (0,0) -- (0,-1.5) node[right] {$P_y$};
+  \draw[->, thick, red] (0,0.4) -- (-1.5,0.4) node[below] {$P_x$};
+  \draw[->, thick, black] (0,0.4) -- (-0.5,-1.8) node[right] {$P$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{b) Normal i Fregament:}
+$P = 1200 \cdot 9{,}81 = 11772\text{ N}$.\\
+$N = P_y = 11772 \cdot \cos(15^\circ) = 11772 \cdot 0{,}9659 = 11370{,}8\text{ N}$.\\
+$F_{fr} = \mu \cdot N = 0{,}30 \cdot 11370{,}8 = 3411{,}24\text{ N}$.
+
+\textbf{c) Força de la grua:}
+$P_x = 11772 \cdot \sin(15^\circ) = 11772 \cdot 0{,}2588 = 3046{,}8\text{ N}$.\\
+$\sum F_x = m \cdot a \implies F - P_x - F_{fr} = m \cdot a$.\\
+$F = m \cdot a + P_x + F_{fr} = (1200 \cdot 1{,}2) + 3046{,}8 + 3411{,}24 = 1440 + 6458{,}04 = 7898{,}04\text{ N}$.
+
+\textbf{d) Gràfica $\mathbf{F_{fr}}$ vs $\mathbf{F_{apl}}$:}
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[
+    width=7cm, height=4.5cm,
+    xlabel={$F_{apl}$}, ylabel={$F_{fr}$},
+    xmin=0, xmax=10, ymin=0, ymax=6,
+    axis lines=left, ticks=none,
+    every axis plot/.append style={thick, blue}
+  ]
+  \addplot[domain=0:5] {x};
+  \addplot[domain=5:10] {4};
+  \draw[dashed, gray] (axis cs:5,0) -- (axis cs:5,5);
+  \node[anchor=south west] at (axis cs:1,2) {Estàtica};
+  \node[anchor=south west] at (axis cs:6,4.5) {Cinètica};
+  \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[title=Respostes Finals,colframe=red!70!black,colback=red!5,sharp corners=south,fontupper=\color{blue}]
+\textbf{b)} $N = \mathbf{11370{,}8\text{ N}} \quad F_{fr} = \mathbf{3411{,}24\text{ N}}$\\
+\textbf{c)} $F = \mathbf{7898{,}04\text{ N}}$
+\end{tcolorbox}
+}
+
+\vspace{0.5cm}
+\exercici{El sistema de politja (Atwood al pla inclinat)}
+Aquest és l'exercici de síntesi final. Tenim dos blocs connectats per una corda ideal que passa per una politja sense fregament. El bloc A ($10 \text{ kg}$) es troba sobre un pla inclinat de $40^\circ$ amb un coeficient de fregament $\mu = 0{,}20$. El bloc B ($15 \text{ kg}$) penja verticalment per l'extrem de la corda.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Dibuixa els DCL independents per a cada cos, establint un sistema d'eixos coherent amb el sentit del moviment (el bloc B baixa).
+  \item Escriu les equacions de la 2a Llei de Newton ($\sum F = m \cdot a$) per a cada bloc.
+  \item Calcula l'acceleració del sistema i la tensió ($T$) de la corda.
+  \item Dibuixa la gràfica $x-t$ per al bloc B des que s'allibera el sistema fins que toca terra, considerant que el moviment és un MRUA.
+\end{enumerate}
+
+{\color{blue}
+\textbf{a) DCL independents:}
+\begin{center}
+\begin{tikzpicture}
+  % Bloc B
+  \begin{scope}[xshift=4cm]
+    \draw[thick, fill=blue!10] (-0.4,-0.4) rectangle (0.4,0.4) node[pos=.5, black] {B};
+    \filldraw (0,0) circle (2pt);
+    \draw[->, thick, red] (0,0.4) -- (0,1.5) node[right] {$T$};
+    \draw[->, thick, purple] (0,0) -- (0,-1.5) node[right] {$P_B$};
+  \end{scope}
+  
+  % Bloc A
+  \begin{scope}[rotate=40]
+    \draw[thick] (-2,0) -- (2,0);
+    \draw[thick, fill=blue!10] (-0.5,0) rectangle (0.5,1) node[pos=.5, black] {A};
+    \filldraw (0,0.5) circle (2pt);
+    \draw[->, thick, red] (0.5,0.5) -- (2,0.5) node[above] {$T$};
+    \draw[->, thick, red] (-0.5,0.5) -- (-1.5,0.5) node[above] {$F_{fr}$};
+    \draw[->, thick, red] (0,0.5) -- (-1.2,0.5) node[below] {$P_{Ax}$};
+    \draw[->, thick, purple] (0,1) -- (0,2) node[above] {$N_A$};
+    \draw[->, thick, purple, dashed] (0,0) -- (0,-1) node[right] {$P_{Ay}$};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\textbf{b) Equacions de Newton:}
+Bloc B (sentit positiu cap avall): $P_B - T = m_B \cdot a$\\
+Bloc A (sentit positiu rampa amunt): $T - P_{Ax} - F_{fr} = m_A \cdot a$
+
+\textbf{c) Acceleració i Tensió:}
+$P_B = 15 \cdot 9{,}81 = 147{,}15\text{ N}$.\\
+$P_A = 10 \cdot 9{,}81 = 98{,}1\text{ N}$.\\
+$P_{Ax} = 98{,}1 \cdot \sin(40^\circ) = 63{,}06\text{ N}$.\\
+$N_A = P_{Ay} = 98{,}1 \cdot \cos(40^\circ) = 75{,}15\text{ N}$.\\
+$F_{fr} = 0{,}20 \cdot 75{,}15 = 15{,}03\text{ N}$.\\
+Sumant les equacions s'anul·la la $T$:\\
+$P_B - P_{Ax} - F_{fr} = (m_A + m_B) \cdot a$\\
+$147{,}15 - 63{,}06 - 15{,}03 = 25 \cdot a$\\
+$69{,}06 = 25 \cdot a \implies a = 2{,}76\text{ m/s}^2$.\\
+Tensió: $T = P_B - m_B \cdot a = 147{,}15 - 15 \cdot 2{,}76 = 105{,}75\text{ N}$.
+
+\textbf{d) Gràfica $\mathbf{x-t}$ per a B:}
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[
+    width=5cm, height=4cm,
+    xlabel={$t$}, ylabel={$x$ (baixada)},
+    xmin=0, xmax=3, ymin=0, ymax=10,
+    axis lines=left, ticks=none,
+    every axis plot/.append style={thick, blue}
+  ]
+  \addplot[domain=0:3] {1.38*x^2};
+  \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[title=Respostes Finals,colframe=red!70!black,colback=red!5,sharp corners=south,fontupper=\color{blue}]
+\textbf{c)} $a = \mathbf{2{,}76\text{ m/s}^2} \quad T = \mathbf{105{,}75\text{ N}}$
+\end{tcolorbox}
+}
+
+\clearpage
+\subsection*{Bloc 2: Força Elàstica i Llei de Hooke}
+
+\exercici{Dinamòmetres al taller (Càlcul directe)}
+Per calibrar un dinamòmetre a la classe de tecnologia, s'aplica una força horitzontal constant. S'observa que en aplicar una força de $12\text{ N}$, la molla interna s'allarga exactament $4\text{ cm}$.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Expressa l'allargament ($\Delta x$) en unitats del Sistema Internacional (SI).
+  \item Calcula la constant elàstica $k$ de la molla en $\text{N/m}$.
+  \item Quina força seria necessària per produir un allargament de $0{,}15\text{ m}$?
+  \item Dibuixa la gràfica $F$ vs $\Delta x$ d'aquesta molla, indicant clarament què representa el pendent de la recta.
+\end{enumerate}
+
+{\color{blue}
+\textbf{a) Conversió al SI:} $\Delta x = 4\text{ cm} = 0{,}04\text{ m}$.
+
+\textbf{b) Constant elàstica:} Llei de Hooke: $F = k \cdot \Delta x \implies k = \frac{F}{\Delta x} = \frac{12}{0{,}04} = 300\text{ N/m}$.
+
+\textbf{c) Força necessària:} $F = k \cdot \Delta x = 300 \cdot 0{,}15 = 45\text{ N}$.
+
+\textbf{d) Gràfica $\mathbf{F}$ vs $\mathbf{\Delta x}$:}
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[
+    width=6cm, height=4.5cm,
+    xlabel={$\Delta x$ (m)}, ylabel={$F$ (N)},
+    xmin=0, xmax=0.2, ymin=0, ymax=60,
+    axis lines=left, grid=major,
+    every axis plot/.append style={thick, blue}
+  ]
+  \addplot[domain=0:0.2] {300*x};
+  \node[anchor=north west, text=black] at (axis cs:0.05,40) {Pendent $= k = 300\text{ N/m}$};
+  \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[title=Respostes Finals,colframe=red!70!black,colback=red!5,sharp corners=south,fontupper=\color{blue}]
+\textbf{a)} $\Delta x = \mathbf{0{,}04\text{ m}}$ \quad \textbf{b)} $k = \mathbf{300\text{ N/m}}$ \quad \textbf{c)} $F = \mathbf{45\text{ N}}$
+\end{tcolorbox}
+}
+
+\vspace{0.5cm}
+\exercici{El salt del "Bungee" (Equilibri vertical)}
+Una molla de joguina té una longitud natural ($L_0$) de $10\text{ cm}$. Penjam verticalment de la molla una massa de $500\text{ g}$ i deixem que arribi a l'equilibri. Sabem que la constant de la molla és $k = 150\text{ N/m}$.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Calcula el pes de la massa en Newtons ($g = 9{,}81\text{ m/s}^2$).
+  \item Determina l'allargament ($\Delta x$) que pateix la molla sota aquesta càrrega.
+  \item Quina serà la longitud total ($L$) de la molla mentre sosté la massa?
+  \item Dibuixa la gràfica $L$ vs $F$, marcant el punt on la recta talla l'eix vertical (el valor de $L_0$).
+\end{enumerate}
+
+{\color{blue}
+\textbf{a) Pes:} Massa en SI és $0{,}5\text{ kg}$. $P = m \cdot g = 0{,}5 \cdot 9{,}81 = 4{,}905\text{ N}$.
+
+\textbf{b) Allargament:} En equilibri, la força elàstica iguala el pes ($F_e = P$).\\
+$k \cdot \Delta x = 4{,}905 \implies \Delta x = \frac{4{,}905}{150} = 0{,}0327\text{ m} = 3{,}27\text{ cm}$.
+
+\textbf{c) Longitud total:} $L = L_0 + \Delta x = 10\text{ cm} + 3{,}27\text{ cm} = 13{,}27\text{ cm}$.
+
+\textbf{d) Gràfica $\mathbf{L}$ vs $\mathbf{F}$:}
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[
+    width=6cm, height=4.5cm,
+    xlabel={$F$ (N)}, ylabel={$L$ (cm)},
+    xmin=0, xmax=6, ymin=0, ymax=15,
+    axis lines=left, grid=major,
+    every axis plot/.append style={thick, blue}
+  ]
+  \addplot[domain=0:6] {10 + (x/150)*100};
+  \filldraw[red] (axis cs:0,10) circle (2pt) node[right, text=black] {$L_0 = 10\text{ cm}$};
+  \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[title=Respostes Finals,colframe=red!70!black,colback=red!5,sharp corners=south,fontupper=\color{blue}]
+\textbf{a)} $P = \mathbf{4{,}905\text{ N}}$ \quad \textbf{b)} $\Delta x = \mathbf{3{,}27\text{ cm}}$ \quad \textbf{c)} $L = \mathbf{13{,}27\text{ cm}}$
+\end{tcolorbox}
+}
+
+\clearpage
+\exercici{Informe del Laboratori (Anàlisi de dades)}
+Els alumnes han obtingut la següent taula de dades al laboratori utilitzant una molla desconeguda:
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Massa (kg)} & \textbf{Longitud L (m)} & \textbf{Força F (N)} \\
+\hline
+$0{,}20$ & $0{,}25$ & ? \\
+$0{,}50$ & $0{,}40$ & ? \\
+\hline
+\end{tabular}
+\end{center}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Completa la columna de la Força ($F$) calculant el pes de cada massa.
+  \item Utilitzant la "Fórmula dels 2 punts", calcula la constant elàstica $k$ de la molla: $k = \frac{F_2 - F_1}{L_2 - L_1}$.
+  \item Dedueix la longitud natural ($L_0$) de la molla (la longitud quan $F = 0\text{ N}$).
+  \item Dibuixa la gràfica $\Delta x$ vs $F$ (compte amb els eixos!) i explica per què el pendent d'aquesta gràfica és $1/k$ i no $k$.
+\end{enumerate}
+
+{\color{blue}
+\textbf{a) Càlcul de Forces:}
+$F_1 = m_1 \cdot g = 0{,}20 \cdot 9{,}81 = 1{,}962\text{ N}$.\\
+$F_2 = m_2 \cdot g = 0{,}50 \cdot 9{,}81 = 4{,}905\text{ N}$.
+
+\textbf{b) Constant elàstica:}
+$k = \frac{F_2 - F_1}{L_2 - L_1} = \frac{4{,}905 - 1{,}962}{0{,}40 - 0{,}25} = \frac{2{,}943}{0{,}15} = 19{,}62\text{ N/m}$.
+
+\textbf{c) Longitud natural:}
+$F_1 = k \cdot (L_1 - L_0) \implies 1{,}962 = 19{,}62 \cdot (0{,}25 - L_0) \implies 0{,}1 = 0{,}25 - L_0 \implies L_0 = 0{,}15\text{ m}$.
+
+\textbf{d) Gràfica $\mathbf{\Delta x}$ vs $\mathbf{F}$:}
+Si invertim els eixos posant $F$ a l'horitzontal i $\Delta x$ al vertical, la funció és $\Delta x = \frac{1}{k} \cdot F$. Per això el pendent és l'invers de $k$.
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[
+    width=6cm, height=4.5cm,
+    xlabel={$F$ (N)}, ylabel={$\Delta x$ (m)},
+    xmin=0, xmax=6, ymin=0, ymax=0.4,
+    axis lines=left, grid=major,
+    every axis plot/.append style={thick, blue}
+  ]
+  \addplot[domain=0:6] {(1/19.62)*x};
+  \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[title=Respostes Finals,colframe=red!70!black,colback=red!5,sharp corners=south,fontupper=\color{blue}]
+\textbf{a)} $F_1 = \mathbf{1{,}962\text{ N}}, F_2 = \mathbf{4{,}905\text{ N}}$ \quad \textbf{b)} $k = \mathbf{19{,}62\text{ N/m}}$ \quad \textbf{c)} $L_0 = \mathbf{0{,}15\text{ m}}$
+\end{tcolorbox}
+}
+
+\vspace{0.5cm}
+\exercici{Resistència de materials (Límit elàstic)}
+S'està provant un cable elàstic per a un sistema de seguretat. La constant de Hooke és $k = 2.500\text{ N/m}$. El fabricant indica que el límit elàstic del material s'assoleix quan s'aplica una força de $1.000\text{ N}$.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Quin és l'allargament màxim ($\Delta x$) que pot admetre el cable abans de sortir de la zona elàstica?
+  \item Si apliquem una massa de $120\text{ kg}$, el cable recuperarà la seva forma original en treure el pes? Justifica-ho matemàticament.
+  \item Què li passaria al cable si hi pengéssim una massa de $200\text{ kg}$? Respon utilitzant els conceptes de "zona elàstica" i "zona plàstica".
+  \item Dibuixa la gràfica $F$ vs $\Delta x$ completa, mostrant la zona on es compleix la Llei de Hooke i la zona on el material es deforma permanentment.
+\end{enumerate}
+
+{\color{blue}
+\textbf{a) Allargament màxim elàstic:}
+$\Delta x_{\text{màx}} = \frac{F_{\text{màx}}}{k} = \frac{1000}{2500} = 0{,}4\text{ m}$.
+
+\textbf{b) Càrrega de 120 kg:}
+$F = 120 \cdot 9{,}81 = 1177{,}2\text{ N}$. Com que supera el límit ($1177{,}2\text{ N} > 1000\text{ N}$), entra a la zona plàstica i \textbf{no} recuperarà la forma original.
+
+\textbf{c) Càrrega de 200 kg:}
+Aquesta massa suposa $F = 1962\text{ N}$. S'endinsa profundament a la \textbf{zona plàstica}, patint una deformació irreversible i arriscant-se al punt de ruptura.
+
+\textbf{d) Gràfica $\mathbf{F}$ vs $\mathbf{\Delta x}$:}
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[
+    width=6cm, height=4.5cm,
+    xlabel={$\Delta x$ (m)}, ylabel={$F$ (N)},
+    xmin=0, xmax=0.6, ymin=0, ymax=1500,
+    axis lines=left, ticks=none,
+    every axis plot/.append style={thick}
+  ]
+  \addplot[blue, domain=0:0.4] {2500*x};
+  \addplot[red, domain=0.4:0.6] {1000 + 400*sqrt(x-0.4)};
+  \draw[dashed, gray] (axis cs:0.4,0) -- (axis cs:0.4,1000);
+  \node[anchor=north west, font=\footnotesize] at (axis cs:0.05,800) {Zona Elàstica};
+  \node[anchor=north west, font=\footnotesize] at (axis cs:0.42,1400) {Zona Plàstica};
+  \filldraw[black] (axis cs:0.4,1000) circle (2pt) node[right, font=\footnotesize] {Límit elàstic};
+  \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[title=Respostes Finals,colframe=red!70!black,colback=red!5,sharp corners=south,fontupper=\color{blue}]
+\textbf{a)} $\Delta x_{\text{màx}} = \mathbf{0{,}4\text{ m}}$ \quad \textbf{b)} $F = 1177{,}2\text{ N}$ \textbf{(No recupera forma)}\\
+\textbf{c)} Deformació permanent, entra en la \textbf{zona plàstica}.
+\end{tcolorbox}
+}
+
+\clearpage
+\exercici{(Nivell Avançat): La Molla al Pla Inclinat}
+En un laboratori de proves, s'instal·la una molla de constant $k = 400\text{ N/m}$ a la part superior d'una rampa polida (sense fregament) que té una inclinació de $\alpha = 25^\circ$ respecte a l'horitzontal. Es connecta a la molla un bloc metàl·lic de $12\text{ kg}$ i es deixa que llisqui pel pla fins que el sistema s'atura en equilibri.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Dibuixa el DCL (Diagrama de Cos Lliure) del bloc sobre el pla inclinat, indicant clarament la força elàstica ($F_e$), la Normal ($N$) i la descomposició del pes ($P_x$ i $P_y$).
+  \item Calcula la component del pes paral·lela al pla ($P_x$), que és la força responsable d'estirar la molla ($P_x = m \cdot g \cdot \sin \alpha$).
+  \item Aplicant la condició d'equilibri ($\sum F_x = 0$), calcula l'allargament ($\Delta x$) patirà la molla en centímetres.
+  \item Si decidim canviar el bloc per un altre de $20\text{ kg}$, quina hauria de ser la constant $k$ de la nova molla per a que l'allargament ($\Delta x$) fos exactament el mateix que en l'apartat anterior?
+  \item Dibuixa la gràfica $F$ vs $\Delta x$ per a la primera molla, marcant el punt exacte de funcionament d'aquest exercici.
+\end{enumerate}
+
+{\color{blue}
+\textbf{a) DCL del bloc lligat a la molla:}
+\begin{center}
+\begin{tikzpicture}[rotate=25]
+  \draw[thick] (-2,0) -- (2,0);
+  \draw[thick, fill=blue!10] (-0.5,0) rectangle (0.5,0.8);
+  \filldraw (0,0.4) circle (2pt);
+  \draw[->, thick, purple] (0,0.8) -- (0,2) node[above] {$N$};
+  \draw[->, thick, purple, dashed] (0,0) -- (0,-1.5) node[below] {$P_y$};
+  \draw[->, thick, red] (0,0.4) -- (-1.5,0.4) node[left] {$P_x$};
+  \draw[decorate, decoration={coil,segment length=4pt,amplitude=3pt}, thick, gray] (0.5,0.4) -- (2.5,0.4);
+  \draw[->, thick, red] (0.5,0.4) -- (1.5,0.4) node[above] {$F_e$};
+  \draw[->, thick, black] (0,0.4) -- (-0.6,-1.5) node[right] {$P$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{b) Component $\mathbf{P_x}$:}
+$P_x = m \cdot g \cdot \sin(25^\circ) = 12 \cdot 9{,}81 \cdot 0{,}4226 \approx 49{,}75\text{ N}$.
+
+\textbf{c) Allargament a l'equilibri:}
+Com que està en equilibri, $\sum F_x = 0 \implies F_e = P_x$.\\
+Substituint els valors, on $F_e = k \cdot \Delta x$:\\
+$400 \cdot \Delta x = 49{,}75$\\
+$\Delta x = \frac{49{,}75}{400} = 0{,}1244\text{ m} = 12{,}44\text{ cm}$.
+
+\textbf{d) Nova constant per al mateix allargament:}
+Nou pes paral·lel: $P_x' = 20 \cdot 9{,}81 \cdot \sin(25^\circ) = 196{,}2 \cdot 0{,}4226 \approx 82{,}91\text{ N}$.\\
+Per mantenir $\Delta x = 0{,}1244\text{ m}$, necessitem una nova $k$: $k_{\text{nova}} = \frac{82{,}91}{0{,}1244} \approx 666{,}5\text{ N/m}$.
+
+\textbf{e) Gràfica $\mathbf{F}$ vs $\mathbf{\Delta x}$:}
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[
+    width=6cm, height=4.5cm,
+    xlabel={$\Delta x$ (m)}, ylabel={$F$ (N)},
+    xmin=0, xmax=0.2, ymin=0, ymax=80,
+    axis lines=left, grid=major,
+    every axis plot/.append style={thick, blue}
+  ]
+  \addplot[domain=0:0.2] {400*x};
+  \filldraw[red] (axis cs:0.1244,49.75) circle (2pt) node[above left, text=black, font=\footnotesize] {Punt de treball};
+  \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[title=Respostes Finals,colframe=red!70!black,colback=red!5,sharp corners=south,fontupper=\color{blue}]
+\textbf{b)} $P_x = \mathbf{49{,}75\text{ N}}$ \quad \textbf{c)} $\Delta x = \mathbf{12{,}44\text{ cm}}$ \quad \textbf{d)} $k_{\text{nova}} = \mathbf{666{,}5\text{ N/m}}$
+\end{tcolorbox}
+}
+
+\end{document}

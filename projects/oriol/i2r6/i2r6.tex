@@ -19,7 +19,8 @@
   colorlinks = true,
   linkcolor  = blue,
   citecolor  = blue,
-  urlcolor   = blue
+  urlcolor   = blue,
+  hypertexnames = false
 ]{hyperref}
 \urlstyle{same}
 
@@ -56,7 +57,6 @@
   \centering
   \vspace*{1.6cm}
   \includegraphics[width=10cm]{images/upc_fib.png}\par
-  \source{Compiled by the author}
   \vspace{1.4cm}
 
   {\Large \scshape Universitat Polit\`ecnica de Catalunya\par}
@@ -67,9 +67,9 @@
 
   {\scshape\Large Research Report\par}
   \vspace{0.5cm}
-  {\Huge\bfseries Synthetic Data Research on Machine Learning Approaches\par}
+  {\Huge\bfseries Downstream Utility of Synthetic Data\par}
   \vspace{0.5cm}
-  {\Large\bfseries An Evaluative Study of Clustering and Regression\par}
+  {\Large\bfseries Structural and Inferential Evaluation in Clustering and Regression\par}
 
   \vfill
 
@@ -85,23 +85,29 @@
 \chapter*{Abstract / Resum / Resumen}
 
 \section*{Abstract}
-Clustering algorithms are fundamental to unsupervised learning, yet their performance is often evaluated only through accuracy-style indicators while structural fidelity remains underexplored. This report studies whether synthetic data generated through the Classification and Regression Trees (CART) method preserves the geometry required by clustering workflows. The analysis compares k-means against Agglomerative Hierarchical Clustering with Ward's linkage across controlled experiments that vary sample size, number of clusters, separation, noise, dimensionality, and distribution family.
+Synthetic data is increasingly used as a privacy-preserving substitute for original data, but its value depends on whether it preserves the conclusions of downstream analyses. This thesis evaluates that analytical utility in two complementary settings: clustering, where utility depends on structural and geometric fidelity, and regression, where utility depends on preserving coefficients, uncertainty, and confidence intervals.
 
-Beyond cluster-number recovery, the study measures structural degradation through the Gini coefficient for cluster balance, Mean Centroid Distance for spatial drift, and Mean Variance Difference for dispersion preservation. The results show that CART-generated synthetic data remains useful for spherical normal settings, but introduces blocky artifacts that degrade centroid-based clustering on skewed gamma data. Hierarchical Clustering is consistently more robust than K-Means when the synthetic generation process distorts non-convex cluster geometry.
+The first study examines whether synthetic data generated with Classification and Regression Trees (CART) preserves the geometry required by clustering workflows. It compares K-Means and Agglomerative Hierarchical Clustering across controlled simulations varying sample size, cluster count, separation, dimensionality, correlation, and distribution family. The results show that CART remains useful for spherical normal settings but introduces block-like artifacts that degrade centroid-based clustering on skewed Gamma data. Hierarchical Clustering is more robust when synthesis distorts non-convex structure.
+
+The second study evaluates inferential utility for linear and logistic regression. It compares CART-based synthesis with parametric generators using Confidence Interval Overlap, Bias Ratio, and Confidence Interval Width Ratio. Parametric synthesis performs best when its assumptions match the data-generating process, while CART becomes less reliable in high-dimensional, correlated, small-sample, and logistic settings. Overall, the thesis shows that synthetic-data utility is not intrinsic to a generator alone; it depends on the interaction between synthesis method, data structure, and downstream analytical task.
 
 \vspace{1cm}
 
 \section*{Resum}
-Els algorismes de clustering s\'on una eina fonamental de l'aprenentatge no supervisat, per\`o el seu rendiment sovint s'avalua nom\'es amb indicadors d'encert i no amb mesures de fidelitat estructural. Aquest treball estudia si les dades sint\`etiques generades amb el m\`etode CART conserven la geometria necess\`aria per a tasques de clustering. L'an\`alisi compara k-means amb el clustering jer\`arquic aglomeratiu amb l'enlla\c{c} de Ward en un conjunt controlat d'experiments que varia la mida mostral, el nombre de cl\'usters, la separaci\'o, la correlaci\'o, la dimensionalitat i la fam\'ilia de distribucions.
+Les dades sint\`etiques s'utilitzen cada vegada m\'es com a substitut de les dades originals per protegir la privadesa, per\`o el seu valor dep\`en de si conserven les conclusions de les an\`alisis posteriors. Aquesta tesi avalua aquesta utilitat anal\'itica en dos contextos complementaris: el clustering, on la utilitat dep\`en de la fidelitat estructural i geom\`etrica, i la regressi\'o, on la utilitat dep\`en de preservar coeficients, incertesa i intervals de confian\c{c}a.
 
-M\'es enll\`a de recuperar el nombre correcte de cl\'usters, l'estudi quantifica la degradaci\'o estructural amb el coeficient de Gini, la dist\`ancia mitjana entre centroides i la difer\`encia mitjana de vari\`ancia. Els resultats indiquen que les dades sint\`etiques generades amb CART mantenen una utilitat elevada quan la geometria original \'es esf\`erica i propera a la normalitat, per\`o introdueixen artefactes ortogonals que dificulten el comportament de k-means en escenaris esbiaixats de tipus gamma. En aquests casos, el clustering jer\`arquic mostra una robustesa superior.
+El primer estudi analitza si les dades sint\`etiques generades amb arbres de classificaci\'o i regressi\'o (CART) conserven la geometria necess\`aria per a tasques de clustering. Es comparen K-Means i clustering jer\`arquic aglomeratiu en simulacions controlades que varien la mida mostral, el nombre de cl\'usters, la separaci\'o, la dimensionalitat, la correlaci\'o i la fam\'ilia de distribucions. Els resultats mostren que CART \'es \'util en escenaris normals i esf\`erics, per\`o introdueix artefactes en blocs que perjudiquen el clustering basat en centroides en dades Gamma esbiaixades. El clustering jer\`arquic \'es m\'es robust quan la s\'intesi distorsiona estructures no convexes.
+
+El segon estudi avalua la utilitat inferencial en regressi\'o lineal i log\'istica. Es compara la s\'intesi basada en CART amb generadors param\`etrics mitjan\c{c}ant el solapament d'intervals de confian\c{c}a, el r\`atio de biaix i el r\`atio d'amplada dels intervals. La s\'intesi param\`etrica obt\'e els millors resultats quan les seves hip\`otesis coincideixen amb el proc\'es generador de dades, mentre que CART \'es menys fiable en escenaris d'alta dimensionalitat, alta correlaci\'o, mostres petites i regressi\'o log\'istica. En conjunt, la tesi mostra que la utilitat de les dades sint\`etiques no dep\`en nom\'es del generador, sin\'o de la interacci\'o entre el m\`etode de s\'intesi, l'estructura de les dades i la tasca anal\'itica posterior.
 
 \vspace{1cm}
 
 \section*{Resumen}
-Los algoritmos de clustering son una herramienta fundamental del aprendizaje no supervisado, pero su rendimiento a menudo se eval\'ua solo con indicadores de acierto y no con medidas de fidelidad estructural. Este trabajo estudia si los datos sint\'eticos generados con el m\'etodo CART conservan la geometr\'ia necesaria para tareas de clustering. El an\'alisis compara k-means con el clustering jer\'arquico aglomerativo con el enlace de Ward en un conjunto controlado de experimentos que var\'ia el tama\~no muestral, el n\'umero de cl\'usteres, la separaci\'on, la correlaci\'on, la dimensionalidad y la familia de distribuciones.
+Los datos sint\'eticos se utilizan cada vez m\'as como sustituto de los datos originales para preservar la privacidad, pero su valor depende de si conservan las conclusiones de los an\'alisis posteriores. Esta tesis eval\'ua esa utilidad anal\'itica en dos contextos complementarios: el clustering, donde la utilidad depende de la fidelidad estructural y geom\'etrica, y la regresi\'on, donde la utilidad depende de preservar coeficientes, incertidumbre e intervalos de confianza.
 
-M\'as all\'a de recuperar el n\'umero correcto de cl\'usteres, el estudio cuantifica la degradaci\'on estructural con el coeficiente de Gini, la distancia media entre centroides y la diferencia media de varianza. Los resultados indican que los datos sint\'eticos generados con CART mantienen una utilidad elevada cuando la geometr\'ia original es esf\'erica y cercana a la normalidad, pero introducen artefactos ortogonales que dificultan el comportamiento de k-means en escenarios sesgados de tipo gamma. En estos casos, el clustering jer\'arquico muestra una robustez superior.
+El primer estudio analiza si los datos sint\'eticos generados mediante \'arboles de clasificaci\'on y regresi\'on (CART) conservan la geometr\'ia necesaria para tareas de clustering. Se comparan K-Means y clustering jer\'arquico aglomerativo en simulaciones controladas que var\'ian el tama\~no muestral, el n\'umero de cl\'usteres, la separaci\'on, la dimensionalidad, la correlaci\'on y la familia de distribuciones. Los resultados muestran que CART es \'util en escenarios normales y esf\'ericos, pero introduce artefactos en bloques que perjudican el clustering basado en centroides en datos Gamma sesgados. El clustering jer\'arquico es m\'as robusto cuando la s\'intesis distorsiona estructuras no convexas.
+
+El segundo estudio eval\'ua la utilidad inferencial en regresi\'on lineal y log\'istica. Se compara la s\'intesis basada en CART con generadores param\'etricos usando el solapamiento de intervalos de confianza, el ratio de sesgo y el ratio de anchura de los intervalos. La s\'intesis param\'etrica obtiene mejores resultados cuando sus supuestos coinciden con el proceso generador de datos, mientras que CART es menos fiable en escenarios de alta dimensionalidad, alta correlaci\'on, muestras peque\~nas y regresi\'on log\'istica. En conjunto, la tesis muestra que la utilidad de los datos sint\'eticos no depende solo del generador, sino de la interacci\'on entre el m\'etodo de s\'intesis, la estructura de los datos y la tarea anal\'itica posterior.
 
 \chapter*{Acknowledgements}
 I would like to express my sincere gratitude to my supervisor, Jordi Cort\'es, for his continuous support, patience, and motivation throughout this journey. It has been an absolute pleasure working with him for more than a year; his guidance, technical expertise, and encouragement have been fundamental to my growth as a researcher and the successful completion of this thesis. 
@@ -116,18 +122,22 @@ I would also like to thank Xinnuo Chen \cite{chen2025}, whose preliminary explor
 
 \pagenumbering{arabic}
 
-\part{Clustering Research}
+\include{chapters/general_intro}
+
+\part{Study I: Structural Utility in Clustering}
 \include{chapters/clustering/intro}
 \include{chapters/clustering/methods}
 \include{chapters/clustering/results}
 \include{chapters/clustering/conclusions}
 
-\part{Regression Research}
+\part{Study II: Inferential Utility in Regression}
 \include{chapters/regression/introduction}
 \include{chapters/regression/methods}
 \include{chapters/regression/linear_results}
 \include{chapters/regression/logistic_results}
 \include{chapters/regression/conclusions}
+
+\include{chapters/general_conclusions}
 
 \include{chapters/appendices}
 

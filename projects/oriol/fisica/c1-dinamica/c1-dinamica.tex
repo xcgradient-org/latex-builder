@@ -1,0 +1,177 @@
+\documentclass[12pt,a4paper,twoside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+
+\geometry{top=2.0cm, bottom=1.5cm, left=1.5cm, right=1.5cm, headheight=15pt, headsep=0.5cm}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{Física · 4t ESO · Escola Cervetó}}
+\fancyhead[R]{\small\textit{Dinàmica}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\section}[block]{\large\bfseries}{}{0em}{}[\vspace{2pt}\hrule\vspace{4pt}]
+
+\newcounter{exercici}
+\newcommand{\exercici}[1]{%
+  \stepcounter{exercici}
+  \section*{Exercici \theexercici\ \textnormal{· #1}}
+  \vspace{-10pt}
+}
+
+\begin{document}
+
+\begin{center}
+  \vspace*{-15pt}
+  {\Huge\bfseries Col·lecció 1: Dinàmica}\\[8pt]
+  {\Large Física · 4t ESO \quad·\quad Escola Cervetó \quad·\quad Prof.\ Oriol Farrés}\\[12pt]
+  \hrule height 1.5pt
+  \vspace{5pt}
+\end{center}
+
+\vspace{0.3cm}
+
+\subsection*{Bloc 1: Dinàmica i Lleis de Newton (I)}
+
+\exercici{El Laboratori de Partícules (Superfície Horitzontal)}
+En una prova de laboratori, s'empeny una caixa de material experimental de $15 \text{ kg}$ sobre una superfície horitzontal. S'aplica una força constant i paral·lela al terra de $60 \text{ N}$. El coeficient de fregament cinètic entre la caixa i el terra és $\mu = 0{,}20$.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Dibuixa el DCL detallat de la caixa, indicant totes les forces que hi actuen ($P, N, F, F_{fr}$).
+  \item Calcula el valor de la força del pes ($P$) i de la força normal ($N$).
+  \item Determina la força de fregament ($F_{fr}$) i l'acceleració ($a$) que adquireix el sistema.
+  \item Dibuixa la gràfica $F_{fr}$ vs $N$ si anéssim variant la massa de la caixa, indicant què representa el pendent.
+\end{enumerate}
+
+\vspace{0.5cm}
+\exercici{La Rampa de Galileu (Pla inclinat sense fregament)}
+Recuperant els experiments de Galileu, deixem lliscar una esfera de bronze de $8 \text{ kg}$ per una rampa perfectament polida (sense fregament) que té una inclinació de $\alpha = 30^\circ$ respecte a l'horitzontal.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Dibuixa l'esquema del pla inclinat i el DCL de l'esfera, descomponent el pes en els eixos $x$ i $y$.
+  \item Calcula les components del pes: $P_x$ (paral·lela al pla) i $P_y$ (perpendicular al pla).
+  \item Troba el valor de la força normal ($N$) i l'acceleració de baixada de l'esfera.
+  \item Dibuixa una gràfica qualitativa $v-t$ del moviment de l'esfera mentre baixa per la rampa.
+\end{enumerate}
+
+\vspace{0.5cm}
+\exercici{Logística a la neu (Pla inclinat amb fregament)}
+Un trineu de subministraments de $25 \text{ kg}$ es troba en una pendent gelada de $20^\circ$. A diferència de l'exercici anterior, aquí sí que hi ha fregament, amb un coeficient $\mu = 0{,}15$.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Dibuixa el DCL complet, incloent-hi la força de fregament oposada al moviment.
+  \item Calcula la força normal i la força de fregament que actua sobre el trineu.
+  \item Utilitzant la fórmula directa de la xuleta ($a = g(\sin \alpha - \mu \cos \alpha)$), calcula l'acceleració amb la qual baixarà el trineu.
+  \item Si el pendent fos més suau, a quin angle límit ($\alpha_{lim}$) el trineu començaria a lliscar si el coeficient de fregament estàtic fos $\mu_e = 0{,}25$?
+\end{enumerate}
+
+\clearpage
+\exercici{L'entrenament de l'astronauta (Ascensors)}
+Dins d'un simulador de gravetat a la base de la NASA, un astronauta de $75 \text{ kg}$ es troba sobre una bàscula mentre l'ascensor realitza diferents maniobres verticals.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Dibuixa el DCL de l'astronauta indicant les forces en l'eix vertical ($P$ i $N$).
+  \item Quina força marcarà la bàscula (la Normal) si el simulador puja amb una acceleració constant de $2{,}5 \text{ m/s}^2$?
+  \item Si de cop el simulador frena mentre puja amb una acceleració de $-3 \text{ m/s}^2$, quin serà el pes aparent de l'astronauta?
+  \item Dibuixa la gràfica $v-t$ de tot el trajecte si primer accelera positivament, després manté velocitat constant (equilibri) i finalment frena fins a aturar-se.
+\end{enumerate}
+
+\vspace{0.5cm}
+\exercici{Remolcant el totterreny (Pla inclinat + Força externa)}
+Un cotxe de $1.200 \text{ kg}$ s'ha avariat en una rampa amb un pendent de $15^\circ$. Una grua l'està remolcant cap amunt aplicant una força paral·lela al pla. El coeficient de fregament entre els pneumàtics i l'asfalt és $\mu = 0{,}30$.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Dibuixa el DCL complet, identificant correctament la direcció de la força de la grua ($F$) i de la força de fregament ($F_{fr}$).
+  \item Calcula el valor de la força normal ($N$) i de la força de fregament cinètica.
+  \item Quina força mínima ha de fer la grua perquè el cotxe pugi amb una acceleració constant de $1{,}2 \text{ m/s}^2$?
+  \item Dibuixa la gràfica $F_{fr}$ vs $F_{apl}$ (força aplicada) explicant què passa quan el cotxe encara no s'ha començat a moure (zona estàtica).
+\end{enumerate}
+
+\vspace{0.5cm}
+\exercici{El sistema de politja (Atwood al pla inclinat)}
+Aquest és l'exercici de síntesi final. Tenim dos blocs connectats per una corda ideal que passa per una politja sense fregament. El bloc A ($10 \text{ kg}$) es troba sobre un pla inclinat de $40^\circ$ amb un coeficient de fregament $\mu = 0{,}20$. El bloc B ($15 \text{ kg}$) penja verticalment per l'extrem de la corda.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Dibuixa els DCL independents per a cada cos, establint un sistema d'eixos coherent amb el sentit del moviment (el bloc B baixa).
+  \item Escriu les equacions de la 2a Llei de Newton ($\sum F = m \cdot a$) per a cada bloc.
+  \item Calcula l'acceleració del sistema i la tensió ($T$) de la corda.
+  \item Dibuixa la gràfica $x-t$ per al bloc B des que s'allibera el sistema fins que toca terra, considerant que el moviment és un MRUA.
+\end{enumerate}
+
+\clearpage
+
+
+\vspace{0.5cm}
+\subsection*{Bloc 2: Força Elàstica i Llei de Hooke}
+
+\exercici{Dinamòmetres al taller (Càlcul directe)}
+Per calibrar un dinamòmetre a la classe de tecnologia, s'aplica una força horitzontal constant. S'observa que en aplicar una força de $12\text{ N}$, la molla interna s'allarga exactament $4\text{ cm}$.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Expressa l'allargament ($\Delta x$) en unitats del Sistema Internacional (SI).
+  \item Calcula la constant elàstica $k$ de la molla en $\text{N/m}$.
+  \item Quina força seria necessària per produir un allargament de $0{,}15\text{ m}$?
+  \item Dibuixa la gràfica $F$ vs $\Delta x$ d'aquesta molla, indicant clarament què representa el pendent de la recta.
+\end{enumerate}
+
+\exercici{El salt del "Bungee" (Equilibri vertical)}
+Una molla de joguina té una longitud natural ($L_0$) de $10\text{ cm}$. Penjam verticalment de la molla una massa de $500\text{ g}$ i deixem que arribi a l'equilibri. Sabem que la constant de la molla és $k = 150\text{ N/m}$.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Calcula el pes de la massa en Newtons ($g = 9{,}81\text{ m/s}^2$).
+  \item Determina l'allargament ($\Delta x$) que pateix la molla sota aquesta càrrega.
+  \item Quina serà la longitud total ($L$) de la molla mentre sosté la massa?
+  \item Dibuixa la gràfica $L$ vs $F$, marcant el punt on la recta talla l'eix vertical (el valor de $L_0$).
+\end{enumerate}
+
+\vspace{0.5cm}
+\exercici{Informe del Laboratori (Anàlisi de dades)}
+Els alumnes han obtingut la següent taula de dades al laboratori utilitzant una molla desconeguda:
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Massa (kg)} & \textbf{Longitud L (m)} & \textbf{Força F (N)} \\
+\hline
+$0{,}20$ & $0{,}25$ & ? \\
+$0{,}50$ & $0{,}40$ & ? \\
+\hline
+\end{tabular}
+\end{center}
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Completa la columna de la Força ($F$) calculant el pes de cada massa.
+  \item Utilitzant la "Fórmula dels 2 punts", calcula la constant elàstica $k$ de la molla: $k = \frac{F_2 - F_1}{L_2 - L_1}$.
+  \item Dedueix la longitud natural ($L_0$) de la molla (la longitud quan $F = 0\text{ N}$).
+  \item Dibuixa la gràfica $\Delta x$ vs $F$ (compte amb els eixos!) i explica per què el pendent d'aquesta gràfica és $1/k$ i no $k$.
+\end{enumerate}
+
+\clearpage
+
+
+\vspace{0.5cm}
+\exercici{Resistència de materials (Límit elàstic)}
+S'està provant un cable elàstic per a un sistema de seguretat. La constant de Hooke és $k = 2.500\text{ N/m}$. El fabricant indica que el límit elàstic del material s'assoleix quan s'aplica una força de $1.000\text{ N}$.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Quin és l'allargament màxim ($\Delta x$) que pot admetre el cable abans de sortir de la zona elàstica?
+  \item Si apliquem una massa de $120\text{ kg}$, el cable recuperarà la seva forma original en treure el pes? Justifica-ho matemàticament.
+  \item Què li passaria al cable si hi pengéssim una massa de $200\text{ kg}$? Respon utilitzant els conceptes de "zona elàstica" i "zona plàstica".
+  \item Dibuixa la gràfica $F$ vs $\Delta x$ completa, mostrant la zona on es compleix la Llei de Hooke i la zona on el material es deforma permanentment.
+\end{enumerate}
+
+\exercici{(Nivell Avançat): La Molla al Pla Inclinat}
+En un laboratori de proves, s'instal·la una molla de constant $k = 400\text{ N/m}$ a la part superior d'una rampa polida (sense fregament) que té una inclinació de $\alpha = 25^\circ$ respecte a l'horitzontal. Es connecta a la molla un bloc metàl·lic de $12\text{ kg}$ i es deixa que llisqui pel pla fins que el sistema s'atura en equilibri.
+\begin{enumerate}[label=\textbf{\alph*)}]
+  \item Dibuixa el DCL (Diagrama de Cos Lliure) del bloc sobre el pla inclinat, indicant clarament la força elàstica ($F_e$), la Normal ($N$) i la descomposició del pes ($P_x$ i $P_y$).
+  \item Calcula la component del pes paral·lela al pla ($P_x$), que és la força responsable d'estirar la molla ($P_x = m \cdot g \cdot \sin \alpha$).
+  \item Aplicant la condició d'equilibri ($\sum F_x = 0$), calcula l'allargament ($\Delta x$) patirà la molla en centímetres.
+  \item Si decidim canviar el bloc per un altre de $20\text{ kg}$, quina hauria de ser la constant $k$ de la nova molla per a que l'allargament ($\Delta x$) fos exactament el mateix que en l'apartat anterior?
+  \item Dibuixa la gràfica $F$ vs $\Delta x$ per a la primera molla, marcant el punt exacte de funcionament d'aquest exercici.
+\end{enumerate}
+
+\end{document}

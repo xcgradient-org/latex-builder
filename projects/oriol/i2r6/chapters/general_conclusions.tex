@@ -1,0 +1,51 @@
+\chapter{General Discussion and Conclusions}
+\label{chap:general-conclusions}
+
+\section{Cross-Study Synthesis}
+\label{sec:general-cross-study-synthesis}
+
+The two studies in this thesis evaluate different downstream uses of synthetic data, but they lead to the same general conclusion: utility is task-dependent. A synthetic dataset can be adequate for one analytical purpose and problematic for another because each downstream method depends on different properties of the data.
+
+In the clustering study, the relevant property was geometry. CART-generated synthetic data remained useful when the original clusters were close to spherical and well separated, but it introduced block-like distortions in skewed Gamma settings. These distortions were especially harmful for K-Means, whose centroid-based objective assumes compact and roughly convex clusters. Hierarchical Clustering was more robust because it could follow connected structures more naturally.
+
+In the regression study, the relevant property was inference. The question was not whether the synthetic data resembled the original data visually, but whether regression coefficients and confidence intervals were preserved. Linear regression was relatively stable, especially when the parametric generator matched the original data-generating mechanism. Logistic regression was more fragile: small samples, higher dimensionality, and correlation reduced Confidence Interval Overlap, and CART could produce overconfident synthetic intervals in binary-outcome settings.
+
+Taken together, these results show that the same synthesis principle can fail through different mechanisms. For clustering, failure appears as geometric distortion. For regression, failure appears as biased estimates, unstable uncertainty, or confidence intervals that no longer support the same inferential conclusion.
+
+\section{Generator-Task Alignment}
+\label{sec:generator-task-alignment}
+
+The strongest practical lesson is that generator choice should be aligned with the intended analysis. CART is attractive because it is flexible and non-parametric, but that flexibility does not guarantee analytical utility. Its tree-based partitions can preserve some local relationships while also introducing axis-aligned artifacts that interfere with smooth geometry or smooth model-based relationships.
+
+Parametric synthesis performed better in regression settings where the data-generating process matched the assumptions of the downstream model. This does not imply that parametric methods are universally better. Rather, it reinforces the broader principle that synthetic data should be evaluated in relation to the analytical claim it is meant to support.
+
+For exploratory structural analysis, the key validation questions are whether distances, densities, separability, and dispersion are preserved. For inferential regression, the key validation questions are whether coefficients, standard errors, confidence intervals, and conclusions are preserved. A single generic utility score is unlikely to capture both requirements.
+
+\section{Limitations}
+\label{sec:general-limitations}
+
+The thesis uses controlled simulations rather than real administrative datasets. This design makes the mechanisms of failure easier to isolate, but it also limits direct generalization to messy real-world data with missingness, outliers, mixed variable types, and unknown data-generating mechanisms.
+
+The clustering study focuses on CART synthesis and compares K-Means with Agglomerative Hierarchical Clustering. Other synthesis methods and clustering algorithms, such as density-based or model-based clustering, may respond differently to the same distortions.
+
+The regression study focuses on sequential synthesis and evaluates linear and logistic models through Confidence Interval Overlap, Bias Ratio, and Width Ratio. Other inferential targets, such as hypothesis-test agreement, prediction intervals, calibration, or coverage, may reveal additional trade-offs.
+
+Finally, the thesis evaluates utility but does not empirically quantify privacy risk. Synthetic data is motivated by privacy-preserving access, but practical deployment requires a joint assessment of privacy and utility.
+
+\section{Future Work}
+\label{sec:general-future-work}
+
+Future research should extend this framework to additional synthesis methods, including deep generative models, Bayesian approaches, and differentially private generators. A direct comparison between these methods would clarify whether the artifacts observed here are specific to CART or represent broader failure modes in synthetic data generation.
+
+For clustering, future work should evaluate density-based and model-based algorithms and develop utility metrics that directly penalize changes in topology, density connectivity, and cluster separability. For regression, future work should incorporate coverage, hypothesis-decision agreement, and multiple-imputation-style combining rules for synthetic datasets.
+
+The most important extension is a joint privacy-utility analysis. A synthetic generator should not be selected only because it improves downstream utility, and it should not be accepted only because it reduces disclosure risk. The relevant operational question is which generator provides sufficient privacy while preserving the specific analytical conclusions required by the user.
+
+\section{Final Conclusion}
+\label{sec:general-final-conclusion}
+
+This thesis began with a practical question: can synthetic data replace original data for machine-learning and statistical analysis? The answer is conditional. Synthetic data can be useful, but its utility depends on the downstream task.
+
+For clustering, CART-generated synthetic data is reliable when the original geometry is simple, spherical, and well separated, but it can distort skewed structures in ways that harm centroid-based algorithms. For regression, synthetic data is most reliable when the generator matches the model structure, while CART becomes risky in small-sample, high-dimensional, correlated, or logistic settings.
+
+The general conclusion is therefore that synthetic data should be treated as an analysis-specific research instrument. Before it is used as a substitute for original data, it must be validated against the exact analytical workflow it is expected to support.
