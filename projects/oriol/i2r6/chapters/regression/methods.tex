@@ -27,7 +27,7 @@ Our evaluation focuses on the preservation of the estimated coefficients $\hat{\
 We generate Original Datasets (OD) through a controlled simulation process. From each OD, we create one corresponding Synthetic Dataset (SD) using a specified generator.
 
 \subsection{General Comparison Strategy: OD versus SD}
-The utility of the SD is measured by comparing the results of the same regression model fitted to both the OD and the SD. This "one-to-one" comparison ensures that any observed degradation is attributable solely to the synthesis process.
+The utility of the SD is measured by comparing the results of the same regression model fitted to both the OD and the SD. This ``one-to-one'' comparison ensures that any observed degradation is attributable solely to the synthesis process.
 
 \subsection{Role of Repeated Simulation Scenarios}
 To ensure statistical robustness, each unique scenario (combination of factors) is repeated $M = 1,000$ times. This allows us to calculate the average performance and the variability of the evaluation metrics across independent runs.
@@ -61,10 +61,10 @@ We evaluate two primary approaches for synthesizing the predictors $\mathbf{X}$:
 The outcome $Y$ is synthesized last, conditioned on all previously generated predictors $\mathbf{X}$, using the same family of methods (CART or Parametric).
 
 \subsection{Combined Generation Arms}
-The study evaluates "homogeneous" arms where the same method family is used for both predictors and outcomes (e.g., CART-X + CART-Y vs. Norm-X + Norm-Y).
+The study evaluates ``homogeneous'' arms where the same method family is used for both predictors and outcomes (e.g., CART-X + CART-Y vs. Norm-X + Norm-Y).
 
 \subsection{Conceptual Differences between the Generators}
-Parametric generators assume the underlying data follows a specific distribution, whereas CART generators are model-agnostic and can capture non-linearities and interactions, albeit at the risk of overfitting or introducing "blocky" artifacts.
+Parametric generators assume the underlying data follows a specific distribution, whereas CART generators are model-agnostic and can capture non-linearities and interactions, albeit at the risk of overfitting or introducing ``blocky'' artifacts.
 
 \section{Experimental Design}
 \label{sec:reg-experimental-design}
@@ -79,7 +79,7 @@ Each scenario is executed until $M=1,000$ successful fits are obtained. Scenario
 The workflow is implemented in R (using \texttt{synthpop}) for data generation and synthesis, and Python for the evaluation and visualization of results.
 
 \subsection{Quality-Control and Fit-Validation Rules}
-We apply strict quality control to ensure that the original data is "well-behaved" (no perfect collinearity) before synthesis, ensuring that any failures in the SD are truly reflective of synthetic degradation.
+We apply strict quality control to ensure that the original data is ``well-behaved'' (no perfect collinearity) before synthesis, ensuring that any failures in the SD are truly reflective of synthetic degradation.
 
 \section{Evaluation Strategy}
 \label{sec:reg-evaluation}

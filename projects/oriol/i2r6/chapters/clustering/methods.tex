@@ -85,7 +85,7 @@ Table~\ref{tab:kmeans_vs_hc} summarizes the key structural and operational diffe
 \section{Data Generation Framework}
 \label{sec:data-generation-framework}
 
-To rigorously evaluate algorithm performance, we implemented a reverse-engineering pipeline that generates a "Ground Truth" (Real) dataset and subsequently creates a Synthetic version using the method under investigation.
+To rigorously evaluate algorithm performance, we implemented a reverse-engineering pipeline that generates a ``Ground Truth'' (Real) dataset and subsequently creates a Synthetic version using the method under investigation.
 
 \subsection{Reference Data Generation (Real)}
 The reference datasets were generated using the \texttt{mvtnorm} package in R \cite{mvtnormmanual, genzbretz2009} to simulate controlled multivariate clusters. We varied four key parameters to create a total of 180 unique data configurations:
@@ -120,7 +120,7 @@ The synthesis proceeds sequentially:
 
 \textbf{Structural Artifacts}
 
-While CART is non-parametric and can capture non-linear relationships, it introduces specific geometric artifacts. Because decision trees split data using orthogonal hyperplanes (rules like $x > 5$), they tend to approximate smooth diagonal curves with "staircase" or "blocky" boundaries. A key objective of this study is to determine if this "blocky" structure causes K-Means or Hierarchical Clustering to fail.
+While CART is non-parametric and can capture non-linear relationships, it introduces specific geometric artifacts. Because decision trees split data using orthogonal hyperplanes (rules like $x > 5$), they tend to approximate smooth diagonal curves with ``staircase'' or ``blocky'' boundaries. A key objective of this study is to determine if this ``blocky'' structure causes K-Means or Hierarchical Clustering to fail.
 
 \section{Evaluation Metrics}
 \label{sec:evaluation-metrics-methods}

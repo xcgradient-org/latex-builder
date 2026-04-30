@@ -47,7 +47,7 @@ The dimensionality ($p$) shows a slight downward trend in utility. As the number
 Errors in the estimation of early conditional models propagate multiplicatively through the sequence. Consequently, high-dimensional spaces introduce compounding structural artifacts that lead to a marginal but observable decrease in the average CIO.
 
 \subsection{Analysis by Variable Type}
-Continuous predictors generally yield higher CIO than binary predictors in linear models. This phenomenon occurs because the parametric "Normal" generator accurately characterizes the true multivariate Gaussian distribution $\mathcal{N}(\mu, \Sigma)$ from which continuous variables were drawn. Conversely, synthesizing binary predictors requires an intermediate probability estimation step (e.g., logistic thresholding):
+Continuous predictors generally yield higher CIO than binary predictors in linear models. This phenomenon occurs because the parametric ``Normal'' generator accurately characterizes the true multivariate Gaussian distribution $\mathcal{N}(\mu, \Sigma)$ from which continuous variables were drawn. Conversely, synthesizing binary predictors requires an intermediate probability estimation step (e.g., logistic thresholding):
 \begin{equation}
     \hat{P}(X_j=1 \mid \mathbf{X}_{<j}) = \frac{1}{1 + \exp(-\mathbf{X}_{<j} \gamma)}
 \end{equation}
@@ -58,7 +58,7 @@ High correlation ($\rho = 0.6$) between predictors consistently degrades the CIO
 \begin{equation}
     \text{Var}(\hat{\beta}_j) = \frac{\sigma^2}{(N-1)\text{Var}(X_j)} \cdot \frac{1}{1 - R_j^2}
 \end{equation}
-where $R_j^2$ is the coefficient of determination when regressing $X_j$ on the other $p-1$ predictors. The "multicollinearity effect" means that as $\rho$ increases, $1 - R_j^2$ approaches zero, drastically inflating the variance. In synthetic generation, preserving highly collinear structures without introducing structural noise is notoriously difficult. Sequential generators (CART especially) struggle to isolate the unique marginal contribution of each highly correlated variable, resulting in shifted point estimates and artificially expanded synthetic confidence intervals.
+where $R_j^2$ is the coefficient of determination when regressing $X_j$ on the other $p-1$ predictors. The ``multicollinearity effect'' means that as $\rho$ increases, $1 - R_j^2$ approaches zero, drastically inflating the variance. In synthetic generation, preserving highly collinear structures without introducing structural noise is notoriously difficult. Sequential generators (CART especially) struggle to isolate the unique marginal contribution of each highly correlated variable, resulting in shifted point estimates and artificially expanded synthetic confidence intervals.
 
 \section{Multivariate Comparison by Generator}
 
@@ -98,7 +98,7 @@ The CIO metric provides a holistic view of inferential utility, but it can be ma
     \source{Compiled by the author}
 \end{figure}
 
-Figure~\ref{fig:linear-bias-ratio} demonstrates that both methods generally exhibit a low average bias in the linear regression setting. The OLS estimator relies heavily on the covariance structure $\Sigma = \text{Cov}(\mathbf{X})$, which both methods preserve adequately in expectation. However, the CART distribution exhibits a wider "tail" of high-bias scenarios. This occurs because tree-based methods partition the continuous space into orthogonal hyper-rectangles; when forced to model smooth linear gradients, the resulting step-function approximations introduce structural noise that biases the recovered coefficients.
+Figure~\ref{fig:linear-bias-ratio} demonstrates that both methods generally exhibit a low average bias in the linear regression setting. The OLS estimator relies heavily on the covariance structure $\Sigma = \text{Cov}(\mathbf{X})$, which both methods preserve adequately in expectation. However, the CART distribution exhibits a wider ``tail'' of high-bias scenarios. This occurs because tree-based methods partition the continuous space into orthogonal hyper-rectangles; when forced to model smooth linear gradients, the resulting step-function approximations introduce structural noise that biases the recovered coefficients.
 
 \subsection{Analysis of the Confidence Interval Width Ratio}
 
@@ -112,4 +112,4 @@ Figure~\ref{fig:linear-bias-ratio} demonstrates that both methods generally exhi
 
 The CI Width Ratio (Figure~\ref{fig:linear-width-ratio}) reveals a fundamental divergence in how the two generators manage uncertainty. Parametric methods produce CI widths nearly identical to the original data (Ratio $\approx 1.0$) because they explicitly formulate and inject the Gaussian error term $\epsilon \sim \mathcal{N}(0, \sigma^2)$ during synthesis.
 
-Conversely, CART frequently produces "overly conservative" (wider) confidence intervals (Ratio > $1.0$). By modeling local averages within terminal tree nodes, CART introduces additional, unmodeled variance into the synthetic design matrix $\mathbf{X}^{(S)}$. According to the standard error formula $\text{SE}(\hat{\beta}) = \sqrt{\sigma^2 / \sum(x_i - \bar{x})^2}$, an artificially smoothed or disrupted variance profile in the predictors directly inflates the uncertainty bounds of the downstream regression, lowering the overall CIO score despite the relatively low bias.
+Conversely, CART frequently produces ``overly conservative'' (wider) confidence intervals (Ratio > $1.0$). By modeling local averages within terminal tree nodes, CART introduces additional, unmodeled variance into the synthetic design matrix $\mathbf{X}^{(S)}$. According to the standard error formula $\text{SE}(\hat{\beta}) = \sqrt{\sigma^2 / \sum(x_i - \bar{x})^2}$, an artificially smoothed or disrupted variance profile in the predictors directly inflates the uncertainty bounds of the downstream regression, lowering the overall CIO score despite the relatively low bias.

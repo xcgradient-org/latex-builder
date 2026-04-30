@@ -41,7 +41,7 @@ The number of predictors ($p$) has a more pronounced negative effect here than i
 In logistic regression, binary predictors (categorical) perform better than continuous ones for synthesis. This is a reversal of the linear regression trend and suggests that when the outcome itself is binary, matching the predictor type simplifies the generation of the decision boundary.
 
 \subsection{Analysis by Correlation and Error Variability}
-Correlation remains a negative driver, but its effect is compounded by the "signal-to-noise ratio". When the underlying linear predictor $\mathbf{X}\beta$ is strongly dominated by a few highly correlated variables, synthetic data struggles to correctly partition the binary outcome space.
+Correlation remains a negative driver, but its effect is compounded by the ``signal-to-noise ratio''. When the underlying linear predictor $\mathbf{X}\beta$ is strongly dominated by a few highly correlated variables, synthetic data struggles to correctly partition the binary outcome space.
 
 \section{Multivariate Comparison by Generator}
 
@@ -53,7 +53,7 @@ Correlation remains a negative driver, but its effect is compounded by the "sign
     \source{Compiled by the author}
 \end{figure}
 
-As seen in Figure~\ref{fig:logistic-cio-method}, the gap between \textbf{Parametric (LogReg)} and \textbf{CART} is even larger in the binary outcome case. CART generators often produce "blocky" artifacts in the probability space, leading to synthetic outcomes that do not accurately reproduce the smooth S-curve of the logistic model.
+As seen in Figure~\ref{fig:logistic-cio-method}, the gap between \textbf{Parametric (LogReg)} and \textbf{CART} is even larger in the binary outcome case. CART generators often produce ``blocky'' artifacts in the probability space, leading to synthetic outcomes that do not accurately reproduce the smooth S-curve of the logistic model.
 
 \section{Interpretation of the Main Patterns}
 
@@ -65,7 +65,7 @@ As seen in Figure~\ref{fig:logistic-cio-method}, the gap between \textbf{Paramet
     \source{Compiled by the author}
 \end{figure}
 
-The heatmap in Figure~\ref{fig:logistic-heatmap} indicates that sample size ($N$) has the strongest positive correlation with CIO, followed by the negative impact of $p$. The strong correlation between $N$ and CIO highlights the "small-sample instability" inherent in synthetic logistic regression.
+The heatmap in Figure~\ref{fig:logistic-heatmap} indicates that sample size ($N$) has the strongest positive correlation with CIO, followed by the negative impact of $p$. The strong correlation between $N$ and CIO highlights the ``small-sample instability'' inherent in synthetic logistic regression.
 
 \section{Supporting Evidence from Bias and CI Width}
 
@@ -97,4 +97,4 @@ In logistic regression, both the Parametric (LogReg) and CART methods exhibit si
 
 Figure~\ref{fig:logistic-width-ratio} presents the CI Width Ratio, which measures whether the synthetic data preserves the original level of statistical uncertainty. A ratio of $1.0$ indicates perfect preservation.
 
-The results here reveal a critical and dangerous failure mode specific to the CART generator in logistic contexts. While the Parametric method maintains a median ratio near $1.0$, CART frequently produces \textbf{narrower} confidence intervals (Ratio < $1.0$). In a statistical context, this implies that the synthetic data is artificially overconfident. When a biased point estimate (as seen in the previous plot) is combined with an artificially narrow confidence interval, the resulting CIO collapses entirely. This "confident but wrong" behavior makes CART particularly risky for inferential logistic regression tasks.
+The results here reveal a critical and dangerous failure mode specific to the CART generator in logistic contexts. While the Parametric method maintains a median ratio near $1.0$, CART frequently produces \textbf{narrower} confidence intervals (Ratio < $1.0$). In a statistical context, this implies that the synthetic data is artificially overconfident. When a biased point estimate (as seen in the previous plot) is combined with an artificially narrow confidence interval, the resulting CIO collapses entirely. This ``confident but wrong'' behavior makes CART particularly risky for inferential logistic regression tasks.

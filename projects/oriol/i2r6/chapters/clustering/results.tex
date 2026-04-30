@@ -5,7 +5,7 @@
 \label{sec:visualization-and-dimensionality}
 
 \subsection{Principal Component Analysis (PCA)}
-Principal Component Analysis (PCA) projects the data linearly, preserving the global geometric structure and highlighting the orthogonal "blocky" artifacts introduced by the decision-tree-based synthesis \cite{jolliffe2002}. 
+Principal Component Analysis (PCA) projects the data linearly, preserving the global geometric structure and highlighting the orthogonal ``blocky'' artifacts introduced by the decision-tree-based synthesis \cite{jolliffe2002}. 
 
 \textbf{Normal Distribution}
 \begin{figure}[H]
@@ -29,10 +29,10 @@ In the Normal distribution case, the spherical nature of the clusters is well-pr
 \end{figure}
 
 In the Gamma distribution case, the linear projection reveals the geometric degradation.
-\textit{Observation:} The synthetic data (Bottom-Left) exhibits "hardened" orthogonal boundaries compared to the smooth tails of the real data. K-Means fails to adapt to this distorted geometry, imposing a linear decision boundary that misclassifies the cluster tails, whereas Hierarchical Clustering proves more robust.
+\textit{Observation:} The synthetic data (Bottom-Left) exhibits ``hardened'' orthogonal boundaries compared to the smooth tails of the real data. K-Means fails to adapt to this distorted geometry, imposing a linear decision boundary that misclassifies the cluster tails, whereas Hierarchical Clustering proves more robust.
 
 \subsection{t-SNE Analysis}
-t-SNE provides a non-linear projection that emphasizes the separation between manifolds \cite{vandermaaten2008}. This visualization is particularly effective at highlighting the "bad cuts" made by centroid-based algorithms on skewed data.
+t-SNE provides a non-linear projection that emphasizes the separation between manifolds \cite{vandermaaten2008}. This visualization is particularly effective at highlighting the ``bad cuts'' made by centroid-based algorithms on skewed data.
 
 \textbf{Normal Distribution}
 \begin{figure}[H]
@@ -61,7 +61,7 @@ The t-SNE projection reveals the catastrophic failure mode of K-Means on skewed 
 \section{Cluster Number Matching}
 \label{sec:cluster-number-matching}
 
-This section analyzes the "Success Rate" metric---defined as the proportion of synthetic datasets where the algorithm correctly estimated the true number of clusters ($k$). We compare the performance of K-Means and Hierarchical Clustering across varying cluster separations and cluster counts.
+This section analyzes the ``Success Rate'' metric---defined as the proportion of synthetic datasets where the algorithm correctly estimated the true number of clusters ($k$). We compare the performance of K-Means and Hierarchical Clustering across varying cluster separations and cluster counts.
 
 For a given configuration with $M$ total simulations, the \textbf{Success Rate (SR)} is calculated as the proportion of correct detections.
 
@@ -77,7 +77,7 @@ For a given configuration with $M$ total simulations, the \textbf{Success Rate (
 \textbf{Observations:}
 \begin{itemize}
   \item \textbf{High Separation Stability:} For well-separated clusters, both algorithms achieve near-perfect performance. The synthetic generation artifacts do not hinder detection when the clusters are naturally distinct.
-  \item \textbf{Low Separation Degradation:} A sharp performance drop is observed when separation is very low. This suggests that for spherical, overlapping clusters, the "blocky" noise from synthetic generation affects both algorithms equally.
+  \item \textbf{Low Separation Degradation:} A sharp performance drop is observed when separation is very low. This suggests that for spherical, overlapping clusters, the ``blocky'' noise from synthetic generation affects both algorithms equally.
   \item \textbf{Algorithm Parity:} In this distribution, the color patterns between K-Means (Left) and Hierarchical Clustering (Right) are largely symmetrical, indicating no significant advantage for either method on spherical data.
 \end{itemize}
 
@@ -92,8 +92,8 @@ For a given configuration with $M$ total simulations, the \textbf{Success Rate (
 
 \textbf{Observations:}
 \begin{itemize}
-  \item \textbf{K-Means Collapse:} The K-Means heatmap exhibits a dominant "Red/Orange" zone extending into moderate separation levels. Detection is not guaranteed even at higher separations.
-  \item \textbf{Hierarchical Robustness:} In contrast, the Hierarchical Clustering heatmap retains significantly more "Green" zones, maintaining near-perfect detection while K-Means still shows variability.
+  \item \textbf{K-Means Collapse:} The K-Means heatmap exhibits a dominant ``Red/Orange'' zone extending into moderate separation levels. Detection is not guaranteed even at higher separations.
+  \item \textbf{Hierarchical Robustness:} In contrast, the Hierarchical Clustering heatmap retains significantly more ``Green'' zones, maintaining near-perfect detection while K-Means still shows variability.
   \item \textbf{Performance Delta:} Comparing the two matrices visually reveals a structural divergence. For skewed data, Hierarchical Clustering consistently provides a higher probability of recovering the true $k$, validating its superior handling of the non-linear artifacts introduced by the synthesis process.
 \end{itemize}
 
@@ -124,11 +124,11 @@ To assess structural fidelity, we analyzed the Gini coefficient, which measures 
   \source{Compiled by the author}
 \end{figure}
 
-\textbf{K-Means Rigidity:} A striking observation is the consistently low Gini coefficients produced by K-Means. Despite the data being skewed and non-spherical, K-Means minimizes within-cluster variance by imposing a Voronoi tessellation that slices the data into roughly equal volumes. This effectively "forces" the skewed data into a balanced structure, suppressing the natural geometric properties of the Gamma distribution.
+\textbf{K-Means Rigidity:} A striking observation is the consistently low Gini coefficients produced by K-Means. Despite the data being skewed and non-spherical, K-Means minimizes within-cluster variance by imposing a Voronoi tessellation that slices the data into roughly equal volumes. This effectively ``forces'' the skewed data into a balanced structure, suppressing the natural geometric properties of the Gamma distribution.
 
-\textbf{Hierarchical Flexibility (and Instability):} In contrast, Hierarchical Clustering exhibits significantly higher Gini coefficients and wider interquartile ranges. This indicates that Hierarchical Clustering is less constrained by the assumption of equal cluster sizes, allowing it to form imbalanced groups that may better reflect the dense "heads" and diffuse "tails" of the Gamma distribution, though at the cost of higher variance.
+\textbf{Hierarchical Flexibility (and Instability):} In contrast, Hierarchical Clustering exhibits significantly higher Gini coefficients and wider interquartile ranges. This indicates that Hierarchical Clustering is less constrained by the assumption of equal cluster sizes, allowing it to form imbalanced groups that may better reflect the dense ``heads'' and diffuse ``tails'' of the Gamma distribution, though at the cost of higher variance.
 
-\textbf{Comparative Analysis:} While K-Means remains structurally insensitive to the changing geometry (maintaining a flat, low-Gini profile), Hierarchical Clustering reacts dynamically. This confirms that for non-normal synthetic data, \textbf{K-Means introduces a "balancing bias"}, while Hierarchical Clustering retains the underlying (imbalanced) structural signal.
+\textbf{Comparative Analysis:} While K-Means remains structurally insensitive to the changing geometry (maintaining a flat, low-Gini profile), Hierarchical Clustering reacts dynamically. This confirms that for non-normal synthetic data, \textbf{K-Means introduces a ``balancing bias''}, while Hierarchical Clustering retains the underlying (imbalanced) structural signal.
 
 \section{Mean Centroid Distance}
 \label{sec:mean-centroid-distance}
@@ -155,7 +155,7 @@ The results show a dominant inverse relationship between cluster separation and 
   \source{Compiled by the author}
 \end{figure}
 
-The overall trends closely mirror those observed in the Normal distribution, suggesting that centroid drift is primarily driven by the "blocky" artifacts of the CART synthesis method rather than the specific probability distribution. However, the impact of complexity is more pronounced here. Higher dimensionality and a higher number of clusters coincide with increased centroid displacement.
+The overall trends closely mirror those observed in the Normal distribution, suggesting that centroid drift is primarily driven by the ``blocky'' artifacts of the CART synthesis method rather than the specific probability distribution. However, the impact of complexity is more pronounced here. Higher dimensionality and a higher number of clusters coincide with increased centroid displacement.
 
 \section{Mean Variance Difference}
 \label{sec:mean-variance-difference}
@@ -182,4 +182,4 @@ The results indicate that cluster separation is the primary factor reducing vari
   \source{Compiled by the author}
 \end{figure}
 
-The variance discrepancy patterns closely track those observed in the Normal distribution, indicating that dispersion artifacts are driven more by the synthetic generation method than the underlying probability distribution. Furthermore, the "by Dimensionality" and "by Feature Correlation" panels confirm that maintaining accurate cluster variance is increasingly difficult as complexity grows, leading to elevated difference metrics for both algorithms.
+The variance discrepancy patterns closely track those observed in the Normal distribution, indicating that dispersion artifacts are driven more by the synthetic generation method than the underlying probability distribution. Furthermore, the ``by Dimensionality'' and ``by Feature Correlation'' panels confirm that maintaining accurate cluster variance is increasingly difficult as complexity grows, leading to elevated difference metrics for both algorithms.

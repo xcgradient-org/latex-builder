@@ -35,11 +35,11 @@ Finally, the thesis evaluates utility but does not empirically quantify privacy 
 \section{Future Work}
 \label{sec:general-future-work}
 
-Future research should extend this framework to additional synthesis methods, including deep generative models, Bayesian approaches, and differentially private generators. A direct comparison between these methods would clarify whether the artifacts observed here are specific to CART or represent broader failure modes in synthetic data generation.
+Future research should extend this framework to additional synthesis methods, including deep generative models such as GANs and VAEs \cite{jordon2018}, Bayesian approaches, and differentially private generators \cite{dwork2006, bellovin2019}. A direct comparison between these methods would clarify whether the artifacts observed here are specific to CART \cite{nowok2016} or represent broader failure modes in synthetic data generation.
 
-For clustering, future work should evaluate density-based and model-based algorithms and develop utility metrics that directly penalize changes in topology, density connectivity, and cluster separability. For regression, future work should incorporate coverage, hypothesis-decision agreement, and multiple-imputation-style combining rules for synthetic datasets.
+For clustering, future work should evaluate density-based and model-based algorithms and develop utility metrics that directly penalize changes in topology, density connectivity, and cluster separability, potentially building on benchmarking frameworks like MDCGen \cite{iglesias2019}. For regression, future work should incorporate coverage, hypothesis-decision agreement, and multiple-imputation-style combining rules for synthetic datasets \cite{rubin1987, reiter2003}.
 
-The most important extension is a joint privacy-utility analysis. A synthetic generator should not be selected only because it improves downstream utility, and it should not be accepted only because it reduces disclosure risk. The relevant operational question is which generator provides sufficient privacy while preserving the specific analytical conclusions required by the user.
+The most important extension is a joint privacy-utility analysis \cite{snoke2018, qian2024}. A synthetic generator should not be selected only because it improves downstream utility, and it should not be accepted only because it reduces disclosure risk. The relevant operational question is which generator provides sufficient privacy while preserving the specific analytical conclusions required by the user.
 
 \section{Final Conclusion}
 \label{sec:general-final-conclusion}
