@@ -36,6 +36,7 @@
   sorting=none
 ]{biblatex}
 \addbibresource{references.bib}
+\usepackage[titletoc]{appendix}
 \onehalfspacing
 
 \usepackage{fancyhdr}
@@ -148,8 +149,10 @@ I would also like to thank Xinnuo Chen, whose preliminary exploratory work provi
 
 \include{chapters/general_conclusions}
 
-\include{chapters/appendices}
+\printbibliography[title={References}, heading=bibintoc]
 
-\printbibliography[heading=bibintoc]
+\begin{appendices}
+\include{chapters/appendices}
+\end{appendices}
 
 \end{document}
