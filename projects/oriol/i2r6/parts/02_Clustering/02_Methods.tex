@@ -43,15 +43,22 @@ K-Means is highly efficient with a time complexity of $O(N \cdot k \cdot I \cdot
 \subsection{Hierarchical Clustering (Agglomerative)}
 Unlike K-Means, Hierarchical Clustering does not require a pre-specified number of clusters. Instead, it builds a hierarchy of clusters, often represented as a dendrogram. This research utilizes \textbf{Agglomerative Clustering} (bottom-up), which treats each observation as its own cluster and successively merges pairs of clusters \cite{ward1963}.
 
-\textbf{Ward's Linkage Method}
+\textbf{Mathematical Formulation (Ward's Linkage)}
 
-The criterion for merging clusters is determined by the \textit{linkage} method. We utilize \textbf{Ward's Method}, which minimizes the increase in total within-cluster variance when two clusters are merged.
+Agglomerative clustering with Ward's linkage can be framed as a greedy, step-wise optimization problem. Unlike K-Means, which partitions the data, Ward's method builds a hierarchy by performing the optimal local merge at each step.
 
-The distance $D(A, B)$ between two clusters $A$ and $B$ is defined as the increase in the squared error sum (ESS) if they were merged:
-\begin{equation}
-  D(A, B) = \text{ESS}_{A \cup B} - (\text{ESS}_A + \text{ESS}_B)
-\end{equation}
-Where $\text{ESS}_X = \sum_{x \in X} ||x - \mu_X||^2$. This approach aligns conceptually with the K-Means objective function but constructs the clusters hierarchically.
+\begin{itemize}
+  \item \textbf{Input:} A set of $N$ vectors $X \subset \mathbb{R}^d$. Initially, each point represents a singleton cluster, resulting in $N$ clusters.
+  \item \textbf{Error Sum of Squares (ESS):} For any cluster $C$, the variance is defined as the sum of squared Euclidean distances from the points in $C$ to its centroid $\mu_C$:
+  \begin{equation}
+    \text{ESS}(C) = \sum_{x \in C} ||x - \mu_C||^2
+  \end{equation}
+  \item \textbf{Objective Function (Step-wise):} At each step, the algorithm finds and merges the pair of clusters $(A, B)$ that results in the minimum increase in the total ESS. The distance (or merging cost) between $A$ and $B$ is exactly this increase:
+  \begin{equation}
+    D(A, B) = \text{ESS}_{A \cup B} - (\text{ESS}_A + \text{ESS}_B)
+  \end{equation}
+  \item \textbf{Output:} A dendrogram (tree) representing the sequence of merges, which can be cut at a specific depth to yield $k$ clusters.
+\end{itemize}
 
 \textbf{Practical Considerations}
 
@@ -62,22 +69,30 @@ Hierarchical clustering is computationally expensive, with a time complexity of 
   \item It allows for the determination of $k$ \textit{post-hoc} by cutting the dendrogram at a specific height.
 \end{itemize}
 
-\subsection{Comparative Summary}
-Table~\ref{tab:kmeans_vs_hc} summarizes the key structural and operational differences between the two algorithms evaluated in this study.
+\subsection{Comparative and Complexity Summary}
+
+When selecting a clustering algorithm for synthetic data evaluation, understanding the computational constraints is as critical as understanding the geometric assumptions.
+
+\textbf{Time Complexity:} K-Means is highly efficient, with a time complexity of $O(N \cdot k \cdot I \cdot d)$, where $N$ is the number of samples, $k$ is the number of clusters, $I$ is the number of iterations, and $d$ is the dimensionality. Since $k$, $I$, and $d$ are usually much smaller than $N$, it is often considered to have linear time complexity. In contrast, standard Agglomerative Hierarchical Clustering requires computing a distance matrix between all pairs of points, resulting in a time complexity of $O(N^3)$ in the worst case, though optimized implementations (like those using priority queues for Ward's linkage) can reduce this to $O(N^2 \log N)$.
+
+\textbf{Computational (Space) Complexity:} The space complexity of K-Means is $O(N \cdot d + k \cdot d)$ to store the data and the centroids, making its memory requirement grow linearly with the number of samples. Hierarchical Clustering, however, requires $O(N^2)$ space to store the pairwise distance matrix. This quadratic memory requirement makes it computationally prohibitive for very large datasets, presenting a practical tradeoff between its geometric robustness and its resource consumption.
+
+Table~\ref{tab:kmeans_vs_hc} summarizes the key computational, structural, and operational differences between the two algorithms evaluated in this study.
 
 \begin{table}[H]
   \centering
   \caption{Comparison of K-Means and Hierarchical Clustering}
   \label{tab:kmeans_vs_hc}
   \renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{@{}lp{5.8cm}p{5.8cm}@{}}
+  \begin{tabular}{@{}lp{5.5cm}p{5.5cm}@{}}
     \toprule
     \textbf{Feature} & \textbf{K-Means} & \textbf{Hierarchical (Ward)} \\ \midrule
-    Complexity & $O(N)$ (Linear) & $O(N^2)$ to $O(N^3)$ (Polynomial) \\
-    Geometry & Assumes spherical, convex clusters & Flexible, based on connectivity \\
-    Parameters & Requires $k$ beforehand & $k$ determined by cutting tree \\
-    Robustness & Sensitive to noise/outliers & More robust (structure-based) \\
-    Deterministic & No (Random initialization) & Yes \\ \bottomrule
+    \textbf{Time Complexity} & $O(N \cdot k \cdot I \cdot d)$ (Linear) & $O(N^2 \log N)$ to $O(N^3)$ \\
+    \textbf{Space Complexity} & $O(N \cdot d + k \cdot d)$ (Linear) & $O(N^2)$ (Quadratic) \\
+    \textbf{Geometry} & Assumes spherical, convex clusters & Flexible, based on connectivity \\
+    \textbf{Parameters} & Requires $k$ beforehand & $k$ determined by cutting tree \\
+    \textbf{Robustness} & Sensitive to noise/outliers & More robust (structure-based) \\
+    \textbf{Deterministic} & No (Random initialization) & Yes \\ \bottomrule
   \end{tabular}
   \source{Compiled by the author}
 \end{table}
