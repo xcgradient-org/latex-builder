@@ -162,10 +162,12 @@ Standard clustering accuracy metrics (like purity) are insufficient when the clu
   \source{Compiled by the author}
 \end{table}
 
-\subsection{Cluster Alignment (Hungarian Algorithm)}
-Clustering algorithms are unsupervised; they assign arbitrary labels (e.g., Cluster A found by K-Means might correspond to Cluster B in the ground truth). To calculate accuracy, we first solve the \textbf{Linear Sum Assignment Problem} using the \textbf{Hungarian Algorithm} \cite{kuhn1955}.
+\subsection{Preprocessing Step: Cluster Alignment (Hungarian Algorithm)}
+It is crucial to note that cluster alignment is not an evaluation metric \textit{per se}, but rather a mandatory preprocessing step required before any comparative structural fidelity metrics can be applied. Because clustering algorithms are fundamentally unsupervised, the cluster labels they assign are arbitrary (e.g., ``Cluster 1'' in the Original Data might be labeled ``Cluster 3'' in the Synthetic Data).
 
-We construct a cost matrix $C$ where $C_{ij}$ represents the number of mismatches if Predicted Cluster $i$ is assigned to True Cluster $j$. The algorithm finds the optimal permutation of labels that maximizes the overlap between prediction and truth.
+To calculate accuracy or geometric distortion between the two datasets, we must first find the optimal 1-to-1 mapping between the original labels and the synthetic labels. We achieve this by formulating it as the \textbf{Linear Sum Assignment Problem} and solving it using the \textbf{Hungarian Algorithm} \cite{kuhn1955}.
+
+We construct a cost matrix $C$ where $C_{ij}$ represents the number of mismatches if Predicted Cluster $i$ is assigned to True Cluster $j$. The algorithm finds the optimal permutation of labels that minimizes this cost (maximizes the overlap), allowing the subsequent metrics (like MCD and MVD) to be calculated on correctly matched pairs.
 
 \subsection{Success Rate (Detection)}
 The primary metric is binary: \textbf{Did the algorithm find the correct number of clusters?} We utilize the \textit{Silhouette Score and the Elbow Method} (for K-Means) \cite{rousseeuw1987} or the \textit{Dendrogram Cut} (for Hierarchical) to estimate $\hat{k}$.
@@ -186,23 +188,15 @@ The Gini coefficient measures the inequality of cluster sizes. If the synthetic 
 \begin{equation}
   G = \frac{\sum_{i=1}^{k} \sum_{j=1}^{k} |n_i - n_j|}{2k \sum_{i=1}^{k} n_i}
 \end{equation}
-Where $n_i$ is the number of points in cluster $i$. A value of 0 indicates perfectly equal cluster sizes; a value near 1 indicates high imbalance.
+Where $n_i$ is the number of points in cluster $i$. A value of 0 indicates perfectly equal cluster sizes; a value near 1 indicates high imbalance. To evaluate the structural distortion introduced by the synthesis process, we compute the absolute difference between the Gini coefficient of the Synthetic Data ($G^{(S)}$) and the Original Data ($G^{(R)}$):
+\begin{equation}
+  \Delta G = |G^{(S)} - G^{(R)}|
+\end{equation}
+A $\Delta G$ near $0$ indicates that the synthetic data has successfully preserved the original cluster balance.
 
 \textbf{2. Mean Centroid Displacement (MCD)}
 
 We measure how far the centers of the clusters have shifted during synthesis. Let $\mu_j^{(R)}$ be the centroid of cluster $j$ in Real data and $\mu_j^{(S)}$ in Synthetic data:
-\begin{equation}
-  \text{MCD} = \frac{1}{k} \sum_{j=1}^{k} ||\mu_j^{(R)} - \mu_j^{(S)}||_2
-\end{equation}
-High displacement indicates that the synthetic data has drifted from the original spatial location.
-
-\textbf{3. Mean Variance Difference (MVD)}
-
-We measure if the synthetic clusters are more dispersed (noisy) or more compact than the real ones. We compare the average within-cluster variance ($\sigma^2$):
-\begin{equation}
-  \text{MVD} = \frac{1}{k} \sum_{j=1}^{k} \left| \text{Var}(C_j^{(R)}) - \text{Var}(C_j^{(S)}) \right|
-\end{equation}
- of cluster $j$ in Real data and $\mu_j^{(S)}$ in Synthetic data:
 \begin{equation}
   \text{MCD} = \frac{1}{k} \sum_{j=1}^{k} ||\mu_j^{(R)} - \mu_j^{(S)}||_2
 \end{equation}
