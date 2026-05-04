@@ -107,6 +107,7 @@ The primary measure of inferential utility is the Confidence Interval Overlap (C
     \text{CIO} = \frac{1}{2} \left( \frac{\min(U_R, U_S) - \max(L_R, L_S)}{U_R - L_R} + \frac{\min(U_R, U_S) - \max(L_R, L_S)}{U_S - L_S} \right)
 \end{equation}
 where $[L_R, U_R]$ and $[L_S, U_S]$ are the 95\% CIs for the original and synthetic data, respectively.
+That is, the metric directly compares the inferential intervals obtained from the original fit and the corresponding synthetic fit.
 
 \subsection{Supporting Metrics: Bias and CI Width}
 To understand the \emph{source} of CIO degradation, we measure:

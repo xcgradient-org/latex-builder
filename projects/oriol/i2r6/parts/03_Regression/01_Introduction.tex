@@ -13,7 +13,7 @@ Most synthetic data evaluations focus on utility through predictive accuracy or 
 \section{Objectives and Research Questions}
 \label{sec:reg-purpose}
 
-The primary objective of this part of the study is to evaluate the inferential utility of synthetic data generators across a wide range of simulated regression scenarios, determining which methods best preserve the coefficients and confidence intervals of the original data.
+The primary objective of this part of the study is to evaluate the inferential utility of synthetic data generators across a wide range of simulated regression scenarios, determining under which conditions the different methods preserve the coefficients and confidence intervals of the original data most effectively.
 
 The specific objectives are:
 \begin{enumerate}
@@ -26,7 +26,7 @@ The regression study is guided by the following research questions:
 \begin{itemize}
     \item \textbf{RQ1:} How reliably can synthetic data reproduce the confidence intervals of a linear regression model compared to a logistic one?
     \item \textbf{RQ2:} Does increasing the dimensionality ($p$) or complexity of the correlation structure ($\rho$) significantly degrade the CIO?
-    \item \textbf{RQ3:} Is CART-based synthesis universally superior to parametric methods, or are there specific regimes where it fails?
+    \item \textbf{RQ3:} How does the relative performance of CART-based and parametric synthesis change across different regression settings?
 \end{itemize}
 
 \section{Scope and Contributions}

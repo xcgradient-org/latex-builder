@@ -51,6 +51,7 @@ Figure~\ref{fig:tsne_normal} shows that, even in the non-linear projection, the 
 \textit{Observation:} The synthetic-data embedding maintains two distinct groups similar to the control sample. Both K-Means and Hierarchical Clustering produce nearly identical partitions, confirming that the synthesis process does not introduce major topological distortions in spherical distributions.
 
 \textbf{Gamma Distribution}
+The Gamma distribution was included to explore how a certain degree of asymmetry in the data affects clustering results on synthetic datasets.
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{figures/parts/02_Clustering/03_Results/gamma_tsne.png}
@@ -81,8 +82,9 @@ Figure~\ref{fig:success_normal} summarizes the success-rate surface for the Norm
 
 \textbf{Observations:}
 \begin{itemize}
-  \item \textbf{High Separation Stability:} For well-separated clusters, both algorithms achieve near-perfect performance. The synthetic generation artifacts do not hinder detection when the clusters are naturally distinct.
+  \item \textbf{High Separation Stability:} For well-separated clusters, both algorithms achieve near-perfect performance. The synthetic generation artifacts do not hinder detection when the clusters are naturally distinct. Note that the approximate radius of each cluster is close to 2. Therefore, a distance equal to 6 indicates that there is a blank space of about 2 units between clusters, ensuring no overlap.
   \item \textbf{Low Separation Degradation:} A sharp performance drop is observed when separation is very low. This suggests that for spherical, overlapping clusters, the ``blocky'' noise from synthetic generation affects both algorithms equally.
+  \item \textbf{Effect of the Number of Clusters:} Figure~\ref{fig:success_normal} also suggests slightly better recovery when the true number of clusters is small, as the detection surfaces are more stable for simpler two-cluster settings than for scenarios with more clusters.
   \item \textbf{Algorithm Parity:} In this distribution, the color patterns between K-Means (Left) and Hierarchical Clustering (Right) are largely symmetrical, indicating no significant advantage for either method on spherical data.
 \end{itemize}
 
@@ -99,21 +101,22 @@ Figure~\ref{fig:success_gamma} reports the analogous success-rate surface for th
 \textbf{Observations:}
 \begin{itemize}
   \item \textbf{K-Means Collapse:} The K-Means heatmap exhibits a dominant ``Red/Orange'' zone extending into moderate separation levels. Detection is not guaranteed even at higher separations.
-  \item \textbf{Hierarchical Robustness:} In contrast, the Hierarchical Clustering heatmap retains significantly more ``Green'' zones, maintaining near-perfect detection while K-Means still shows variability.
-  \item \textbf{Performance Delta:} Comparing the two matrices visually reveals a structural divergence. For skewed data, Hierarchical Clustering consistently provides a higher probability of recovering the true $k$, validating its superior handling of the non-linear artifacts introduced by the synthesis process.
+  \item \textbf{Comparable Behavior:} The Hierarchical Clustering heatmap shows a pattern broadly similar to K-Means, with both methods degrading as the design becomes less favorable.
+  \item \textbf{Performance Delta:} Comparing the two matrices visually suggests only limited differences between the algorithms. For skewed data, the main pattern is that both methods become less reliable as the synthetic geometry departs from the original cluster structure.
 \end{itemize}
 
 \section{Gini Coefficient}
 \label{sec:gini-coefficient}
 
 To assess structural fidelity, we analyzed the Gini coefficient, which measures the inequality of cluster sizes.
+We compared this index between the real and synthetic data.
 
 \textbf{Normal Distribution}
 Figure~\ref{fig:gini_absolute_normal} displays the absolute Gini-coefficient distribution for the Normal scenarios.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/parts/02_Clustering/03_Results/gini_normal.png}
-  \caption[Absolute Gini Coefficients for Normal Distribution]{\textbf{Absolute Gini Coefficients (Normal Distribution).} Row 1: K-Means (Red). Row 2: Hierarchical Clustering (Blue). The metric approaches zero as separation increases, indicating balanced detection.}
+  \caption[Absolute difference between Gini coefficients (Synthetic vs. Real) - Normal Distribution]{\textbf{Absolute difference between Gini coefficients (Synthetic vs. Real).} Normal Distribution. Row 1: K-Means (Red). Row 2: Hierarchical Clustering (Blue). The metric approaches zero as separation increases, indicating balanced detection.}
   \label{fig:gini_absolute_normal}
   \source{Compiled by the author}
 \end{figure}
@@ -127,7 +130,7 @@ Figure~\ref{fig:gini_absolute_gamma} displays the corresponding absolute Gini-co
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/parts/02_Clustering/03_Results/gini_gamma.png}
-  \caption[Absolute Gini Coefficients for Gamma Distribution]{\textbf{Absolute Gini Coefficients (Gamma Distribution).} Row 1: K-Means (Red). Row 2: Hierarchical Clustering (Blue). Note the high variance in Hierarchical Clustering compared to the rigid stability of K-Means.}
+  \caption[Absolute difference between Gini coefficients (Synthetic vs. Real) - Gamma Distribution]{\textbf{Absolute difference between Gini coefficients (Synthetic vs. Real).} Gamma Distribution. Row 1: K-Means (Red). Row 2: Hierarchical Clustering (Blue). Note the high variance in Hierarchical Clustering compared to the rigid stability of K-Means.}
   \label{fig:gini_absolute_gamma}
   \source{Compiled by the author}
 \end{figure}
@@ -142,6 +145,7 @@ Figure~\ref{fig:gini_absolute_gamma} displays the corresponding absolute Gini-co
 \label{sec:mean-centroid-distance}
 
 We computed the Mean Centroid Distance (MCD) to quantify the spatial shift between the cluster centers in the real dataset versus the synthetic dataset.
+Before computing this metric, the clusters in the synthetic and real datasets must first be paired using the Hungarian Algorithm described in Chapter~\ref{chap:methods}, Section~\ref{sec:evaluation-metrics-methods}.
 
 \textbf{Normal Distribution}
 Figure~\ref{fig:mcd_normal} reports the Mean Centroid Distance for the Normal scenarios.

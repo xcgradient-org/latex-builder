@@ -22,6 +22,7 @@
   urlcolor   = blue,
   hypertexnames = false
 ]{hyperref}
+\usepackage{bookmark}
 \urlstyle{same}
 
 \usepackage{amsmath, amssymb}
@@ -86,7 +87,7 @@
 \chapter*{Abstract}
 Synthetic data is increasingly used as a privacy-preserving substitute for original data, but its value depends on whether it preserves the conclusions of downstream analyses. This thesis evaluates that analytical utility in two complementary settings: clustering, where utility depends on structural and geometric fidelity, and regression, where utility depends on preserving coefficients, uncertainty, and confidence intervals.
 
-The first study examines whether synthetic data generated with Classification and Regression Trees (CART) preserves the geometry required by clustering workflows. It compares K-Means and Agglomerative Hierarchical Clustering across controlled simulations varying sample size, cluster count, separation, dimensionality, correlation, and distribution family. The results show that CART remains useful for spherical normal settings but introduces block-like artifacts that degrade centroid-based clustering on skewed Gamma data. Hierarchical Clustering is more robust when synthesis distorts non-convex structure.
+The first study examines whether synthetic data generated with Classification and Regression Trees (CART) preserves the geometry required by clustering workflows. It compares K-Means and Agglomerative Hierarchical Clustering across controlled simulations varying sample size, cluster count, separation, dimensionality, correlation, and distribution family. The results show that CART remains useful for spherical normal settings but introduces block-like artifacts that degrade clustering performance on skewed Gamma data. Across the simulated designs, both clustering methods exhibit broadly similar behavior under synthetic distortion.
 
 The second study evaluates inferential utility for linear and logistic regression. It compares CART-based synthesis with parametric generators using Confidence Interval Overlap, Bias Ratio, and Confidence Interval Width Ratio. Parametric synthesis performs best when its assumptions match the data-generating process, while CART becomes less reliable in high-dimensional, correlated, small-sample, and logistic settings. Overall, the thesis shows that synthetic-data utility is not intrinsic to a generator alone; it depends on the interaction between synthesis method, data structure, and downstream analytical task.
 
@@ -159,4 +160,3 @@ I would also like to thank Xinnuo Chen, whose preliminary exploratory work provi
 \end{appendices}
 
 \end{document}
-
