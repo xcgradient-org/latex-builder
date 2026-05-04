@@ -1,0 +1,95 @@
+\chapter{Repository Information}
+\label{chap:repository}
+
+All simulation pipelines, evaluation scripts, and structural configurations developed for this thesis are version-controlled and publicly accessible. This ensures full reproducibility of the 1.8 million dataset simulations discussed in the preceding chapters.
+
+\section{Access Information}
+\begin{itemize}
+    \item \textbf{Repository URL:} \url{https://github.com/Sterrysx/ML_SyntheticDataResearch}
+    \item \textbf{Primary Author:} Oriol Farr\'es (Supervised by Jordi Cort\'es)
+    \item \textbf{Status:} Production-ready pipeline
+    \item \textbf{Original Work Base:} Chen Xinnuo (2025)
+\end{itemize}
+
+\section{Repository Architecture and Documentation}
+Rather than reproducing raw documentation, this section synthesizes the core structure and operational guides of the repository to provide a clear technical roadmap for future researchers seeking to reproduce or extend this pipeline.
+
+\subsection{Project Overview}
+The repository contains the research codebase extending the work of \textbf{Chen Xinnuo} (2025) on evaluating how well synthetic data preserves the clustering properties of real data. The project systematically compares K-Means and Hierarchical Clustering algorithms across 1,800+ datasets to answer critical questions about synthetic data quality regarding:
+\begin{itemize}
+  \item \textbf{Detection}: Can clustering algorithms correctly identify the number of clusters ($k$) in synthetic data?
+  \item \textbf{Robustness}: Which algorithm (K-Means vs. Hierarchical) is more resilient to synthetic data distortion?
+  \item \textbf{Quality}: How much does the \texttt{synthpop} CART method degrade cluster geometry and separability?
+\end{itemize}
+
+\subsection{Directory Structure}
+The repository is logically divided into the original foundational work and the current, automated pipeline:
+
+\begin{verbatim}
+ML_SyntheticDataResearch/
+|
+|-- ofarres/                    <- MAIN RESEARCH PIPELINE (Current Work)
+|   |-- SETUP.md                <- Installation & setup instructions
+|   |-- README.md               <- Complete pipeline documentation
+|   |-- run_all.sh              <- Master execution script
+|   |-- requirements.txt        <- Python dependencies
+|   |
+|   |-- config/                 <- Declarative JSON simulation parameters
+|   |-- installer_scripts/      <- Master installers (R + Python packages)
+|   |
+|   |-- 01_data_generation/     <- Step 1: Generate real + synthetic data
+|   |-- 02_clustering/          <- Step 2: Run clustering simulations
+|   \-- 03_analysis/            <- Step 3: Visualization & results extraction
+|
+|-- xinnuo_files/               <- ORIGINAL RESEARCH (Chen Xinnuo, 2025)
+\-- README.md                   <- Repository entry point
+\end{verbatim}
+
+\subsection{Execution Pipeline}
+
+The environment relies on \textbf{Conda}, \textbf{R (4.0+)}, and \textbf{Python (3.9+)}. The entire simulation environment can be bootstrapped and executed autonomously:
+
+\vspace{0.3cm}
+\noindent\textbf{1. Environment Setup}
+\begin{verbatim}
+conda create -n synthetic_data python=3.9
+conda activate synthetic_data
+cd ofarres/
+./installer_scripts/install_all.sh
+\end{verbatim}
+
+\vspace{0.3cm}
+\noindent\textbf{2. Pipeline Execution}
+\begin{verbatim}
+./run_all.sh
+\end{verbatim}
+
+\subsection{Pipeline Stages and Outputs}
+The automated pipeline executes sequentially through three major stages:
+
+\begin{enumerate}
+    \item \textbf{Step 1: Data Generation}
+    \begin{itemize}
+        \item Generates 180 real datasets with controlled cluster properties (varying $N$, $k$, separation, correlation).
+        \item Creates 10 synthetic versions of each real dataset using the \texttt{synthpop} CART method.
+        \item \textbf{Output}: 1,980 total datasets (180 real + 1,800 synthetic).
+    \end{itemize}
+    \item \textbf{Step 2: Clustering Simulation}
+    \begin{itemize}
+        \item Tests both K-Means and Hierarchical Clustering on all datasets.
+        \item Evaluates cluster detection accuracy and quality metrics (e.g., silhouette, distortion).
+        \item \textbf{Output}: \texttt{clustering\_results\_final.csv}.
+    \end{itemize}
+    \item \textbf{Step 3: Visualization \& Analysis}
+    \begin{itemize}
+        \item Generates publication-ready plots for Success Rate, Performance Delta, and Quality Metrics.
+        \item \textbf{Output}: 24 high-resolution PNG visualizations located in \texttt{03\_analysis/}.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Citation and Attribution}
+This work directly extends the foundational methodology developed by:
+\begin{quote}
+    \textbf{Chen Xinnuo} (2025). \textit{TFG-EST: Synthetic Data Generation and Clustering Analysis}. Universidad de Barcelona.
+\end{quote}
+The current extension features automated 3-step pipeline implementation across both R and Python, systematic parameter sweeping, and a reproducible, version-controlled research infrastructure.
