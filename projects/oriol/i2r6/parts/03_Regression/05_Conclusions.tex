@@ -5,31 +5,31 @@
 \label{sec:reg-main-findings}
 
 \subsection{Findings for Linear Regression}
-Linear regression represents the most stable application for synthetic data generators. Parametric methods (Normal) generally achieve the highest CIO in continuous scenarios, while CART remains usable but tends to produce slightly wider confidence intervals. The number of predictors and correlation are the main sources of utility degradation.
+Linear regression represents the most stable application for synthetic data generators. In continuous scenarios, parametric methods (Normal) generally attain somewhat higher CIO, while CART remains usable but tends to produce slightly wider confidence intervals. The number of predictors and correlation are the main sources of utility degradation.
 
 \subsection{Findings for Logistic Regression}
-Logistic regression is significantly more sensitive to synthesis artifacts. Small sample sizes ($N=100$) lead to low CIO and high bias, regardless of the generator. CART, in particular, often underestimates uncertainty (narrower CIs) in logistic outcomes, which is an especially problematic failure mode for inferential research.
+Logistic regression is significantly more sensitive to synthesis artifacts. Small sample sizes ($N=100$) lead to low CIO and high bias, regardless of the generator. CART, in particular, often underestimates uncertainty (narrower CIs) in logistic outcomes, which is a noteworthy failure mode for inferential research.
 
 \subsection{Findings that are Consistent Across Both Models}
 \begin{itemize}
     \item \textbf{Sample Size:} Larger samples improve inferential fidelity, especially in the logistic setting.
     \item \textbf{Dimensionality:} Both models suffer as the number of predictors ($p$) increases.
     \item \textbf{Correlation:} High correlation ($\rho$) consistently degrades inferential fidelity.
-    \item \textbf{Relative Generator Performance:} In scenarios where the data-generating process is compatible with the assumed parametric form, parametric synthesis (Normal, LogReg) generally performs better than CART for inferential preservation.
+    \item \textbf{Relative Generator Performance:} In scenarios where the data-generating process is compatible with the assumed parametric form, parametric synthesis (Normal, LogReg) generally performs somewhat better than CART for inferential preservation.
 \end{itemize}
 
 Across the simulated designs, inferential performance improved as sample size increased and deteriorated as the number of predictors or the predictor correlation increased. Linear regression remained comparatively stable, whereas logistic regression was markedly more fragile in small-sample and high-complexity settings. Taken together, these patterns indicate that generator performance depends not only on the synthesis method, but also on how demanding the inferential setting is.
 
 \section{Comparison with Existing Literature}
-Our findings align with and extend the work of researchers who have evaluated synthetic data in real-world settings (e.g., \cite{nowok2016, raab2016}). While those studies often highlight CART's flexibility for preserving complex univariate distributions, our systematic simulation shows that for \textbf{inferential quantities} (regression coefficients), CART's flexibility can lead to structural artifacts that degrade CIO. This confirms that predictive utility does not always translate to inferential utility.
+Our findings align with and extend the work of researchers who have evaluated synthetic data in real-world settings (e.g., \cite{nowok2016, raab2016}). While those studies often highlight CART's flexibility for preserving complex univariate distributions, our systematic simulations suggest that for \textbf{inferential quantities} (regression coefficients), that flexibility can also be accompanied by structural artifacts that reduce CIO. This reinforces the idea that predictive utility does not always translate directly into inferential utility.
 
-Specifically, compared to the ``baseline'' study using real data from the UK longitudinal studies, our simulations provide a clearer picture of the \emph{mechanisms} of failure. We show that ``synthetic bias'' is not just a result of poor marginal matching but an inherent difficulty in capturing multi-dimensional conditional probabilities in sparse ($N/p$) regimes.
+Specifically, compared to the ``baseline'' study using real data from the UK longitudinal studies, our simulations provide a clearer picture of possible \emph{mechanisms} of failure. The results suggest that ``synthetic bias'' is not merely a result of poor marginal matching, but can also emerge from the difficulty of capturing multi-dimensional conditional probabilities in sparse ($N/p$) regimes.
 
 \section{Practical Recommendations}
 \label{sec:reg-recommendations}
 
 \subsection{Which Generators Perform Best Overall}
-For researchers whose data aligns reasonably well with standard parametric assumptions (linear, normal, logistic), \textbf{Parametric Generators} are generally the safer choice for preserving inferential results.
+For researchers whose data aligns reasonably well with standard parametric assumptions (linear, normal, logistic), \textbf{Parametric Generators} are often a reasonable starting point for preserving inferential results.
 
 \subsection{Which Generators Perform Best Under Specific Conditions}
 
@@ -58,7 +58,7 @@ Table~\ref{tab:generator_recommendations} provides a concise reference matrix fo
 \end{itemize}
 
 \subsection{Guidance for Researchers Choosing a Generator}
-Researchers should prioritize generators that match their intended analytical model. If a linear regression is planned for the final analysis, a linear (Normal) synthesis arm is generally the most appropriate baseline choice.
+Researchers should prioritize generators that match their intended analytical model. If a linear regression is planned for the final analysis, a linear (Normal) synthesis arm is often an appropriate baseline to evaluate first.
 
 \section{Limitations}
 \label{sec:reg-limitations}
