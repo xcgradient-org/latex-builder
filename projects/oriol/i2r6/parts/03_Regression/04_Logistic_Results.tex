@@ -72,7 +72,7 @@ The heatmap in Figure~\ref{fig:logistic-heatmap} indicates that sample size ($N$
 
 \section{Supporting Evidence from Bias and CI Width}
 
-The degradation of Confidence Interval Overlap (CIO) in logistic regression can be mathematically decomposed into two distinct phenomena: the shift in the point estimate (Bias) and the scaling of the uncertainty bounds (CI Width). To understand the failure modes of each generator, we analyze these components individually.
+The degradation of CIO in logistic regression can be mathematically decomposed into two distinct phenomena: the shift in the point estimate (Bias) and the scaling of the uncertainty bounds (CI Width). To understand the failure modes of each generator, we analyze these components individually using the metric definitions introduced in Chapter~\ref{chap:regression-methods}, Section~\ref{sec:reg-evaluation}.
 
 \subsection{Analysis of the Bias Ratio}
 Figure~\ref{fig:logistic-bias-ratio} shows the distribution of the Bias Ratio across synthesis methods for logistic regression.
@@ -85,7 +85,7 @@ Figure~\ref{fig:logistic-bias-ratio} shows the distribution of the Bias Ratio ac
     \source{Compiled by the author}
 \end{figure}
 
-Figure~\ref{fig:logistic-bias-ratio} isolates the Bias Ratio, defined as the absolute difference between the synthetic and original coefficients divided by the original standard error. 
+Figure~\ref{fig:logistic-bias-ratio} isolates the Bias Ratio, computed coefficient by coefficient and then averaged over the predictors in the fitted model.
 
 In logistic regression, both the Parametric (LogReg) and CART methods exhibit substantially higher bias ratios than their linear counterparts. The Parametric method, despite assuming the correct functional form, still shows bias under small-sample instability in maximum likelihood estimation. The CART method has more difficulty reproducing the smooth logistic curve, and its piecewise-constant approximations can lead to larger coefficient shifts in some scenarios. The heavy right tail in the CART distribution suggests that these larger discrepancies occur non-negligibly often.
 
@@ -100,6 +100,6 @@ Figure~\ref{fig:logistic-width-ratio} shows the distribution of the Confidence I
     \source{Compiled by the author}
 \end{figure}
 
-Figure~\ref{fig:logistic-width-ratio} presents the CI Width Ratio, which measures whether the synthetic data preserves the original level of statistical uncertainty. A ratio of $1.0$ indicates perfect preservation.
+Figure~\ref{fig:logistic-width-ratio} presents the CI Width Ratio, computed coefficient by coefficient and then averaged over the predictors in the fitted model. A ratio of $1.0$ indicates perfect preservation.
 
 The results here reveal an important failure mode for the CART generator in logistic contexts. While the Parametric method maintains a median ratio near $1.0$, CART frequently produces \textbf{narrower} confidence intervals (Ratio < $1.0$). In statistical terms, this suggests that the synthetic data can be artificially overconfident. When a biased point estimate (as seen in the previous plot) is combined with an artificially narrow confidence interval, the resulting CIO can collapse sharply. This ``confident but wrong'' pattern means that CART-based logistic synthesis should be interpreted with particular caution when the goal is inference.

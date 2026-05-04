@@ -37,16 +37,54 @@ To ensure statistical robustness, each unique scenario (combination of factors) 
 \label{sec:reg-generation-mechanisms}
 
 \subsection{Simulation Factors}
-The simulation space is defined by four main factors: sample size ($N$), number of predictors ($p$), correlation between predictors ($\rho$), and error variability ($\sigma^2$ for linear) or outcome prevalence (for logistic).
+The simulation space is defined by the following factors:
+\begin{equation}
+N \in \{100, 500, 1000\}, \qquad
+p \in \{2, 5, 10\}, \qquad
+\rho \in \{0.0, 0.3, 0.6\}
+\end{equation}
+\begin{equation}
+\sigma^2 \in \{0.5, 1.0, 2.0\}
+\end{equation}
+where $\sigma^2$ applies to the linear-regression scenarios, while the logistic-regression scenarios vary the outcome prevalence through the intercept term.
 
 \subsection{Sample Size, Number of Predictors, and Variable Type}
-We test three levels of sample size ($N \in \{100, 500, 1000\}$) and three levels of dimensionality ($p \in \{2, 5, 10\}$). The variable types are divided into two blocks: all-continuous predictors and all-binary predictors.
+The design includes the following sample-size, dimensionality, and predictor-type structure:
+\begin{equation}
+N \in \{100, 500, 1000\}, \qquad p \in \{2, 5, 10\}
+\end{equation}
+\begin{equation}
+\text{VarType} \in \{\text{continuous}, \text{binary}\}
+\end{equation}
 
 \subsection{Correlation Structure and Error Variability}
-Predictors are generated from a multivariate normal distribution (then discretized for binary scenarios) with a covariance matrix $\Sigma$ where all off-diagonal entries are set to $\rho \in \{0.0, 0.3, 0.6\}$. For linear models, the error variance $\sigma^2$ is varied in $\{0.5, 1.0, 2.0\}$.
+The continuous predictor block is generated from a multivariate Normal distribution:
+\begin{equation}
+\mathbf{X} \sim \mathcal{N}_p(\mathbf{0}, \Sigma)
+\end{equation}
+with covariance structure
+\begin{equation}
+\Sigma_{ii} = 1, \qquad \Sigma_{ij} = \rho \quad (i \neq j), \qquad \rho \in \{0.0, 0.3, 0.6\}
+\end{equation}
+For the binary scenarios, the same latent dependence structure is used and then discretized into binary predictors. For linear models, the error variance is set as
+\begin{equation}
+\sigma^2 \in \{0.5, 1.0, 2.0\}
+\end{equation}
 
 \subsection{Regression Coefficients and Outcome Generation}
-The coefficients are fixed at $\beta_j = (-1)^j$ to ensure a mix of positive and negative relationships. The outcome $Y$ is then generated from the corresponding model given the predictor matrix: for linear regression, from the linear predictor $\mathbf{X}\beta$ plus a Gaussian stochastic component; for logistic regression, from the Bernoulli distribution induced by the logistic transformation of $\mathbf{X}\beta$. The same data-generation logic is encoded in the regression configuration summarized in Appendix~\ref{sec:app-json}.
+The coefficients are fixed as
+\begin{equation}
+\beta_j = (-1)^j, \qquad j = 1, \dots, p
+\end{equation}
+For the linear-regression scenarios, the response is generated as
+\begin{equation}
+Y = \beta_0 + \mathbf{X}\beta + \epsilon, \qquad \epsilon \sim \mathcal{N}(0, \sigma^2)
+\end{equation}
+For the logistic-regression scenarios, the response is generated as
+\begin{equation}
+Y \sim \operatorname{Bernoulli}(\pi), \qquad \log\left(\frac{\pi}{1-\pi}\right) = \beta_0 + \mathbf{X}\beta
+\end{equation}
+The same data-generation logic is encoded in the regression configuration summarized in Appendix~\ref{sec:app-json}.
 
 \section{Synthetic Data Generators}
 \label{sec:reg-generators}
@@ -55,7 +93,11 @@ The coefficients are fixed at $\beta_j = (-1)^j$ to ensure a mix of positive and
 We evaluate two primary approaches for synthesizing the predictors $\mathbf{X}$:
 \begin{itemize}
     \item \textbf{CART:} Non-parametric classification and regression trees.
-    \item \textbf{Parametric:} Normal distribution for continuous variables and logistic regression for binary ones.
+    \item \textbf{Parametric:}
+    \begin{itemize}
+        \item \textbf{Normal:} for continuous predictors.
+        \item \textbf{Logistic:} for binary predictors.
+    \end{itemize}
 \end{itemize}
 
 \subsection{Generators for Outcomes}
@@ -103,22 +145,41 @@ A summary of the metrics used to assess inferential utility is presented in Tabl
 \end{table}
 
 \subsection{Main Metric: CI Overlap}
-The primary measure of inferential utility is the Confidence Interval Overlap (CIO), defined as:
+The primary measure of inferential utility is the Confidence Interval Overlap (CIO). It is first computed coefficient by coefficient and then averaged over all predictors in the fitted model. For coefficient $j$, we define:
 \begin{equation}
-    \text{CIO} = \frac{1}{2} \left( \frac{\min(U_R, U_S) - \max(L_R, L_S)}{U_R - L_R} + \frac{\min(U_R, U_S) - \max(L_R, L_S)}{U_S - L_S} \right)
+    \text{CIO}_j = \frac{1}{2} \left( \frac{\min(U_{R,j}, U_{S,j}) - \max(L_{R,j}, L_{S,j})}{U_{R,j} - L_{R,j}} + \frac{\min(U_{R,j}, U_{S,j}) - \max(L_{R,j}, L_{S,j})}{U_{S,j} - L_{S,j}} \right)
 \end{equation}
-where $[L_R, U_R]$ and $[L_S, U_S]$ are the 95\% CIs for the original and synthetic data, respectively.
-That is, the metric directly compares the inferential intervals obtained from the original fit and the corresponding synthetic fit.
+where $[L_{R,j}, U_{R,j}]$ and $[L_{S,j}, U_{S,j}]$ are the 95\% confidence intervals for coefficient $j$ in the original and synthetic data, respectively. The scenario-level CIO is then defined as
+\begin{equation}
+    \text{CIO} = \frac{1}{p} \sum_{j=1}^{p} \text{CIO}_j
+\end{equation}
+That is, the metric directly compares the inferential intervals obtained from the original fit and the corresponding synthetic fit, coefficient by coefficient, and then averages them over the full model.
 
 \subsection{Supporting Metrics: Bias and CI Width}
-To understand the \emph{source} of CIO degradation, we measure:
-\begin{itemize}
-    \item \textbf{Bias Ratio:} The ratio of the synthetic bias to the original standard error.
-    \item \textbf{CI Width Ratio:} The ratio of the synthetic CI width to the original CI width.
-\end{itemize}
+To understand the \emph{source} of CIO degradation, we measure the Bias Ratio and the CI Width Ratio, again coefficient by coefficient and then averaged over the model.
+
+For coefficient $j$, the Bias Ratio is defined as
+\begin{equation}
+    B_{R,j} = \frac{|\hat{\beta}^{(S)}_j - \hat{\beta}^{(R)}_j|}{\operatorname{SE}(\hat{\beta}^{(R)}_j)}
+\end{equation}
+and the model-level Bias Ratio is
+\begin{equation}
+    B_R = \frac{1}{p} \sum_{j=1}^{p} B_{R,j}
+\end{equation}
+
+For coefficient $j$, the CI Width Ratio is defined as
+\begin{equation}
+    W_{R,j} = \frac{\operatorname{Width}^{(S)}_j}{\operatorname{Width}^{(R)}_j}
+\end{equation}
+and the model-level CI Width Ratio is
+\begin{equation}
+    W_R = \frac{1}{p} \sum_{j=1}^{p} W_{R,j}
+\end{equation}
+
+Thus, all three inferential metrics are computed per predictor and then averaged over the $p$ coefficients in the model.
 
 \subsection{Univariate Analysis Strategy}
 We first analyze each factor ($N, p, \rho, \dots$) independently by averaging the metrics across all other factors.
 
 \subsection{Multivariate Analysis Strategy}
-Finally, we use correlation heatmaps and multivariate plots to identify interactions between factors, such as how the impact of sample size changes as the number of predictors increases.
+Finally, we use correlation heatmaps and multivariate plots to study the interaction between the synthesis methods and the data characteristics themselves, namely how performance changes jointly with factors such as $N$, $p$, $\rho$, and the predictor type.
