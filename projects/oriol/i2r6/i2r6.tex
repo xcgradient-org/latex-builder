@@ -82,32 +82,39 @@
 
 \pagenumbering{roman}
 
-\chapter*{Abstract / Resum / Resumen}
-
-\section*{Abstract}
+\chapter*{Abstract}
 Synthetic data is increasingly used as a privacy-preserving substitute for original data, but its value depends on whether it preserves the conclusions of downstream analyses. This thesis evaluates that analytical utility in two complementary settings: clustering, where utility depends on structural and geometric fidelity, and regression, where utility depends on preserving coefficients, uncertainty, and confidence intervals.
 
 The first study examines whether synthetic data generated with Classification and Regression Trees (CART) preserves the geometry required by clustering workflows. It compares K-Means and Agglomerative Hierarchical Clustering across controlled simulations varying sample size, cluster count, separation, dimensionality, correlation, and distribution family. The results show that CART remains useful for spherical normal settings but introduces block-like artifacts that degrade centroid-based clustering on skewed Gamma data. Hierarchical Clustering is more robust when synthesis distorts non-convex structure.
 
 The second study evaluates inferential utility for linear and logistic regression. It compares CART-based synthesis with parametric generators using Confidence Interval Overlap, Bias Ratio, and Confidence Interval Width Ratio. Parametric synthesis performs best when its assumptions match the data-generating process, while CART becomes less reliable in high-dimensional, correlated, small-sample, and logistic settings. Overall, the thesis shows that synthetic-data utility is not intrinsic to a generator alone; it depends on the interaction between synthesis method, data structure, and downstream analytical task.
 
-\vspace{1cm}
+\vspace{0.5cm}
+\noindent\textbf{Keywords:} Synthetic Data, Clustering, Regression, K-Means, Hierarchical Clustering, CART, Data Utility, Privacy.
 
-\section*{Resum}
+\newpage
+
+\chapter*{Resum}
 Les dades sint\`etiques s'utilitzen cada vegada m\'es com a substitut de les dades originals per protegir la privadesa, per\`o el seu valor dep\`en de si conserven les conclusions de les an\`alisis posteriors. Aquesta tesi avalua aquesta utilitat anal\'itica en dos contextos complementaris: el clustering, on la utilitat dep\`en de la fidelitat estructural i geom\`etrica, i la regressi\'o, on la utilitat dep\`en de preservar coeficients, incertesa i intervals de confian\c{c}a.
 
 El primer estudi analitza si les dades sint\`etiques generades amb arbres de classificaci\'o i regressi\'o (CART) conserven la geometria necess\`aria per a tasques de clustering. Es comparen K-Means i clustering jer\`arquic aglomeratiu en simulacions controlades que varien la mida mostral, el nombre de cl\'usters, la separaci\'o, la dimensionalitat, la correlaci\'o i la fam\'ilia de distribucions. Els resultats mostren que CART \'es \'util en escenaris normals i esf\`erics, per\`o introdueix artefactes en blocs que perjudiquen el clustering basat en centroides en dades Gamma esbiaixades. El clustering jer\`arquic \'es m\'es robust quan la s\'intesi distorsiona estructures no convexes.
 
 El segon estudi avalua la utilitat inferencial en regressi\'o lineal i log\'istica. Es compara la s\'intesi basada en CART amb generadors param\`etrics mitjan\c{c}ant el solapament d'intervals de confian\c{c}a, el r\`atio de biaix i el r\`atio d'amplada dels intervals. La s\'intesi param\`etrica obt\'e els millors resultats quan les seves hip\`otesis coincideixen amb el proc\'es generador de dades, mentre que CART \'es menys fiable en escenaris d'alta dimensionalitat, alta correlaci\'o, mostres petites i regressi\'o log\'istica. En conjunt, la tesi mostra que la utilitat de les dades sint\`etiques no dep\`en nom\'es del generador, sin\'o de la interacci\'o entre el m\`etode de s\'intesi, l'estructura de les dades i la tasca anal\'itica posterior.
 
-\vspace{1cm}
+\vspace{0.5cm}
+\noindent\textbf{Paraules clau:} Dades Sint\`etiques, Clustering, Regressi\'o, K-Means, Clustering Jer\`arquic, CART, Utilitat de les Dades, Privadesa.
 
-\section*{Resumen}
+\newpage
+
+\chapter*{Resumen}
 Los datos sint\'eticos se utilizan cada vez m\'as como sustituto de los datos originales para preservar la privacidad, pero su valor depende de si conservan las conclusiones de los an\'alisis posteriores. Esta tesis eval\'ua esa utilidad anal\'itica en dos contextos complementarios: el clustering, donde la utilidad depende de la fidelidad estructural y geom\'etrica, y la regresi\'on, donde la utilidad depende de preservar coeficientes, incertidumbre e intervalos de confianza.
 
 El primer estudio analiza si los datos sint\'eticos generados mediante \'arboles de clasificaci\'on y regresi\'on (CART) conservan la geometr\'ia necesaria para tareas de clustering. Se comparan K-Means y clustering jer\'arquico aglomerativo en simulaciones controladas que var\'ian el tama\~no muestral, el n\'umero de cl\'usteres, la separaci\'on, la dimensionalidad, la correlaci\'on y la familia de distribuciones. Los resultados muestran que CART es \'util en escenarios normales y esf\'ericos, pero introduce artefactos en bloques que perjudican el clustering basado en centroides en datos Gamma sesgados. El clustering jer\'arquico es m\'as robusto cuando la s\'intesis distorsiona estructuras no convexas.
 
 El segundo estudio eval\'ua la utilidad inferencial en regresi\'on lineal y log\'istica. Se compara la s\'intesis basada en CART con generadores param\'etricos usando el solapamiento de intervalos de confianza, el ratio de sesgo y el ratio de anchura de los intervalos. La s\'intesis param\'etrica obtiene mejores resultados cuando sus supuestos coinciden con el proceso generador de datos, mientras que CART es menos fiable en escenarios de alta dimensionalidad, alta correlaci\'on, muestras peque\~nas y regresi\'on log\'istica. En conjunto, la tesis muestra que la utilidad de los datos sint\'eticos no depende solo del generador, sino de la interacci\'on entre el m\'etodo de s\'intesis, la estructura de los datos y la tarea anal\'itica posterior.
+
+\vspace{0.5cm}
+\noindent\textbf{Palabras clave:} Datos Sint\'eticos, Clustering, Regresi\'on, K-Means, Clustering Jer\'arquico, CART, Utilidad de los Datos, Privacidad.
 
 \chapter*{Acknowledgements}
 I would like to express my sincere gratitude to my supervisor, Jordi Cort\'es, for his continuous support, patience, and motivation throughout this journey. It has been an absolute pleasure working with him for more than a year; his guidance, technical expertise, and encouragement have been fundamental to my growth as a researcher and the successful completion of this thesis. 
