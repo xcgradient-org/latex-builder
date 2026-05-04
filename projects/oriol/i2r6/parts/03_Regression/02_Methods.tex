@@ -84,6 +84,23 @@ We apply strict quality control to ensure that the original data is ``well-behav
 \section{Evaluation Strategy}
 \label{sec:reg-evaluation}
 
+A summary of the metrics used to assess inferential utility is presented in Table~\ref{tab:regression_metrics}.
+
+\begin{table}[H]
+  \centering
+  \caption[Summary of Regression Evaluation Metrics]{Summary of the inferential metrics used to evaluate regression utility.}
+  \label{tab:regression_metrics}
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{@{}lp{8cm}l@{}}
+    \toprule
+    \textbf{Metric} & \textbf{Description} & \textbf{Ideal Value} \\ \midrule
+    \textbf{CIO} & Confidence Interval Overlap: overlap between original and synthetic 95\% CIs. & $1.0$ (100\%) \\
+    \textbf{Bias Ratio} & Ratio of synthetic coefficient bias to the original standard error. & $0.0$ \\
+    \textbf{CI Width Ratio} & Ratio of synthetic CI width to original CI width. & $1.0$ \\ \bottomrule
+  \end{tabular}
+  \source{Compiled by the author}
+\end{table}
+
 \subsection{Main Metric: CI Overlap}
 The primary measure of inferential utility is the Confidence Interval Overlap (CIO), defined as:
 \begin{equation}

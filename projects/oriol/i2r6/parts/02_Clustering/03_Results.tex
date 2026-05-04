@@ -11,7 +11,7 @@ Principal Component Analysis (PCA) projects the data linearly, preserving the gl
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\linewidth]{figures/parts/02_Clustering/03_Results/normal_pca.png}
-  \caption{\textbf{PCA Projection: Normal Distribution ($N=1000, k=2$).} Comparison of Real (Top) vs. Synthetic (Bottom).}
+  \caption[PCA Projection on Normal Distribution]{\textbf{PCA Projection: Normal Distribution ($N=1000, k=2$).} Comparison of Real (Top) vs. Synthetic (Bottom).}
   \label{fig:pca_normal}
   \source{Compiled by the author}
 \end{figure}
@@ -23,7 +23,7 @@ In the Normal distribution case, the spherical nature of the clusters is well-pr
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{figures/parts/02_Clustering/03_Results/gamma_pca.png}
-  \caption{\textbf{PCA Projection: Gamma Distribution ($N=1000, k=2$).} Comparison of Real (Top) vs. Synthetic (Bottom).}
+  \caption[PCA Projection on Gamma Distribution]{\textbf{PCA Projection: Gamma Distribution ($N=1000, k=2$).} Comparison of Real (Top) vs. Synthetic (Bottom).}
   \label{fig:pca_gamma}
   \source{Compiled by the author}
 \end{figure}
@@ -38,7 +38,7 @@ t-SNE provides a non-linear projection that emphasizes the separation between ma
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{figures/parts/02_Clustering/03_Results/normal_tsne.png}
-  \caption{\textbf{t-SNE Projection: Normal Distribution.} Comparison of Real (Top) vs. Synthetic (Bottom).}
+  \caption[t-SNE Projection on Normal Distribution]{\textbf{t-SNE Projection: Normal Distribution.} Comparison of Real (Top) vs. Synthetic (Bottom).}
   \label{fig:tsne_normal}
   \source{Compiled by the author}
 \end{figure}
@@ -50,7 +50,7 @@ Even in the non-linear projection, the Normal distribution remains cohesive and 
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{figures/parts/02_Clustering/03_Results/gamma_tsne.png}
-  \caption{\textbf{t-SNE Projection: Gamma Distribution.} Comparison of Real (Top) vs. Synthetic (Bottom).}
+  \caption[t-SNE Projection on Gamma Distribution]{\textbf{t-SNE Projection: Gamma Distribution.} Comparison of Real (Top) vs. Synthetic (Bottom).}
   \label{fig:tsne_gamma}
   \source{Compiled by the author}
 \end{figure}
@@ -69,7 +69,7 @@ For a given configuration with $M$ total simulations, the \textbf{Success Rate (
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{figures/parts/02_Clustering/03_Results/dsr_normal.png}
-  \caption{\textbf{Success Rate on Normal Distribution.} Left: K-Means. Right: Hierarchical Clustering. Green indicates high success; Red indicates failure.}
+  \caption[Success Rate on Normal Distribution]{\textbf{Success Rate on Normal Distribution.} Left: K-Means. Right: Hierarchical Clustering. Green indicates high success; Red indicates failure.}
   \label{fig:success_normal}
   \source{Compiled by the author}
 \end{figure}
@@ -85,7 +85,7 @@ For a given configuration with $M$ total simulations, the \textbf{Success Rate (
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{figures/parts/02_Clustering/03_Results/dsr_gamma.png}
-  \caption{\textbf{Success Rate on Gamma Distribution.} Left: K-Means. Right: Hierarchical Clustering. Note the prevalence of red/orange zones in the K-Means heatmap.}
+  \caption[Success Rate on Gamma Distribution]{\textbf{Success Rate on Gamma Distribution.} Left: K-Means. Right: Hierarchical Clustering. Note the prevalence of red/orange zones in the K-Means heatmap.}
   \label{fig:success_gamma}
   \source{Compiled by the author}
 \end{figure}
@@ -106,7 +106,7 @@ To assess structural fidelity, we analyzed the Gini coefficient, which measures 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/parts/02_Clustering/03_Results/gini_normal.png}
-  \caption{\textbf{Absolute Gini Coefficients (Normal Distribution).} Row 1: K-Means (Red). Row 2: Hierarchical Clustering (Blue). The metric approaches zero as separation increases, indicating balanced detection.}
+  \caption[Absolute Gini Coefficients for Normal Distribution]{\textbf{Absolute Gini Coefficients (Normal Distribution).} Row 1: K-Means (Red). Row 2: Hierarchical Clustering (Blue). The metric approaches zero as separation increases, indicating balanced detection.}
   \label{fig:gini_absolute_normal}
   \source{Compiled by the author}
 \end{figure}
@@ -119,7 +119,7 @@ To assess structural fidelity, we analyzed the Gini coefficient, which measures 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/parts/02_Clustering/03_Results/gini_gamma.png}
-  \caption{\textbf{Absolute Gini Coefficients (Gamma Distribution).} Row 1: K-Means (Red). Row 2: Hierarchical Clustering (Blue). Note the high variance in Hierarchical Clustering compared to the rigid stability of K-Means.}
+  \caption[Absolute Gini Coefficients for Gamma Distribution]{\textbf{Absolute Gini Coefficients (Gamma Distribution).} Row 1: K-Means (Red). Row 2: Hierarchical Clustering (Blue). Note the high variance in Hierarchical Clustering compared to the rigid stability of K-Means.}
   \label{fig:gini_absolute_gamma}
   \source{Compiled by the author}
 \end{figure}
@@ -139,7 +139,7 @@ We computed the Mean Centroid Distance (MCD) to quantify the spatial shift betwe
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/parts/02_Clustering/03_Results/mcd_normal.png}
-  \caption{\textbf{Mean Centroid Distance (Normal Distribution).} Row 1: K-Means (Red). Row 2: Hierarchical Clustering (Blue). The metric quantifies the Euclidean shift of cluster centers after synthesis.}
+  \caption[Mean Centroid Distance for Normal Distribution]{\textbf{Mean Centroid Distance (Normal Distribution).} Row 1: K-Means (Red). Row 2: Hierarchical Clustering (Blue). The metric quantifies the Euclidean shift of cluster centers after synthesis.}
   \label{fig:mcd_normal}
   \source{Compiled by the author}
 \end{figure}
@@ -150,7 +150,7 @@ The results show a dominant inverse relationship between cluster separation and 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/parts/02_Clustering/03_Results/mcd_gamma.png}
-  \caption{\textbf{Mean Centroid Distance (Gamma Distribution).} Row 1: K-Means (Red). Row 2: Hierarchical Clustering (Blue).}
+  \caption[Mean Centroid Distance for Gamma Distribution]{\textbf{Mean Centroid Distance (Gamma Distribution).} Row 1: K-Means (Red). Row 2: Hierarchical Clustering (Blue).}
   \label{fig:mcd_gamma}
   \source{Compiled by the author}
 \end{figure}
@@ -166,7 +166,7 @@ We calculated the Mean Variance Difference (MVD) to measure the discrepancy in w
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/parts/02_Clustering/03_Results/mvd_normal.png}
-  \caption{\textbf{Mean Variance Difference (Normal Distribution).} Row 1: K-Means (Red). Row 2: Hierarchical Clustering (Blue). The metric increases with dimensionality and feature correlation.}
+  \caption[Mean Variance Difference for Normal Distribution]{\textbf{Mean Variance Difference (Normal Distribution).} Row 1: K-Means (Red). Row 2: Hierarchical Clustering (Blue). The metric increases with dimensionality and feature correlation.}
   \label{fig:mvd_normal}
   \source{Compiled by the author}
 \end{figure}
@@ -177,9 +177,9 @@ The results indicate that cluster separation is the primary factor reducing vari
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/parts/02_Clustering/03_Results/mvd_gamma.png}
-  \caption{\textbf{Mean Variance Difference (Gamma Distribution).} Row 1: K-Means (Red). Row 2: Hierarchical Clustering (Blue). Similar to the Normal case, variance distortion peaks in high-dimensional and correlated settings.}
+  \caption[Mean Variance Difference for Gamma Distribution]{\textbf{Mean Variance Difference (Gamma Distribution).} Row 1: K-Means (Red). Row 2: Hierarchical Clustering (Blue). Similar to the Normal case, variance distortion peaks in high-dimensional and correlated settings.}
   \label{fig:mvd_gamma}
   \source{Compiled by the author}
 \end{figure}
 
-The variance discrepancy patterns closely track those observed in the Normal distribution, indicating that dispersion artifacts are driven more by the synthetic generation method than the underlying probability distribution. Furthermore, the ``by Dimensionality'' and ``by Feature Correlation'' panels confirm that maintaining accurate cluster variance is increasingly difficult as complexity grows, leading to elevated difference metrics for both algorithms.
+The variance discrepancy patterns closely track those observed in the Normal distribution, indicating that dispersion artifacts are driven more by the synthetic generation method than the underlying probability distribution. Furthermore, the ``by Dimensionality'' and ``by Feature Correlation'' panels confirm that maintaining accurate cluster variance is increasingly difficult as complexity grows, leading to elevated difference metrics for both algorithms....

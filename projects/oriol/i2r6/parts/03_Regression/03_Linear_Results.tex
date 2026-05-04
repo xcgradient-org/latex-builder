@@ -6,7 +6,7 @@ The linear regression experiments covered 972 scenarios for continuous predictor
 
 \begin{table}[H]
     \centering
-    \caption{Summary of experimental factors for Linear Regression simulations.}
+    \caption[Summary of experimental factors for Linear Regression]{Summary of experimental factors for Linear Regression simulations.}
     \label{tab:linear-factors}
     \begin{tabular}{@{}ll@{}}
         \toprule
@@ -27,7 +27,7 @@ This section examines how individual design factors influence the Confidence Int
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/parts/03_Regression/03_Linear_Results/linear_cio_univariate.png}
-    \caption{Univariate analysis of CIO for Linear Regression across Sample Size (N), Number of Predictors (p), and Correlation (rho).}
+    \caption[Univariate analysis of CIO for Linear Regression]{Univariate analysis of CIO for Linear Regression across Sample Size (N), Number of Predictors (p), and Correlation (rho).}
     \label{fig:linear-cio-univariate}
     \source{Compiled by the author}
 \end{figure}
@@ -65,7 +65,7 @@ where $R_j^2$ is the coefficient of determination when regressing $X_j$ on the o
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/parts/03_Regression/03_Linear_Results/linear_cio_by_method.png}
-    \caption{Comparison of CIO across synthesis methods (CART vs. Parametric) for Linear Regression.}
+    \caption[Comparison of CIO for Linear Regression]{Comparison of CIO across synthesis methods (CART vs. Parametric) for Linear Regression.}
     \label{fig:linear-cio-method}
     \source{Compiled by the author}
 \end{figure}
@@ -77,7 +77,7 @@ Figure~\ref{fig:linear-cio-method} highlights the performance gap between the tw
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{figures/parts/03_Regression/03_Linear_Results/linear_cio_vs_design_correlation_spearman.png}
-    \caption{Spearman correlation heatmap between design factors and CIO for Linear Regression.}
+    \caption[CIO correlation heatmap for Linear Regression]{Spearman correlation heatmap between design factors and CIO for Linear Regression.}
     \label{fig:linear-heatmap}
     \source{Compiled by the author}
 \end{figure}
@@ -93,7 +93,7 @@ The CIO metric provides a holistic view of inferential utility, but it can be ma
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{figures/parts/03_Regression/03_Linear_Results/linear_plot_bias_ratio_by_method.png}
-    \caption{Distribution of the Bias Ratio by synthesis method for Linear Regression.}
+    \caption[Bias Ratio distribution for Linear Regression]{Distribution of the Bias Ratio by synthesis method for Linear Regression.}
     \label{fig:linear-bias-ratio}
     \source{Compiled by the author}
 \end{figure}
@@ -105,7 +105,7 @@ Figure~\ref{fig:linear-bias-ratio} demonstrates that both methods generally exhi
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{figures/parts/03_Regression/03_Linear_Results/linear_plot_ci_width_ratio_by_method.png}
-    \caption{Distribution of the Confidence Interval Width Ratio by synthesis method for Linear Regression.}
+    \caption[CI Width Ratio distribution for Linear Regression]{Distribution of the Confidence Interval Width Ratio by synthesis method for Linear Regression.}
     \label{fig:linear-width-ratio}
     \source{Compiled by the author}
 \end{figure}
@@ -113,3 +113,4 @@ Figure~\ref{fig:linear-bias-ratio} demonstrates that both methods generally exhi
 The CI Width Ratio (Figure~\ref{fig:linear-width-ratio}) reveals a fundamental divergence in how the two generators manage uncertainty. Parametric methods produce CI widths nearly identical to the original data (Ratio $\approx 1.0$) because they explicitly formulate and inject the Gaussian error term $\epsilon \sim \mathcal{N}(0, \sigma^2)$ during synthesis.
 
 Conversely, CART frequently produces ``overly conservative'' (wider) confidence intervals (Ratio > $1.0$). By modeling local averages within terminal tree nodes, CART introduces additional, unmodeled variance into the synthetic design matrix $\mathbf{X}^{(S)}$. According to the standard error formula $\text{SE}(\hat{\beta}) = \sqrt{\sigma^2 / \sum(x_i - \bar{x})^2}$, an artificially smoothed or disrupted variance profile in the predictors directly inflates the uncertainty bounds of the downstream regression, lowering the overall CIO score despite the relatively low bias.
+w bias.

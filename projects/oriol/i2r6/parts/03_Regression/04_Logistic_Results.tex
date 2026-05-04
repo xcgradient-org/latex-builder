@@ -6,7 +6,7 @@ Logistic regression scenarios introduce significant computational challenges com
 
 \begin{table}[H]
     \centering
-    \caption{Summary of experimental factors for Logistic Regression simulations.}
+    \caption[Summary of experimental factors for Logistic Regression]{Summary of experimental factors for Logistic Regression simulations.}
     \label{tab:logistic-factors}
     \begin{tabular}{@{}ll@{}}
         \toprule
@@ -26,7 +26,7 @@ Logistic regression scenarios introduce significant computational challenges com
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/parts/03_Regression/04_Logistic_Results/logistic_cio_univariate.png}
-    \caption{Univariate analysis of CIO for Logistic Regression across Sample Size (N), Number of Predictors (p), and Correlation (rho).}
+    \caption[Univariate analysis of CIO for Logistic Regression]{Univariate analysis of CIO for Logistic Regression across Sample Size (N), Number of Predictors (p), and Correlation (rho).}
     \label{fig:logistic-cio-univariate}
     \source{Compiled by the author}
 \end{figure}
@@ -48,7 +48,7 @@ Correlation remains a negative driver, but its effect is compounded by the ``sig
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/parts/03_Regression/04_Logistic_Results/logistic_cio_by_method.png}
-    \caption{Comparison of CIO across synthesis methods (CART vs. Parametric) for Logistic Regression.}
+    \caption[Multivariate comparison of CIO for Logistic Regression]{Comparison of CIO across synthesis methods (CART vs. Parametric) for Logistic Regression.}
     \label{fig:logistic-cio-method}
     \source{Compiled by the author}
 \end{figure}
@@ -60,7 +60,7 @@ As seen in Figure~\ref{fig:logistic-cio-method}, the gap between \textbf{Paramet
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{figures/parts/03_Regression/04_Logistic_Results/logistic_cio_vs_design_correlation_spearman.png}
-    \caption{Spearman correlation heatmap between design factors and CIO for Logistic Regression.}
+    \caption[CIO correlation heatmap for Logistic Regression]{Spearman correlation heatmap between design factors and CIO for Logistic Regression.}
     \label{fig:logistic-heatmap}
     \source{Compiled by the author}
 \end{figure}
@@ -76,7 +76,7 @@ The degradation of Confidence Interval Overlap (CIO) in logistic regression can 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{figures/parts/03_Regression/04_Logistic_Results/logistic_plot_bias_ratio_by_method.png}
-    \caption{Distribution of the Bias Ratio by synthesis method for Logistic Regression.}
+    \caption[Bias Ratio distribution for Logistic Regression]{Distribution of the Bias Ratio by synthesis method for Logistic Regression.}
     \label{fig:logistic-bias-ratio}
     \source{Compiled by the author}
 \end{figure}
@@ -90,7 +90,7 @@ In logistic regression, both the Parametric (LogReg) and CART methods exhibit si
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{figures/parts/03_Regression/04_Logistic_Results/logistic_plot_ci_width_ratio_by_method.png}
-    \caption{Distribution of the Confidence Interval Width Ratio by synthesis method for Logistic Regression.}
+    \caption[CI Width Ratio distribution for Logistic Regression]{Distribution of the Confidence Interval Width Ratio by synthesis method for Logistic Regression.}
     \label{fig:logistic-width-ratio}
     \source{Compiled by the author}
 \end{figure}
@@ -98,3 +98,4 @@ In logistic regression, both the Parametric (LogReg) and CART methods exhibit si
 Figure~\ref{fig:logistic-width-ratio} presents the CI Width Ratio, which measures whether the synthetic data preserves the original level of statistical uncertainty. A ratio of $1.0$ indicates perfect preservation.
 
 The results here reveal a critical and dangerous failure mode specific to the CART generator in logistic contexts. While the Parametric method maintains a median ratio near $1.0$, CART frequently produces \textbf{narrower} confidence intervals (Ratio < $1.0$). In a statistical context, this implies that the synthetic data is artificially overconfident. When a biased point estimate (as seen in the previous plot) is combined with an artificially narrow confidence interval, the resulting CIO collapses entirely. This ``confident but wrong'' behavior makes CART particularly risky for inferential logistic regression tasks.
+

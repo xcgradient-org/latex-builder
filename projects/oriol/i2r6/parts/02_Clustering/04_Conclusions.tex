@@ -35,6 +35,24 @@ To further resolve the friction between data privacy and analytical utility, fut
 \section{Conclusions}
 \label{sec:final-conclusions}
 
+A synthesized comparison of the algorithmic robustness under CART generation is presented in Table~\ref{tab:robustness_summary}.
+
+\begin{table}[H]
+  \centering
+  \caption[Summary of Algorithmic Robustness to CART Artifacts]{Summary of algorithmic robustness to CART-induced geometric artifacts.}
+  \label{tab:robustness_summary}
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{@{}lp{4.5cm}p{4.5cm}@{}}
+    \toprule
+    \textbf{Condition} & \textbf{K-Means} & \textbf{Hierarchical (Ward)} \\ \midrule
+    \textbf{Normal Data (Spherical)} & Highly Robust & Highly Robust \\
+    \textbf{Gamma Data (Skewed)} & Fails (Forces balanced partitions) & Robust (Adapts to connectivity) \\
+    \textbf{High Dimensionality} & High Centroid Drift & High Centroid Drift \\
+    \textbf{Overlapping Clusters} & Poor Detection & Poor Detection \\ \bottomrule
+  \end{tabular}
+  \source{Compiled by the author}
+\end{table}
+
 The promise of synthetic data is that it offers ``privacy by design'' without compromising analytical truth. This research clarifies the boundaries of that promise. We conclude that synthetic data generated via CART is not utility-neutral; it imparts a structural bias that favors connectivity-based algorithms over centroid-based ones.
 
 For organizations leveraging synthetic data, we recommend a clear operational protocol: if the underlying data distribution is unknown or suspected to be skewed, Hierarchical Clustering must be preferred over K-Means to avoid drawing erroneous conclusions from privacy-preserved data. K-Means should be reserved strictly for scenarios where normality can be verified or where the synthesis method is known to preserve spherical convexity. By understanding these geometric interactions, researchers can effectively unlock the value of sensitive data while maintaining rigorous privacy standards.

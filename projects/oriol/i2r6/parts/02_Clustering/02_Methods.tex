@@ -81,7 +81,7 @@ Table~\ref{tab:kmeans_vs_hc} summarizes the key computational, structural, and o
 
 \begin{table}[H]
   \centering
-  \caption{Comparison of K-Means and Hierarchical Clustering}
+  \caption[Comparison of K-Means and Hierarchical Clustering]{Comparison of K-Means and Hierarchical Clustering}
   \label{tab:kmeans_vs_hc}
   \renewcommand{\arraystretch}{1.2}
   \begin{tabular}{@{}lp{5.5cm}p{5.5cm}@{}}
@@ -140,7 +140,23 @@ While CART is non-parametric and can capture non-linear relationships, it introd
 \section{Evaluation Metrics}
 \label{sec:evaluation-metrics-methods}
 
-Standard clustering accuracy metrics (like purity) are insufficient when the cluster labels are unknown or permuted. We introduced a set of structural fidelity metrics to quantify the degradation between Real and Synthetic data.
+Standard clustering accuracy metrics (like purity) are insufficient when the cluster labels are unknown or permuted. We introduced a set of structural fidelity metrics to quantify the degradation between Real and Synthetic data. Table~\ref{tab:clustering_metrics} provides a summary of the metrics employed.
+
+\begin{table}[H]
+  \centering
+  \caption[Summary of Clustering Evaluation Metrics]{Summary of the geometric and detection metrics used to evaluate clustering utility.}
+  \label{tab:clustering_metrics}
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{@{}lp{8cm}l@{}}
+    \toprule
+    \textbf{Metric} & \textbf{Description} & \textbf{Target} \\ \midrule
+    \textbf{Success Rate} & Binary measure of whether the algorithm detected the true $k$. & $1.0$ (100\%) \\
+    \textbf{Gini Coefficient} & Measures the inequality of cluster sizes (imbalance). & $\approx 0.0$ \\
+    \textbf{MCD} & Mean Centroid Displacement: shift in cluster centers. & $\approx 0.0$ \\
+    \textbf{MVD} & Mean Variance Difference: change in cluster dispersion. & $\approx 0.0$ \\ \bottomrule
+  \end{tabular}
+  \source{Compiled by the author}
+\end{table}
 
 \subsection{Cluster Alignment (Hungarian Algorithm)}
 Clustering algorithms are unsupervised; they assign arbitrary labels (e.g., Cluster A found by K-Means might correspond to Cluster B in the ground truth). To calculate accuracy, we first solve the \textbf{Linear Sum Assignment Problem} using the \textbf{Hungarian Algorithm} \cite{kuhn1955}.

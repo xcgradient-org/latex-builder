@@ -29,6 +29,25 @@ Specifically, compared to the ``baseline'' study using real data from the UK lon
 For researchers whose data aligns with standard parametric assumptions (linear, normal, logistic), \textbf{Parametric Generators} are strongly recommended over CART for preserving inferential results.
 
 \subsection{Which Generators Perform Best Under Specific Conditions}
+
+Table~\ref{tab:generator_recommendations} provides a concise reference matrix for selecting a synthesis generator based on the data profile and the intended regression model.
+
+\begin{table}[H]
+  \centering
+  \caption[Generator Recommendations by Scenario]{Synthesis generator recommendations matrix for inferential utility.}
+  \label{tab:generator_recommendations}
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{@{}lll@{}}
+    \toprule
+    \textbf{Data Condition} & \textbf{Linear Regression} & \textbf{Logistic Regression} \\ \midrule
+    \textbf{Large Sample ($N \ge 1000$)} & Parametric (Normal) or CART & Parametric (LogReg) \\
+    \textbf{Small Sample ($N \le 100$)} & Parametric (Normal) & Parametric (LogReg) \\
+    \textbf{High Dimensionality ($p \ge 10$)} & Parametric (Normal) & \textit{High failure rate for all} \\
+    \textbf{High Correlation ($\rho \ge 0.6$)} & Parametric (Normal) & Parametric (LogReg) \\ \bottomrule
+  \end{tabular}
+  \source{Compiled by the author}
+\end{table}
+
 \begin{itemize}
     \item \textbf{High N, Low p:} CART and Parametric are both viable.
     \item \textbf{Small N:} Use Parametric, as CART is highly unstable.

@@ -22,12 +22,31 @@ Machine learning includes a broad set of methods that learn from data rather tha
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.85\linewidth]{figures/parts/01_Introduction/01_General_Introduction/ML_types.png}
-  \caption{Taxonomy of common machine-learning paradigms and representative algorithms.}
+  \caption[Taxonomy of machine-learning paradigms]{Taxonomy of common machine-learning paradigms and representative algorithms.}
   \label{fig:ml_taxonomy}
   \source{Compiled by the author}
 \end{figure}
 
-Regression belongs to the supervised or model-based inferential setting, because it studies how an outcome changes as a function of predictors. Clustering belongs to unsupervised learning, because it attempts to discover structure without observing ground-truth labels during training. These two settings place different demands on synthetic data. Clustering requires preservation of distances, densities, separability, and cluster geometry. Regression requires preservation of conditional relationships, point estimates, standard errors, and confidence intervals \cite{reiter2003, drechsler2011}.
+Regression belongs to the supervised or model-based inferential setting, because it studies how an outcome changes as a function of predictors. Clustering belongs to unsupervised learning, because it attempts to discover structure without observing ground-truth labels during training. These two settings place different demands on synthetic data, as summarized in Table~\ref{tab:utility-types}.
+
+\begin{table}[H]
+  \centering
+  \caption[Comparison of Structural and Inferential Utility]{Comparison of Structural and Inferential Utility demands on synthetic data.}
+  \label{tab:utility-types}
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{@{}lp{5cm}p{5cm}@{}}
+    \toprule
+    \textbf{Dimension} & \textbf{Structural Utility (Clustering)} & \textbf{Inferential Utility (Regression)} \\ \midrule
+    \textbf{Learning Paradigm} & Unsupervised & Supervised / Model-based \\
+    \textbf{Primary Goal} & Preserve geometry and separability & Preserve relationships and uncertainty \\
+    \textbf{Key Features} & Distances, densities, topology & Point estimates, standard errors, CIs \\
+    \textbf{Sensitivity} & High sensitivity to spatial artifacts & High sensitivity to correlation limits \\
+    \bottomrule
+  \end{tabular}
+  \source{Compiled by the author based on \cite{reiter2003, drechsler2011}}
+\end{table}
+
+Clustering requires preservation of distances, densities, separability, and cluster geometry. Regression requires preservation of conditional relationships, point estimates, standard errors, and confidence intervals \cite{reiter2003, drechsler2011}.
 
 \section{Problem Statement}
 \label{sec:general-problem}
