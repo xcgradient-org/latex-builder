@@ -26,7 +26,7 @@ Figure~\ref{fig:logistic-cio-univariate} summarizes the univariate CIO trends fo
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/parts/03_Regression/04_Logistic_Results/logistic_cio_univariate.png}
+    \includegraphics[width=0.96\textwidth]{figures/parts/03_Regression/04_Logistic_Results/logistic_cio_univariate.png}
     \caption[Univariate analysis of CIO for Logistic Regression]{Univariate analysis of CIO for Logistic Regression across Sample Size (N), Number of Predictors (p), and Correlation (rho).}
     \label{fig:logistic-cio-univariate}
     \source{Compiled by the author}
@@ -47,13 +47,15 @@ Correlation remains a negative driver, but its effect is compounded by the ``sig
 \section{Multivariate Comparison by Generator}
 Figure~\ref{fig:logistic-cio-method} compares CIO across the two main synthesis arms for logistic regression.
 
-\begin{figure}[H]
+\clearpage
+\begin{figure}[p]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/parts/03_Regression/04_Logistic_Results/logistic_cio_by_method.png}
+    \includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{figures/parts/03_Regression/04_Logistic_Results/logistic_cio_by_method.png}
     \caption[Multivariate comparison of CIO for Logistic Regression]{Comparison of CIO across synthesis methods (CART vs. Parametric) for Logistic Regression.}
     \label{fig:logistic-cio-method}
     \source{Compiled by the author}
 \end{figure}
+\clearpage
 
 As seen in Figure~\ref{fig:logistic-cio-method}, the \textbf{Parametric (LogReg)} arm tends to achieve higher CIO than \textbf{CART} in the binary-outcome case. A plausible explanation is that CART generators can produce ``blocky'' artifacts in the probability space, which makes it harder to reproduce the smooth S-curve associated with the logistic model.
 
@@ -62,7 +64,7 @@ Figure~\ref{fig:logistic-heatmap} reports the Spearman correlation heatmap linki
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/parts/03_Regression/04_Logistic_Results/logistic_cio_vs_design_correlation_spearman.png}
+    \includegraphics[width=\textwidth]{figures/parts/03_Regression/04_Logistic_Results/logistic_cio_vs_design_correlation_spearman.png}
     \caption[CIO correlation heatmap for Logistic Regression]{Spearman correlation heatmap between design factors and CIO for Logistic Regression.}
     \label{fig:logistic-heatmap}
     \source{Compiled by the author}
@@ -79,7 +81,7 @@ Figure~\ref{fig:logistic-bias-ratio} shows the distribution of the Bias Ratio ac
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{figures/parts/03_Regression/04_Logistic_Results/logistic_plot_bias_ratio_by_method.png}
+    \includegraphics[width=0.92\textwidth]{figures/parts/03_Regression/04_Logistic_Results/logistic_plot_bias_ratio_by_method.png}
     \caption[Bias Ratio distribution for Logistic Regression]{Distribution of the Bias Ratio by synthesis method for Logistic Regression.}
     \label{fig:logistic-bias-ratio}
     \source{Compiled by the author}
@@ -94,7 +96,7 @@ Figure~\ref{fig:logistic-width-ratio} shows the distribution of the Confidence I
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{figures/parts/03_Regression/04_Logistic_Results/logistic_plot_ci_width_ratio_by_method.png}
+    \includegraphics[width=0.92\textwidth]{figures/parts/03_Regression/04_Logistic_Results/logistic_plot_ci_width_ratio_by_method.png}
     \caption[CI Width Ratio distribution for Logistic Regression]{Distribution of the Confidence Interval Width Ratio by synthesis method for Logistic Regression.}
     \label{fig:logistic-width-ratio}
     \source{Compiled by the author}

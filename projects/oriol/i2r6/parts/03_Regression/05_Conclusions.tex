@@ -5,10 +5,10 @@
 \label{sec:reg-main-findings}
 
 \subsection{Findings for Linear Regression}
-Linear regression represents the most stable application for synthetic data generators. In continuous scenarios, parametric methods (Normal) generally attain somewhat higher CIO, while CART remains usable but tends to produce slightly wider confidence intervals. The number of predictors and correlation are the main sources of utility degradation.
+Linear regression represents the most stable downstream method for synthetic data generators. In continuous scenarios, parametric methods (Normal) generally attain somewhat higher CIO, while CART remains usable but tends to produce slightly wider confidence intervals. The number of predictors and correlation are the main sources of utility degradation.
 
 \subsection{Findings for Logistic Regression}
-Logistic regression is significantly more sensitive to synthesis artifacts. Small sample sizes ($N=100$) lead to low CIO and high bias, regardless of the generator. CART, in particular, often underestimates uncertainty (narrower CIs) in logistic outcomes, which is a noteworthy failure mode for inferential research.
+Logistic regression is significantly more sensitive to synthesis artifacts. The figures show that the clearest small-sample deterioration appears at $N=100$, where CIO is lowest in the univariate comparison and the bias distributions become more unstable, particularly for CART. CART, in particular, often underestimates uncertainty (narrower CIs) in logistic outcomes, which is a noteworthy failure mode for inferential research.
 
 \subsection{Findings that are Consistent Across Both Models}
 \begin{itemize}
@@ -44,16 +44,18 @@ Table~\ref{tab:generator_recommendations} provides a concise reference matrix fo
     \toprule
     \textbf{Data Condition} & \textbf{Linear Regression} & \textbf{Logistic Regression} \\ \midrule
     \textbf{Large Sample ($N \ge 1000$)} & Parametric (Normal) or CART & Parametric (LogReg) \\
-    \textbf{Small Sample ($N \le 100$)} & Parametric (Normal) & Parametric (LogReg) \\
+    \textbf{Small Sample ($N \le 100$)} & Parametric (Normal) or CART & Parametric (LogReg) \\
     \textbf{High Dimensionality ($p \ge 10$)} & Parametric (Normal) & \textit{High failure rate for all} \\
     \textbf{High Correlation ($\rho \ge 0.6$)} & Parametric (Normal) & Parametric (LogReg) \\ \bottomrule
   \end{tabular}
   \source{Compiled by the author}
 \end{table}
 
+The influence of sample size is clearest in the logistic results. Figures~\ref{fig:logistic-cio-univariate} and~\ref{fig:logistic-heatmap} show that CIO deteriorates most visibly when $N=100$, whereas the linear results show a much weaker sample-size pattern.
+
 \begin{itemize}
     \item \textbf{High N, Low p:} CART and Parametric are both viable.
-    \item \textbf{Small N:} Parametric synthesis is generally preferable, as CART becomes less stable.
+    \item \textbf{Small N:} The strongest caution applies to logistic regression, where Figures~\ref{fig:logistic-cio-univariate} and~\ref{fig:logistic-heatmap} show a clear deterioration at $N=100$; for linear regression, the sample-size effect is much less pronounced.
     \item \textbf{Binary Outcomes:} LogReg synthesis is typically preferable; CART should be used cautiously when inference on the logistic model is the main goal.
 \end{itemize}
 
@@ -64,7 +66,7 @@ Researchers should prioritize generators that match their intended analytical mo
 \label{sec:reg-limitations}
 \begin{itemize}
     \item \textbf{Simulation Focus:} All datasets were generated from known distributions. Real-world non-linearities or ``messy'' data may change the relative performance of CART.
-    \item \textbf{Metric Focus:} We focused on CIO. Other metrics (e.g., coverage, MSE) might reveal different tradeoffs.
+    \item \textbf{Metric Focus:} We focused on CIO, Bias Ratio, and CI Width Ratio. Other metrics (e.g., coverage, MSE) might reveal different tradeoffs.
 \end{itemize}
 
 \section{Future Work}
