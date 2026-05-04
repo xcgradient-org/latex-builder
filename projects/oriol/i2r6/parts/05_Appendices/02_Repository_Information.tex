@@ -7,89 +7,95 @@ All simulation pipelines, evaluation scripts, and structural configurations deve
 \begin{itemize}
     \item \textbf{Repository URL:} \url{https://github.com/Sterrysx/ML_SyntheticDataResearch}
     \item \textbf{Primary Author:} Oriol Farr\'es (Supervised by Jordi Cort\'es)
-    \item \textbf{Status:} Production-ready pipeline
+    \item \textbf{Status:} Production-ready pipelines
     \item \textbf{Original Work Base:} Chen Xinnuo (2025)
 \end{itemize}
 
 \section{Repository Architecture and Documentation}
-Rather than reproducing raw documentation, this section synthesizes the core structure and operational guides of the repository to provide a clear technical roadmap for future researchers seeking to reproduce or extend this pipeline.
+This section synthesizes the core structure and operational guides of the repository to provide a clear technical roadmap for future researchers seeking to reproduce or extend this pipeline.
 
 \subsection{Project Overview}
-The repository contains the research codebase extending the work of \textbf{Chen Xinnuo} (2025) on evaluating how well synthetic data preserves the clustering properties of real data. The project systematically compares K-Means and Hierarchical Clustering algorithms across 1,800+ datasets to answer critical questions about synthetic data quality regarding:
+The repository contains the comprehensive research codebase evaluating the downstream utility of synthetic data generated via the CART method. It is structured into two main experimental domains, directly corresponding to the two studies presented in this thesis:
 \begin{itemize}
-  \item \textbf{Detection}: Can clustering algorithms correctly identify the number of clusters ($k$) in synthetic data?
-  \item \textbf{Robustness}: Which algorithm (K-Means vs. Hierarchical) is more resilient to synthetic data distortion?
-  \item \textbf{Quality}: How much does the \texttt{synthpop} CART method degrade cluster geometry and separability?
+    \item \textbf{Clustering Study}: Evaluates structural utility using K-Means and Hierarchical Clustering.
+    \item \textbf{Regression Study}: Evaluates inferential utility using Linear and Logistic regression models across continuous and binary predictors.
 \end{itemize}
 
 \subsection{Directory Structure}
-The repository is logically divided into the original foundational work and the current, automated pipeline:
+To maintain isolation between the experimental frameworks, the repository is logically divided by study. Both studies share a unified installation procedure but maintain independent execution environments:
 
 \begin{verbatim}
 ML_SyntheticDataResearch/
 |
-|-- ofarres/                    <- MAIN RESEARCH PIPELINE (Current Work)
-|   |-- SETUP.md                <- Installation & setup instructions
-|   |-- README.md               <- Complete pipeline documentation
-|   |-- run_all.sh              <- Master execution script
-|   |-- requirements.txt        <- Python dependencies
-|   |
-|   |-- config/                 <- Declarative JSON simulation parameters
-|   |-- installer_scripts/      <- Master installers (R + Python packages)
-|   |
-|   |-- 01_data_generation/     <- Step 1: Generate real + synthetic data
-|   |-- 02_clustering/          <- Step 2: Run clustering simulations
-|   \-- 03_analysis/            <- Step 3: Visualization & results extraction
+|-- SETUP.md                    <- Environment installation & setup instructions
+|-- README.md                   <- Main project documentation
 |
-|-- xinnuo_files/               <- ORIGINAL RESEARCH (Chen Xinnuo, 2025)
-\-- README.md                   <- Repository entry point
+|-- clustering/                 <- STUDY I: CLUSTERING PIPELINE
+|   |-- README.md               <- Clustering specific documentation
+|   |-- run_all.sh              <- Master execution script for clustering
+|   |-- config/                 <- Simulation parameters
+|   |-- 01_generate_OD/         <- Original Data generation
+|   |-- 02_generate_SD/         <- Synthetic Data generation
+|   |-- 03_clustering_analysis/ <- Clustering execution
+|   \-- 04_evaluation/          <- Results and visualization
+|
+|-- regression/                 <- STUDY II: REGRESSION PIPELINE
+|   |-- README.md               <- Regression specific documentation
+|   |-- run_all.sh              <- Master execution script for regression
+|   |-- config/                 <- Simulation parameters
+|   |-- 01_generate_OD/         <- Original Data generation
+|   |-- 02_generate_SD/         <- Synthetic Data generation
+|   |-- 03_regression_analysis/ <- Model fitting and validation
+|   \-- 04_evaluation/          <- Results and visualization
+|
+\-- xinnuo_files/               <- ORIGINAL RESEARCH (Chen Xinnuo, 2025)
 \end{verbatim}
 
-\subsection{Execution Pipeline}
+\section{Environment Setup and Execution}
+\label{sec:app-setup}
 
-The environment relies on \textbf{Conda}, \textbf{R (4.0+)}, and \textbf{Python (3.9+)}. The entire simulation environment can be bootstrapped and executed autonomously:
+The project utilizes both \textbf{R} and \textbf{Python} to generate synthetic data and evaluate machine learning models. The environment setup is fully documented and can be bootstrapped autonomously.
 
-\vspace{0.3cm}
-\noindent\textbf{1. Environment Setup}
+\subsection{Prerequisites and Installation}
+The pipeline requires the following base dependencies:
+\begin{itemize}
+    \item \textbf{Conda} (Miniconda or Anaconda) for environment management.
+    \item \textbf{R} (version 4.0+) for the \texttt{synthpop} engine.
+    \item \textbf{Python} (version 3.9+) for clustering and regression fitting algorithms.
+\end{itemize}
+
+Researchers can set up the required environment using the provided installation scripts:
+
 \begin{verbatim}
+# 1. Create and activate the Conda environment
 conda create -n synthetic_data python=3.9
 conda activate synthetic_data
-cd ofarres/
-./installer_scripts/install_all.sh
+
+# 2. Install required Python and R packages
+pip install pandas numpy scikit-learn matplotlib seaborn scipy pyarrow fastparquet
+R -e 'install.packages(c("synthpop", "jsonlite", "mvtnorm", "dplyr", "parallel", "arrow"))'
 \end{verbatim}
 
+\subsection{Executing the Pipelines}
+To execute either study, researchers must navigate to its respective directory and run the master script (\texttt{run\_all.sh}), which handles generation, processing, and evaluation sequentially.
+
 \vspace{0.3cm}
-\noindent\textbf{2. Pipeline Execution}
+\noindent\textbf{Clustering Execution}
 \begin{verbatim}
+cd clustering/
 ./run_all.sh
 \end{verbatim}
 
-\subsection{Pipeline Stages and Outputs}
-The automated pipeline executes sequentially through three major stages:
+\vspace{0.3cm}
+\noindent\textbf{Regression Execution}
+\begin{verbatim}
+cd regression/
+./run_all.sh
+\end{verbatim}
 
-\begin{enumerate}
-    \item \textbf{Step 1: Data Generation}
-    \begin{itemize}
-        \item Generates 180 real datasets with controlled cluster properties (varying $N$, $k$, separation, correlation).
-        \item Creates 10 synthetic versions of each real dataset using the \texttt{synthpop} CART method.
-        \item \textbf{Output}: 1,980 total datasets (180 real + 1,800 synthetic).
-    \end{itemize}
-    \item \textbf{Step 2: Clustering Simulation}
-    \begin{itemize}
-        \item Tests both K-Means and Hierarchical Clustering on all datasets.
-        \item Evaluates cluster detection accuracy and quality metrics (e.g., silhouette, distortion).
-        \item \textbf{Output}: \texttt{clustering\_results\_final.csv}.
-    \end{itemize}
-    \item \textbf{Step 3: Visualization \& Analysis}
-    \begin{itemize}
-        \item Generates publication-ready plots for Success Rate, Performance Delta, and Quality Metrics.
-        \item \textbf{Output}: 24 high-resolution PNG visualizations located in \texttt{03\_analysis/}.
-    \end{itemize}
-\end{enumerate}
-
-\subsection{Citation and Attribution}
-This work directly extends the foundational methodology developed by:
+\section{Citation and Attribution}
+This work directly extends the foundational exploratory methodology developed by:
 \begin{quote}
     \textbf{Chen Xinnuo} (2025). \textit{TFG-EST: Synthetic Data Generation and Clustering Analysis}. Universidad de Barcelona.
 \end{quote}
-The current extension features automated 3-step pipeline implementation across both R and Python, systematic parameter sweeping, and a reproducible, version-controlled research infrastructure.
+The current extension features automated execution pipelines across both R and Python, systematic parameter sweeping, and a reproducible, version-controlled research infrastructure for both unsupervised and supervised learning evaluations.
