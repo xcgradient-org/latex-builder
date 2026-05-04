@@ -8,57 +8,59 @@ To visually assess the geometric distortions introduced by the synthetic generat
 
 \subsection{Principal Component Analysis (PCA)}
 Principal Component Analysis (PCA) projects the data linearly, preserving the global geometric structure and highlighting the orthogonal ``blocky'' artifacts introduced by the decision-tree-based synthesis \cite{jolliffe2002}. 
+Figure~\ref{fig:pca_normal} shows the PCA projection for the Normal scenario, and Figure~\ref{fig:pca_gamma} shows the corresponding Gamma scenario. In both figures, the leftmost synthetic panels reuse simulation-side colouring only as a diagnostic comparison aid; they do not represent observable true labels for synthetic records in practice.
 
 \textbf{Normal Distribution}
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\linewidth]{figures/parts/02_Clustering/03_Results/normal_pca.png}
-  \caption[PCA Projection on Normal Distribution]{\textbf{PCA Projection: Normal Distribution ($N=1000, k=2$).} Comparison of Real (Top) vs. Synthetic (Bottom).}
+  \caption[PCA Projection on Normal Distribution]{\textbf{PCA Projection: Normal Distribution ($N=1000, k=2$).} Comparison of Real (Top) vs. Synthetic (Bottom). In the lower-left panel, ``True Labels'' denotes simulation-side diagnostic colouring only and does not imply observable labels or recordwise correspondence in practice.}
   \label{fig:pca_normal}
   \source{Compiled by the author}
 \end{figure}
 
-In the Normal distribution case, the spherical nature of the clusters is well-preserved.
-\textit{Observation:} The CART synthesis method preserves the spherical geometry of the Normal distribution (Bottom-Left). Consequently, both K-Means and Hierarchical Clustering successfully recover the true cluster labels, demonstrating high utility for normally distributed synthetic data.
+In the Normal distribution case, Figure~\ref{fig:pca_normal} shows that the spherical cluster geometry is largely preserved after synthesis.
+\textit{Observation:} The diagnostic colouring of the synthetic sample remains broadly aligned with the original structure, and the K-Means and Hierarchical Clustering panels recover nearly the same left-right partition, indicating high utility for normally distributed synthetic data.
 
 \textbf{Gamma Distribution}
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{figures/parts/02_Clustering/03_Results/gamma_pca.png}
-  \caption[PCA Projection on Gamma Distribution]{\textbf{PCA Projection: Gamma Distribution ($N=1000, k=2$).} Comparison of Real (Top) vs. Synthetic (Bottom).}
+  \caption[PCA Projection on Gamma Distribution]{\textbf{PCA Projection: Gamma Distribution ($N=1000, k=2$).} Comparison of Real (Top) vs. Synthetic (Bottom). In the lower-left panel, ``True Labels'' denotes simulation-side diagnostic colouring only and does not imply observable labels or recordwise correspondence in practice.}
   \label{fig:pca_gamma}
   \source{Compiled by the author}
 \end{figure}
 
-In the Gamma distribution case, the linear projection reveals the geometric degradation.
-\textit{Observation:} The synthetic data (Bottom-Left) exhibits ``hardened'' orthogonal boundaries compared to the smooth tails of the real data. K-Means fails to adapt to this distorted geometry, imposing a linear decision boundary that misclassifies the cluster tails, whereas Hierarchical Clustering proves more robust.
+In the Gamma distribution case, Figure~\ref{fig:pca_gamma} reveals the geometric degradation more clearly.
+\textit{Observation:} The diagnostic colouring of the synthetic sample suggests ``hardened'' orthogonal boundaries compared with the smooth tails of the real data. K-Means fails to adapt to this distorted geometry, imposing a linear decision boundary that cuts through the cluster tails, whereas Hierarchical Clustering proves more robust.
 
 \subsection{t-SNE Analysis}
 t-SNE provides a non-linear projection that emphasizes the separation between manifolds \cite{vandermaaten2008}. This visualization is particularly effective at highlighting the ``bad cuts'' made by centroid-based algorithms on skewed data.
+Figure~\ref{fig:tsne_normal} presents the t-SNE embedding for the Normal scenario, while Figure~\ref{fig:tsne_gamma} presents the Gamma scenario. As with the PCA figures, the leftmost synthetic panels are diagnostic colourings retained from the simulation workflow and are not available to an analyst in a practical synthetic-data release.
 
 \textbf{Normal Distribution}
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{figures/parts/02_Clustering/03_Results/normal_tsne.png}
-  \caption[t-SNE Projection on Normal Distribution]{\textbf{t-SNE Projection: Normal Distribution.} Comparison of Real (Top) vs. Synthetic (Bottom).}
+  \caption[t-SNE Projection on Normal Distribution]{\textbf{t-SNE Projection: Normal Distribution.} Comparison of Real (Top) vs. Synthetic (Bottom). In the lower-left panel, ``True Labels'' denotes simulation-side diagnostic colouring only and does not imply observable labels or recordwise correspondence in practice.}
   \label{fig:tsne_normal}
   \source{Compiled by the author}
 \end{figure}
 
-Even in the non-linear projection, the Normal distribution remains cohesive and separable.
-\textit{Observation:} The synthetic data (Bottom Row) maintains distinct, separable clusters similar to the control group. Both K-Means and Hierarchical clustering produce nearly identical partitions, confirming that the synthesis process does not introduce topological distortions that affect separability in spherical distributions.
+Figure~\ref{fig:tsne_normal} shows that, even in the non-linear projection, the Normal distribution remains cohesive and separable after synthesis.
+\textit{Observation:} The synthetic-data embedding maintains two distinct groups similar to the control sample. Both K-Means and Hierarchical Clustering produce nearly identical partitions, confirming that the synthesis process does not introduce major topological distortions in spherical distributions.
 
 \textbf{Gamma Distribution}
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{figures/parts/02_Clustering/03_Results/gamma_tsne.png}
-  \caption[t-SNE Projection on Gamma Distribution]{\textbf{t-SNE Projection: Gamma Distribution.} Comparison of Real (Top) vs. Synthetic (Bottom).}
+  \caption[t-SNE Projection on Gamma Distribution]{\textbf{t-SNE Projection: Gamma Distribution.} Comparison of Real (Top) vs. Synthetic (Bottom). In the lower-left panel, ``True Labels'' denotes simulation-side diagnostic colouring only and does not imply observable labels or recordwise correspondence in practice.}
   \label{fig:tsne_gamma}
   \source{Compiled by the author}
 \end{figure}
 
-The t-SNE projection reveals the catastrophic failure mode of K-Means on skewed synthetic data.
-\textit{Critical Finding:} On synthetic data (Bottom Row), the True Labels show two connected density masses. K-Means (Center) arbitrarily slices these masses with a rigid boundary, failing to capture the organic shape. In contrast, Hierarchical Clustering (Right) successfully identifies the connected structures, offering a significantly closer approximation to the Ground Truth.
+Figure~\ref{fig:tsne_gamma} reveals the main failure mode of K-Means on skewed synthetic data.
+\textit{Critical Finding:} In the synthetic row, the diagnostic colouring suggests two connected density masses. K-Means arbitrarily slices these masses with a rigid boundary, failing to capture their organic shape. In contrast, Hierarchical Clustering follows the connected structure more closely, offering a substantially better qualitative approximation.
 
 \section{Cluster Number Matching}
 \label{sec:cluster-number-matching}
@@ -68,6 +70,7 @@ This section analyzes the ``Success Rate'' metric---defined as the proportion of
 For a given configuration with $M$ total simulations, the \textbf{Success Rate (SR)} is calculated as the proportion of correct detections.
 
 \textbf{Normal Distribution}
+Figure~\ref{fig:success_normal} summarizes the success-rate surface for the Normal scenarios under both clustering algorithms.
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{figures/parts/02_Clustering/03_Results/dsr_normal.png}
@@ -84,6 +87,7 @@ For a given configuration with $M$ total simulations, the \textbf{Success Rate (
 \end{itemize}
 
 \textbf{Gamma Distribution}
+Figure~\ref{fig:success_gamma} reports the analogous success-rate surface for the Gamma scenarios.
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{figures/parts/02_Clustering/03_Results/dsr_gamma.png}
@@ -105,6 +109,7 @@ For a given configuration with $M$ total simulations, the \textbf{Success Rate (
 To assess structural fidelity, we analyzed the Gini coefficient, which measures the inequality of cluster sizes.
 
 \textbf{Normal Distribution}
+Figure~\ref{fig:gini_absolute_normal} displays the absolute Gini-coefficient distribution for the Normal scenarios.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/parts/02_Clustering/03_Results/gini_normal.png}
@@ -118,6 +123,7 @@ To assess structural fidelity, we analyzed the Gini coefficient, which measures 
 \textbf{Dimensionality Stability:} While K-Means maintains a tight distribution near zero for high dimensions, Hierarchical Clustering exhibits a wider interquartile range and a higher median Gini, suggesting less stability in maintaining balance as feature space grows.
 
 \textbf{Gamma Distribution}
+Figure~\ref{fig:gini_absolute_gamma} displays the corresponding absolute Gini-coefficient distribution for the Gamma scenarios.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/parts/02_Clustering/03_Results/gini_gamma.png}
@@ -138,6 +144,7 @@ To assess structural fidelity, we analyzed the Gini coefficient, which measures 
 We computed the Mean Centroid Distance (MCD) to quantify the spatial shift between the cluster centers in the real dataset versus the synthetic dataset.
 
 \textbf{Normal Distribution}
+Figure~\ref{fig:mcd_normal} reports the Mean Centroid Distance for the Normal scenarios.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/parts/02_Clustering/03_Results/mcd_normal.png}
@@ -149,6 +156,7 @@ We computed the Mean Centroid Distance (MCD) to quantify the spatial shift betwe
 The results show a dominant inverse relationship between cluster separation and centroid stability. At the lowest separation level, both algorithms show high displacement, indicating significant centroid drift when clusters overlap. As separation increases, the distances for both algorithms effectively collapse to zero. In terms of data complexity, the variance of the centroid distance increases with both the number of clusters ($k$) and dimensionality ($p$).
 
 \textbf{Gamma Distribution}
+Figure~\ref{fig:mcd_gamma} reports the Mean Centroid Distance for the Gamma scenarios.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/parts/02_Clustering/03_Results/mcd_gamma.png}
@@ -165,6 +173,7 @@ The overall trends closely mirror those observed in the Normal distribution, sug
 We calculated the Mean Variance Difference (MVD) to measure the discrepancy in within-cluster dispersion between the real and synthetic datasets.
 
 \textbf{Normal Distribution}
+Figure~\ref{fig:mvd_normal} presents the Mean Variance Difference for the Normal scenarios.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/parts/02_Clustering/03_Results/mvd_normal.png}
@@ -176,6 +185,7 @@ We calculated the Mean Variance Difference (MVD) to measure the discrepancy in w
 The results indicate that cluster separation is the primary factor reducing variance distortion; at high separation, the difference approaches zero for both algorithms. However, structural complexity negatively impacts fidelity. Increasing the number of variables or introducing correlation significantly increases the variance difference. This suggests that the synthetic generation process struggles to replicate the exact dispersion of multivariate normal clusters in higher-dimensional or correlated spaces.
 
 \textbf{Gamma Distribution}
+Figure~\ref{fig:mvd_gamma} presents the corresponding Mean Variance Difference for the Gamma scenarios.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figures/parts/02_Clustering/03_Results/mvd_gamma.png}

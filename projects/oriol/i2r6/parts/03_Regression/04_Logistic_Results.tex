@@ -22,6 +22,7 @@ Logistic regression scenarios introduce significant computational challenges com
 \end{table}
 
 \section{Univariate Analysis of Inferential Utility}
+Figure~\ref{fig:logistic-cio-univariate} summarizes the univariate CIO trends for the logistic-regression scenarios.
 
 \begin{figure}[H]
     \centering
@@ -44,6 +45,7 @@ In logistic regression, binary predictors (categorical) perform better than cont
 Correlation remains a negative driver, but its effect is compounded by the ``signal-to-noise ratio''. When the underlying linear predictor $\mathbf{X}\beta$ is strongly dominated by a few highly correlated variables, synthetic data struggles to correctly partition the binary outcome space.
 
 \section{Multivariate Comparison by Generator}
+Figure~\ref{fig:logistic-cio-method} compares CIO across the two main synthesis arms for logistic regression.
 
 \begin{figure}[H]
     \centering
@@ -56,6 +58,7 @@ Correlation remains a negative driver, but its effect is compounded by the ``sig
 As seen in Figure~\ref{fig:logistic-cio-method}, the gap between \textbf{Parametric (LogReg)} and \textbf{CART} is even larger in the binary outcome case. CART generators often produce ``blocky'' artifacts in the probability space, leading to synthetic outcomes that do not accurately reproduce the smooth S-curve of the logistic model.
 
 \section{Interpretation of the Main Patterns}
+Figure~\ref{fig:logistic-heatmap} reports the Spearman correlation heatmap linking the main design factors to CIO.
 
 \begin{figure}[H]
     \centering
@@ -72,6 +75,7 @@ The heatmap in Figure~\ref{fig:logistic-heatmap} indicates that sample size ($N$
 The degradation of Confidence Interval Overlap (CIO) in logistic regression can be mathematically decomposed into two distinct phenomena: the shift in the point estimate (Bias) and the scaling of the uncertainty bounds (CI Width). To understand the failure modes of each generator, we analyze these components individually.
 
 \subsection{Analysis of the Bias Ratio}
+Figure~\ref{fig:logistic-bias-ratio} shows the distribution of the Bias Ratio across synthesis methods for logistic regression.
 
 \begin{figure}[H]
     \centering
@@ -86,6 +90,7 @@ Figure~\ref{fig:logistic-bias-ratio} isolates the Bias Ratio, defined as the abs
 In logistic regression, both the Parametric (LogReg) and CART methods exhibit significantly higher bias ratios than their linear counterparts. The Parametric method, despite assuming the correct functional form, suffers from bias due to the instability of maximum likelihood estimation in small samples. The CART method, being non-parametric, struggles to replicate the smooth logistic curve, resulting in piecewise constant approximations that inherently bias the estimated coefficients. The heavy right tail in the CART distribution indicates a substantial number of scenarios where the synthetic coefficient is drastically shifted from its true value.
 
 \subsection{Analysis of the Confidence Interval Width Ratio}
+Figure~\ref{fig:logistic-width-ratio} shows the distribution of the Confidence Interval Width Ratio across synthesis methods for logistic regression.
 
 \begin{figure}[H]
     \centering
@@ -98,4 +103,3 @@ In logistic regression, both the Parametric (LogReg) and CART methods exhibit si
 Figure~\ref{fig:logistic-width-ratio} presents the CI Width Ratio, which measures whether the synthetic data preserves the original level of statistical uncertainty. A ratio of $1.0$ indicates perfect preservation.
 
 The results here reveal a critical and dangerous failure mode specific to the CART generator in logistic contexts. While the Parametric method maintains a median ratio near $1.0$, CART frequently produces \textbf{narrower} confidence intervals (Ratio < $1.0$). In a statistical context, this implies that the synthetic data is artificially overconfident. When a biased point estimate (as seen in the previous plot) is combined with an artificially narrow confidence interval, the resulting CIO collapses entirely. This ``confident but wrong'' behavior makes CART particularly risky for inferential logistic regression tasks.
-

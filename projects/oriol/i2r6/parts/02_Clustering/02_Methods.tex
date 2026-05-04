@@ -122,6 +122,8 @@ The reference datasets were generated using the \texttt{mvtnorm} package in R \c
 \subsection{Synthetic Data Generation (CART Method)}
 For each real dataset, a corresponding synthetic dataset was generated using the \textbf{Classification and Regression Trees (CART)} method, implemented in the \texttt{synthpop} R package \cite{nowok2016}.
 
+For the qualitative visualization figures presented later in Chapter~\ref{chap:results}, one additional clarification is necessary. The leftmost synthetic panels reuse simulation-side cluster colouring only as a diagnostic device to compare the generated point cloud with the known reference geometry. These colours do \textbf{not} imply a one-to-one correspondence between original and synthetic records, and such ``true labels'' would not be observable in a realistic synthetic-data release. Accordingly, those panels are interpreted only as simulated diagnostics; the substantive evaluation relies on the clustering predictions and quantitative metrics reported below.
+
 \textbf{The Sequential Regression Approach}
 
 The CART method synthesizes data variable by variable. Let $X = (X_1, X_2, ..., X_p)$ be the vector of variables in the real dataset. The joint distribution is approximated as a product of conditional distributions:

@@ -23,6 +23,7 @@ The linear regression experiments covered 972 scenarios for continuous predictor
 
 \section{Univariate Analysis of Inferential Utility}
 This section examines how individual design factors influence the Confidence Interval Overlap (CIO), averaging across all other dimensions.
+Figure~\ref{fig:linear-cio-univariate} summarizes the univariate CIO trends for the linear-regression scenarios.
 
 \begin{figure}[H]
     \centering
@@ -61,6 +62,7 @@ High correlation ($\rho = 0.6$) between predictors consistently degrades the CIO
 where $R_j^2$ is the coefficient of determination when regressing $X_j$ on the other $p-1$ predictors. The ``multicollinearity effect'' means that as $\rho$ increases, $1 - R_j^2$ approaches zero, drastically inflating the variance. In synthetic generation, preserving highly collinear structures without introducing structural noise is notoriously difficult. Sequential generators (CART especially) struggle to isolate the unique marginal contribution of each highly correlated variable, resulting in shifted point estimates and artificially expanded synthetic confidence intervals.
 
 \section{Multivariate Comparison by Generator}
+Figure~\ref{fig:linear-cio-method} compares CIO across the two main synthesis arms for linear regression.
 
 \begin{figure}[H]
     \centering
@@ -73,6 +75,7 @@ where $R_j^2$ is the coefficient of determination when regressing $X_j$ on the o
 Figure~\ref{fig:linear-cio-method} highlights the performance gap between the two main generation arms. For linear regression, the \textbf{Parametric (Normal)} generator outperforms CART in terms of CIO stability. This is expected given that the original data is generated from a linear, normal-error framework which the parametric model explicitly assumes.
 
 \section{Interpretation of the Main Patterns}
+Figure~\ref{fig:linear-heatmap} reports the Spearman correlation heatmap linking the main design factors to CIO.
 
 \begin{figure}[H]
     \centering
@@ -89,6 +92,7 @@ The heatmap in Figure~\ref{fig:linear-heatmap} confirms the univariate findings:
 The CIO metric provides a holistic view of inferential utility, but it can be mathematically unpacked into two primary components: the displacement of the point estimate ($\Delta \hat{\beta}$) and the distortion of the standard error. We define the Bias Ratio as $B_R = |\hat{\beta}^{(S)} - \hat{\beta}^{(R)}| / \text{SE}(\hat{\beta}^{(R)})$ and the CI Width Ratio as $W_R = \text{Width}^{(S)} / \text{Width}^{(R)}$.
 
 \subsection{Analysis of the Bias Ratio}
+Figure~\ref{fig:linear-bias-ratio} shows the distribution of the Bias Ratio across synthesis methods for linear regression.
 
 \begin{figure}[H]
     \centering
@@ -101,6 +105,7 @@ The CIO metric provides a holistic view of inferential utility, but it can be ma
 Figure~\ref{fig:linear-bias-ratio} demonstrates that both methods generally exhibit a low average bias in the linear regression setting. The OLS estimator relies heavily on the covariance structure $\Sigma = \text{Cov}(\mathbf{X})$, which both methods preserve adequately in expectation. However, the CART distribution exhibits a wider ``tail'' of high-bias scenarios. This occurs because tree-based methods partition the continuous space into orthogonal hyper-rectangles; when forced to model smooth linear gradients, the resulting step-function approximations introduce structural noise that biases the recovered coefficients.
 
 \subsection{Analysis of the Confidence Interval Width Ratio}
+Figure~\ref{fig:linear-width-ratio} shows the distribution of the Confidence Interval Width Ratio across synthesis methods for linear regression.
 
 \begin{figure}[H]
     \centering
@@ -113,4 +118,3 @@ Figure~\ref{fig:linear-bias-ratio} demonstrates that both methods generally exhi
 The CI Width Ratio (Figure~\ref{fig:linear-width-ratio}) reveals a fundamental divergence in how the two generators manage uncertainty. Parametric methods produce CI widths nearly identical to the original data (Ratio $\approx 1.0$) because they explicitly formulate and inject the Gaussian error term $\epsilon \sim \mathcal{N}(0, \sigma^2)$ during synthesis.
 
 Conversely, CART frequently produces ``overly conservative'' (wider) confidence intervals (Ratio > $1.0$). By modeling local averages within terminal tree nodes, CART introduces additional, unmodeled variance into the synthetic design matrix $\mathbf{X}^{(S)}$. According to the standard error formula $\text{SE}(\hat{\beta}) = \sqrt{\sigma^2 / \sum(x_i - \bar{x})^2}$, an artificially smoothed or disrupted variance profile in the predictors directly inflates the uncertainty bounds of the downstream regression, lowering the overall CIO score despite the relatively low bias.
-w bias.
