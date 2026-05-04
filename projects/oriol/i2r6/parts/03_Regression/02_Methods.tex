@@ -25,6 +25,7 @@ Our evaluation focuses on the preservation of the estimated coefficients $\hat{\
 
 \subsection{Original Datasets and Synthetic Datasets}
 We generate Original Datasets (OD) through a controlled simulation process. From each OD, we create one corresponding Synthetic Dataset (SD) using a specified generator.
+More explicitly, the predictor variables are first generated from a multivariate Normal distribution, and the response variable is then generated according to the relevant downstream model: a Gaussian linear model for linear regression or a Bernoulli model with logistic link for logistic regression. This OD-to-SD workflow is the one implemented in the experiment configuration reported in Appendix~\ref{sec:app-json}.
 
 \subsection{General Comparison Strategy: OD versus SD}
 The utility of the SD is measured by comparing the results of the same regression model fitted to both the OD and the SD. This ``one-to-one'' comparison ensures that any observed degradation is attributable solely to the synthesis process.
@@ -45,7 +46,7 @@ We test three levels of sample size ($N \in \{100, 500, 1000\}$) and three level
 Predictors are generated from a multivariate normal distribution (then discretized for binary scenarios) with a covariance matrix $\Sigma$ where all off-diagonal entries are set to $\rho \in \{0.0, 0.3, 0.6\}$. For linear models, the error variance $\sigma^2$ is varied in $\{0.5, 1.0, 2.0\}$.
 
 \subsection{Regression Coefficients and Outcome Generation}
-The coefficients are fixed at $\beta_j = (-1)^j$ to ensure a mix of positive and negative relationships. The outcome $Y$ is then generated based on the linear predictor $\mathbf{X}\beta$ plus the stochastic component.
+The coefficients are fixed at $\beta_j = (-1)^j$ to ensure a mix of positive and negative relationships. The outcome $Y$ is then generated from the corresponding model given the predictor matrix: for linear regression, from the linear predictor $\mathbf{X}\beta$ plus a Gaussian stochastic component; for logistic regression, from the Bernoulli distribution induced by the logistic transformation of $\mathbf{X}\beta$. The same data-generation logic is encoded in the regression configuration summarized in Appendix~\ref{sec:app-json}.
 
 \section{Synthetic Data Generators}
 \label{sec:reg-generators}

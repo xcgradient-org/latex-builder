@@ -107,7 +107,7 @@ Table~\ref{tab:kmeans_vs_hc} summarizes the key computational, structural, and o
 To rigorously evaluate algorithm performance, we implemented a reverse-engineering pipeline that generates a ``Ground Truth'' (Real) dataset and subsequently creates a Synthetic version using the method under investigation.
 
 \subsection{Reference Data Generation (Real)}
-The reference datasets were generated using the \texttt{mvtnorm} package in R \cite{mvtnormmanual, genzbretz2009} to simulate controlled multivariate clusters. We varied four key parameters to create a total of 180 unique data configurations:
+The reference datasets were generated using the \texttt{mvtnorm} package in R \cite{mvtnormmanual, genzbretz2009} to simulate controlled multivariate clusters. We varied four key parameters to create a total of 180 unique data configurations. Each configuration was then repeated $M = 100$ times; in the experiment JSON reported in Appendix~\ref{sec:app-json}, this replicate count is stored under the field \texttt{m}:
 \begin{itemize}
   \item \textbf{Sample Size ($N$):} Ranging from 100 to 1,000 observations to test scalability.
   \item \textbf{Number of Clusters ($k$):} Set to 2, 3, or 4 to simulate varying levels of complexity.
