@@ -43,21 +43,25 @@ K-Means is highly efficient with a time complexity of $O(N \cdot k \cdot I \cdot
 \subsection{Hierarchical Clustering (Agglomerative)}
 Unlike K-Means, Hierarchical Clustering does not require a pre-specified number of clusters. Instead, it builds a hierarchy of clusters, often represented as a dendrogram. This research utilizes \textbf{Agglomerative Clustering} (bottom-up), which treats each observation as its own cluster and successively merges pairs of clusters \cite{ward1963}.
 
-\textbf{Mathematical Formulation (Ward's Linkage)}
+\textbf{Formal Mathematical Definition (Ward's Linkage)}
 
-Agglomerative clustering with Ward's linkage can be framed as a greedy, step-wise optimization problem. Unlike K-Means, which partitions the data, Ward's method builds a hierarchy by performing the optimal local merge at each step.
+Agglomerative Hierarchical Clustering with Ward's linkage is a deterministic, greedy, bottom-up agglomerative framework. It can be formally defined by the tuple $\mathcal{M}_{HC} = \langle \mathcal{X}, \mathcal{T}, \Delta, \mathcal{L} \rangle$, where:
 
 \begin{itemize}
-  \item \textbf{Input:} A set of $N$ vectors $X \subset \mathbb{R}^d$. Initially, each point represents a singleton cluster, resulting in $N$ clusters.
-  \item \textbf{Error Sum of Squares (ESS):} For any cluster $C$, the variance is defined as the sum of squared Euclidean distances from the points in $C$ to its centroid $\mu_C$:
+  \item \textbf{Data Space ($\mathcal{X}$):} An input set of $N$ observations $\mathcal{X} = \{\mathbf{x}_1, \dots, \mathbf{x}_N\} \subset \mathbb{R}^d$. The initial state (step $t=0$) is a partition $P^{(0)}$ consisting of $N$ singleton clusters: $S_i^{(0)} = \{\mathbf{x}_i\}$.
+  \item \textbf{Hierarchy ($\mathcal{T}$):} A tree structure (dendrogram) representing a sequence of nested partitions $\mathcal{T} = \{P^{(0)}, P^{(1)}, \dots, P^{(N-1)}\}$. At each step $t \in [1, N-1]$, the partition $P^{(t)}$ is formed by merging exactly two clusters from $P^{(t-1)}$.
+  \item \textbf{Error Sum of Squares ($\Delta$):} The spatial dispersion within any candidate cluster $C \subset \mathcal{X}$ is quantified by the Error Sum of Squares (ESS), defining the function $\Delta(C)$:
   \begin{equation}
-    \text{ESS}(C) = \sum_{x \in C} ||x - \mu_C||^2
+    \Delta(C) = \text{ESS}(C) = \sum_{\mathbf{x} \in C} ||\mathbf{x} - \boldsymbol{\mu}_C||_2^2 \quad \text{where} \quad \boldsymbol{\mu}_C = \frac{1}{|C|}\sum_{\mathbf{x} \in C} \mathbf{x}
   \end{equation}
-  \item \textbf{Objective Function (Step-wise):} At each step, the algorithm finds and merges the pair of clusters $(A, B)$ that results in the minimum increase in the total ESS. The distance (or merging cost) between $A$ and $B$ is exactly this increase:
+  \item \textbf{Linkage Objective Function ($\mathcal{L}$):} The merging cost between two disjoint clusters $A$ and $B$ is defined by Ward's minimal variance criterion. The algorithm greedily selects the pair $(A^*, B^*)$ that minimizes the incremental increase in the total intra-cluster variance:
   \begin{equation}
-    D(A, B) = \text{ESS}_{A \cup B} - (\text{ESS}_A + \text{ESS}_B)
+    \mathcal{L}(A, B) = \Delta(A \cup B) - \left[\Delta(A) + \Delta(B)\right] = \frac{|A||B|}{|A| + |B|} ||\boldsymbol{\mu}_A - \boldsymbol{\mu}_B||_2^2
   \end{equation}
-  \item \textbf{Output:} A dendrogram (tree) representing the sequence of merges, which can be cut at a specific depth to yield $k$ clusters.
+  At each agglomerative step $t$, the transition $P^{(t-1)} \rightarrow P^{(t)}$ operates via:
+  \begin{equation}
+      (A^*, B^*) = \arg\min_{A, B \in P^{(t-1)}, A \neq B} \mathcal{L}(A, B)
+  \end{equation}
 \end{itemize}
 
 \textbf{Practical Considerations}
@@ -187,6 +191,18 @@ Where $n_i$ is the number of points in cluster $i$. A value of 0 indicates perfe
 \textbf{2. Mean Centroid Displacement (MCD)}
 
 We measure how far the centers of the clusters have shifted during synthesis. Let $\mu_j^{(R)}$ be the centroid of cluster $j$ in Real data and $\mu_j^{(S)}$ in Synthetic data:
+\begin{equation}
+  \text{MCD} = \frac{1}{k} \sum_{j=1}^{k} ||\mu_j^{(R)} - \mu_j^{(S)}||_2
+\end{equation}
+High displacement indicates that the synthetic data has drifted from the original spatial location.
+
+\textbf{3. Mean Variance Difference (MVD)}
+
+We measure if the synthetic clusters are more dispersed (noisy) or more compact than the real ones. We compare the average within-cluster variance ($\sigma^2$):
+\begin{equation}
+  \text{MVD} = \frac{1}{k} \sum_{j=1}^{k} \left| \text{Var}(C_j^{(R)}) - \text{Var}(C_j^{(S)}) \right|
+\end{equation}
+ of cluster $j$ in Real data and $\mu_j^{(S)}$ in Synthetic data:
 \begin{equation}
   \text{MCD} = \frac{1}{k} \sum_{j=1}^{k} ||\mu_j^{(R)} - \mu_j^{(S)}||_2
 \end{equation}

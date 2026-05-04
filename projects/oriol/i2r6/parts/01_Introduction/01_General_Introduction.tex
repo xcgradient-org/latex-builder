@@ -48,14 +48,60 @@ Regression belongs to the supervised or model-based inferential setting, because
 
 Clustering requires preservation of distances, densities, separability, and cluster geometry. Regression requires preservation of conditional relationships, point estimates, standard errors, and confidence intervals \cite{reiter2003, drechsler2011}.
 
-\section{Problem Statement}
+\section{Formal Problem Definition}
 \label{sec:general-problem}
 
-The motivating assumption behind synthetic data is that a generated dataset can act as a useful substitute for the original data. This thesis treats that assumption as empirical rather than automatic. A synthetic generator may preserve marginal distributions while distorting the multivariate structure required by a downstream method. Conversely, a generator may be adequate for one analysis and unsuitable for another.
+The motivating assumption behind synthetic data is that a generated dataset can act as a useful substitute for the original data. However, the practical value of this substitution depends heavily on the ``Privacy vs. Utility'' trade-off. To generalize the problem and evaluate this trade-off rigorously, we must treat both clustering and regression as algorithms that extract a specific set of parameters or structural truths from a given dataset. By formalizing this extraction process, we can quantify the exact degradation introduced by synthesis.
 
-The synthesis mechanism is especially important. A major part of this thesis evaluates Classification and Regression Trees (CART), as implemented in the \texttt{synthpop} package \cite{nowok2016}. CART is flexible because it models variables through data-driven partitions, but those partitions are axis-aligned. As a result, smooth relationships can become block-like or staircase-shaped after synthesis. The key question is not only whether these artifacts exist, but whether they matter for the analysis that follows.
+\subsection{The Core Unified Framework}
+We define the fundamental spaces and operators involved in the analytical lifecycle:
 
-The thesis is therefore organized around a single claim: synthetic-data utility is not an intrinsic property of a generator alone. It emerges from the interaction between the synthesis method, the data-generating structure, and the downstream analytical task.
+\begin{itemize}
+    \item \textbf{The Original Data:} Let $\mathcal{D}_{R}$ be the real (reference) dataset of size $N$ drawn from a true underlying joint probability distribution $P(X, Y)$ \cite{nowok2016}. For unsupervised clustering tasks, $Y = \emptyset$, and the analysis focuses solely on the feature space $X$.
+    \item \textbf{The Synthetic Generator:} Let $\mathcal{G}$ be a synthetic generation mechanism, such as the CART method which models variables via sequential conditional distributions. We define the resulting synthetic dataset as:
+    \begin{equation}
+        \mathcal{D}_{S} = \mathcal{G}(\mathcal{D}_{R})
+    \end{equation}
+    \item \textbf{The Learning Algorithm:} Let $\mathcal{A}$ represent a machine learning algorithm applied to a dataset to extract a vector of learned properties or parameters, $\theta$.
+    \begin{itemize}
+        \item \textit{In Clustering:} $\mathcal{A}$ represents algorithms like K-Means or Hierarchical Clustering. The extracted parameters $\theta$ represent geometric structures, such as the number of clusters $k$, centroids $\mu$, and within-cluster variance $\sigma^{2}$.
+        \item \textit{In Regression:} $\mathcal{A}$ represents supervised models like Linear or Logistic regression. Here, $\theta$ represents inferential relationships, primarily the estimated coefficients $\hat{\beta}$ and their associated standard errors or confidence intervals.
+    \end{itemize}
+\end{itemize}
+
+\subsection{The Generalized Utility Discrepancy}
+The fundamental problem addressed in this thesis is evaluating the \textbf{Utility Discrepancy} caused by the generation mechanism $\mathcal{G}$. We aim to quantify the degradation between the true parameters learned from the real data, $\theta_{R} = \mathcal{A}(\mathcal{D}_{R})$, and the parameters learned from the synthetic proxy, $\theta_{S} = \mathcal{A}(\mathcal{D}_{S})$.
+
+We define a task-specific discrepancy function $\Delta(\theta_{R}, \theta_{S})$ that measures the loss of structural or inferential fidelity. The core research problem is to evaluate how $\Delta$ is influenced by the data space complexity, which is bounded by:
+\begin{equation}
+    \Delta(\mathcal{A}(\mathcal{D}_{R}), \mathcal{A}(\mathcal{G}(\mathcal{D}_{R}))) = f(N, p, \rho, S)
+\end{equation}
+Where the degradation is parameterized as a function of:
+\begin{itemize}
+    \item $N$: The sample size of the dataset.
+    \item $p$: The dimensionality (number of variables or predictors).
+    \item $\rho$: The correlation structure or degree of cluster separation.
+    \item $S$: The distributional shape or skewness (e.g., Normal vs. Gamma distributions).
+\end{itemize}
+
+\subsection{Task-Specific Instantiations of the Discrepancy Function ($\Delta$)}
+To apply this generalized framework to the specific studies in the thesis, we instantiate $\Delta$ using the metrics tailored for each domain. These instantiations serve as the mathematical foundation for evaluating both unsupervised and supervised downstream tasks.
+
+\textbf{A. The Clustering Instantiation (Geometric Fidelity)}
+
+For unsupervised learning, the discrepancy function $\Delta$ measures topological and spatial distortion. The target parameters $\theta$ are the centroid locations ($\mu$) and the internal cluster variance. This thesis formalizes the discrepancy via the Mean Centroid Distance (MCD) and Mean Variance Difference (MVD). The MCD instantiation is defined as:
+\begin{equation}
+    \Delta_{\text{MCD}}(\theta_{R}, \theta_{S}) = \frac{1}{k}\sum_{j=1}^{k}||\mu_{j}^{(R)}-\mu_{j}^{(S)}||_{2}
+\end{equation}
+The analytical goal is to prove that for non-parametric generators like CART applied to skewed data ($S = \text{Gamma}$), $\Delta_{\text{MCD}}$ diverges significantly when the algorithm $\mathcal{A}$ requires convex/spherical assumptions (such as K-Means) compared to connectivity-based methods (such as Hierarchical Clustering).
+
+\textbf{B. The Regression Instantiation (Inferential Fidelity)}
+
+For supervised learning, $\Delta$ measures the distortion of conditional probabilities and statistical uncertainty. The target parameters $\theta$ are the point estimates ($\hat{\beta}$) and their Confidence Intervals ($[L, U]$). The discrepancy is formalized using the Bias Ratio ($B_{R}$) and Confidence Interval Overlap (CIO). To frame CIO as a penalty or discrepancy that should be minimized, we utilize $1 - \text{CIO}$:
+\begin{equation}
+    \Delta_{\text{Inference}}(\theta_{R}, \theta_{S}) = 1 - \frac{1}{2}\left(\frac{\min(U_{R},U_{S})-\max(L_{R},L_{S})}{U_{R}-L_{R}} + \frac{\min(U_{R},U_{S})-\max(L_{R},L_{S})}{U_{S}-L_{S}}\right)
+\end{equation}
+The analytical goal here is to demonstrate that sequentially compounding errors in the generator $\mathcal{G}$ over high dimensions ($p$) and high multicollinearity ($\rho$) artificially scales the variance of $\theta_{S}$, causing the inferential discrepancy to increase, particularly in small-sample logistic settings.
 
 \section{Objectives and Research Questions}
 \label{sec:general-objectives}
