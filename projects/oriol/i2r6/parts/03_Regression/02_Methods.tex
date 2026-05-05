@@ -5,20 +5,232 @@
 \label{sec:reg-framework}
 
 \subsection{Linear Regression}
-The linear regression model is the foundation for analyzing the relationship between a continuous outcome $Y$ and a set of predictors $\mathbf{X} = \{X_1, X_2, \dots, X_p\}$ \cite{mccullagh1989}. The model is defined as:
+The linear regression model is the foundation for analyzing the relationship between a continuous outcome $Y$ and a set of predictors $\mathbf{X} = \{X_1, X_2, \dots, X_p\}$ \cite{mccullagh1989}. We define the linear-regression model by the tuple
 \begin{equation}
-    Y = \beta_0 + \sum_{j=1}^{p} \beta_j X_j + \epsilon, \quad \epsilon \sim \mathcal{N}(0, \sigma^2)
+    \mathcal{M}_{LR} = \langle \mathcal{X}, \mathbf{y}, \tilde{\mathbf{X}}, \boldsymbol{\beta}, \varepsilon, f, \ell, \hat{\boldsymbol{\beta}}, \widehat{\operatorname{Var}}(\hat{\boldsymbol{\beta}}) \rangle
 \end{equation}
-where $\beta_j$ are the regression coefficients and $\epsilon$ represents the error term.
+where:
+\begin{itemize}
+    \item $\mathcal{X} = \{\mathbf{x}_1,\dots,\mathbf{x}_N\}$ is the predictor sample, with $\mathbf{x}_i \in \mathbb{R}^{p}$.
+    \item $\mathbf{y} = (y_1,\dots,y_N)^\top \in \mathbb{R}^{N}$ is the response vector.
+    \item $\tilde{\mathbf{X}} \in \mathbb{R}^{N \times (p+1)}$ is the design matrix including the intercept column,
+    \begin{equation}
+        \tilde{\mathbf{X}} =
+        \begin{bmatrix}
+        1 & x_{11} & \cdots & x_{1p} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        1 & x_{N1} & \cdots & x_{Np}
+        \end{bmatrix}
+    \end{equation}
+    \item $\boldsymbol{\beta} = (\beta_0,\beta_1,\dots,\beta_p)^\top \in \mathbb{R}^{p+1}$ is the coefficient vector.
+    \item $\varepsilon = (\varepsilon_1,\dots,\varepsilon_N)^\top$ is the error vector, with
+    \begin{equation}
+        \varepsilon_i \overset{\text{i.i.d.}}{\sim} \mathcal{N}(0,\sigma^2)
+    \end{equation}
+    \item $f$ denotes the conditional mean map
+    \begin{equation}
+        f(\mathbf{x}_i;\boldsymbol{\beta}) = \beta_0 + \sum_{j=1}^{p}\beta_j x_{ij}
+    \end{equation}
+\end{itemize}
+
+The model itself is
+\begin{equation}
+    \mathbf{y} = \tilde{\mathbf{X}}\boldsymbol{\beta} + \varepsilon
+\end{equation}
+or, component-wise,
+\begin{equation}
+    Y_i = \beta_0 + \sum_{j=1}^{p}\beta_j X_{ij} + \varepsilon_i
+\end{equation}
+
+Under the Gaussian assumption, the conditional density is
+\begin{equation}
+    Y_i \mid \mathbf{x}_i \sim \mathcal{N}\!\left(\mathbf{x}_i^\ast \boldsymbol{\beta}, \sigma^2\right)
+\end{equation}
+where $\mathbf{x}_i^\ast = (1,x_{i1},\dots,x_{ip})$ denotes the augmented predictor row.
+
+The likelihood and log-likelihood are
+\begin{equation}
+    L(\boldsymbol{\beta},\sigma^2 \mid \mathbf{y},\tilde{\mathbf{X}})
+    =
+    (2\pi\sigma^2)^{-N/2}
+    \exp\!\left(
+    -\frac{1}{2\sigma^2}
+    (\mathbf{y} - \tilde{\mathbf{X}}\boldsymbol{\beta})^\top
+    (\mathbf{y} - \tilde{\mathbf{X}}\boldsymbol{\beta})
+    \right)
+\end{equation}
+\begin{equation}
+    \ell(\boldsymbol{\beta},\sigma^2)
+    =
+    -\frac{N}{2}\log(2\pi\sigma^2)
+    -\frac{1}{2\sigma^2}
+    (\mathbf{y} - \tilde{\mathbf{X}}\boldsymbol{\beta})^\top
+    (\mathbf{y} - \tilde{\mathbf{X}}\boldsymbol{\beta})
+\end{equation}
+
+The ordinary least squares estimator is
+\begin{equation}
+    \hat{\boldsymbol{\beta}}_{OLS}
+    =
+    (\tilde{\mathbf{X}}^\top \tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^\top \mathbf{y}
+\end{equation}
+provided that $\tilde{\mathbf{X}}^\top \tilde{\mathbf{X}}$ is nonsingular.
+
+Its estimated covariance matrix is
+\begin{equation}
+    \widehat{\operatorname{Var}}(\hat{\boldsymbol{\beta}}_{OLS})
+    =
+    \hat{\sigma}^2 (\tilde{\mathbf{X}}^\top \tilde{\mathbf{X}})^{-1}
+\end{equation}
+with residual variance estimate
+\begin{equation}
+    \hat{\sigma}^2
+    =
+    \frac{1}{N-p-1}
+    \|\mathbf{y} - \tilde{\mathbf{X}}\hat{\boldsymbol{\beta}}_{OLS}\|_2^2
+\end{equation}
+
+\textbf{Time and Space Complexity}
+
+The main computational blocks are:
+\begin{equation}
+    T_{\text{crossprod}} = O(Np^2), \qquad
+    T_{\text{solve}} = O(p^3), \qquad
+    T_{\text{fitted}} = O(Np)
+\end{equation}
+corresponding to the construction of $\tilde{\mathbf{X}}^\top \tilde{\mathbf{X}}$, inversion/linear solve, and fitted-value computation. Therefore,
+\begin{equation}
+    T_{LR}(N,p) = O(Np^2 + p^3)
+\end{equation}
+and the memory requirement is
+\begin{equation}
+    S_{LR}(N,p) = O(Np + p^2)
+\end{equation}
 
 \subsection{Logistic Regression}
-For binary outcomes $Y \in \{0, 1\}$, we employ the logistic regression model \cite{hosmer2013}:
+For binary outcomes $Y \in \{0, 1\}$, we employ the logistic regression model \cite{hosmer2013}. We define it by the tuple
 \begin{equation}
-    \text{logit}(P(Y=1|\mathbf{X})) = \ln\left(\frac{P(Y=1|\mathbf{X})}{1-P(Y=1|\mathbf{X})}\right) = \beta_0 + \sum_{j=1}^{p} \beta_j X_j
+    \mathcal{M}_{LogR} = \langle \mathcal{X}, \mathbf{y}, \tilde{\mathbf{X}}, \boldsymbol{\beta}, g, \boldsymbol{\pi}, L, \ell, \hat{\boldsymbol{\beta}}, \mathcal{I}(\hat{\boldsymbol{\beta}}) \rangle
+\end{equation}
+where:
+\begin{itemize}
+    \item $\mathcal{X}$, $\mathbf{y}$, $\tilde{\mathbf{X}}$, and $\boldsymbol{\beta}$ are defined as above, except now $y_i \in \{0,1\}$.
+    \item $g(\cdot)$ is the logit link
+    \begin{equation}
+        g(\pi_i) = \log\left(\frac{\pi_i}{1-\pi_i}\right)
+    \end{equation}
+    \item $\boldsymbol{\pi} = (\pi_1,\dots,\pi_N)^\top$ is the success-probability vector, with
+    \begin{equation}
+        \pi_i = P(Y_i = 1 \mid \mathbf{x}_i) = \frac{\exp(\mathbf{x}_i^\ast \boldsymbol{\beta})}{1+\exp(\mathbf{x}_i^\ast \boldsymbol{\beta})}
+    \end{equation}
+\end{itemize}
+
+The systematic component is
+\begin{equation}
+    \eta_i = \mathbf{x}_i^\ast \boldsymbol{\beta} = \beta_0 + \sum_{j=1}^{p}\beta_j x_{ij}
+\end{equation}
+and the link relation is
+\begin{equation}
+    \text{logit}(\pi_i) = \eta_i
+\end{equation}
+
+The response model is
+\begin{equation}
+    Y_i \mid \mathbf{x}_i \sim \operatorname{Bernoulli}(\pi_i)
+\end{equation}
+with likelihood
+\begin{equation}
+    L(\boldsymbol{\beta} \mid \mathbf{y},\tilde{\mathbf{X}})
+    =
+    \prod_{i=1}^{N} \pi_i^{y_i}(1-\pi_i)^{1-y_i}
+\end{equation}
+and log-likelihood
+\begin{equation}
+    \ell(\boldsymbol{\beta})
+    =
+    \sum_{i=1}^{N}
+    \left[
+    y_i \log(\pi_i) + (1-y_i)\log(1-\pi_i)
+    \right]
+\end{equation}
+
+The score vector is
+\begin{equation}
+    U(\boldsymbol{\beta})
+    =
+    \frac{\partial \ell(\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}
+    =
+    \tilde{\mathbf{X}}^\top(\mathbf{y} - \boldsymbol{\pi})
+\end{equation}
+and the observed Fisher information is
+\begin{equation}
+    \mathcal{I}(\boldsymbol{\beta})
+    =
+    \tilde{\mathbf{X}}^\top \mathbf{W} \tilde{\mathbf{X}},
+    \qquad
+    \mathbf{W} = \operatorname{diag}\!\left(\pi_i(1-\pi_i)\right)_{i=1}^{N}
+\end{equation}
+
+The maximum likelihood estimator $\hat{\boldsymbol{\beta}}$ solves
+\begin{equation}
+    U(\hat{\boldsymbol{\beta}}) = \mathbf{0}
+\end{equation}
+and is typically computed via Newton--Raphson / IRLS updates:
+\begin{equation}
+    \boldsymbol{\beta}^{(t+1)}
+    =
+    \boldsymbol{\beta}^{(t)}
+    +
+    \left(\tilde{\mathbf{X}}^\top \mathbf{W}^{(t)} \tilde{\mathbf{X}}\right)^{-1}
+    \tilde{\mathbf{X}}^\top(\mathbf{y} - \boldsymbol{\pi}^{(t)})
+\end{equation}
+
+The asymptotic covariance estimator is
+\begin{equation}
+    \widehat{\operatorname{Var}}(\hat{\boldsymbol{\beta}})
+    =
+    \mathcal{I}(\hat{\boldsymbol{\beta}})^{-1}
+    =
+    \left(\tilde{\mathbf{X}}^\top \hat{\mathbf{W}} \tilde{\mathbf{X}}\right)^{-1}
+\end{equation}
+
+\textbf{Time and Space Complexity}
+
+Let $I$ denote the number of IRLS iterations. Each iteration requires the construction of $\mathbf{W}^{(t)}$, the weighted cross-product, and the linear solve:
+\begin{equation}
+    T_{\text{weights}}^{(t)} = O(N), \qquad
+    T_{\text{crossprod}}^{(t)} = O(Np^2), \qquad
+    T_{\text{solve}}^{(t)} = O(p^3)
+\end{equation}
+Therefore, the total fitting complexity is
+\begin{equation}
+    T_{LogR}(N,p,I) = O\!\left(I(Np^2 + p^3)\right)
+\end{equation}
+and the memory requirement is
+\begin{equation}
+    S_{LogR}(N,p) = O(Np + p^2 + N)
+\end{equation}
+which simplifies to
+\begin{equation}
+    S_{LogR}(N,p) = O(Np + p^2)
 \end{equation}
 
 \subsection{Inferential Quantities of Interest}
-Our evaluation focuses on the preservation of the estimated coefficients $\hat{\beta}_j$ and their associated 95\% confidence intervals (CIs). If synthetic data is to be used as a proxy for real data, the synthetic coefficients $\hat{\beta}_j^{(S)}$ should be unbiased estimates of the original coefficients $\hat{\beta}_j^{(R)}$, and their CIs should overlap substantially.
+Our evaluation focuses on the preservation of the estimated coefficients $\hat{\beta}_j$ and their associated 95\% confidence intervals (CIs). Let
+\begin{equation}
+    \hat{\boldsymbol{\beta}}^{(R)} = \left(\hat{\beta}^{(R)}_0,\dots,\hat{\beta}^{(R)}_p\right)^\top,
+    \qquad
+    \hat{\boldsymbol{\beta}}^{(S)} = \left(\hat{\beta}^{(S)}_0,\dots,\hat{\beta}^{(S)}_p\right)^\top
+\end{equation}
+denote the coefficient estimates obtained from the original and synthetic data, respectively. For each coefficient $j$, the corresponding Wald-type 95\% confidence interval is
+\begin{equation}
+    CI_j =
+    \left[
+    \hat{\beta}_j - z_{0.975}\operatorname{SE}(\hat{\beta}_j),
+    \hat{\beta}_j + z_{0.975}\operatorname{SE}(\hat{\beta}_j)
+    \right]
+\end{equation}
+with $z_{0.975} \approx 1.96$. Therefore, inferential preservation requires that the synthetic coefficients $\hat{\beta}_j^{(S)}$ remain close to the original coefficients $\hat{\beta}_j^{(R)}$ and that the associated confidence intervals maintain substantial overlap.
 
 \section{Data Framework}
 \label{sec:reg-data-framework}

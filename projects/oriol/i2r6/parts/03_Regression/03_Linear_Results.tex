@@ -65,15 +65,13 @@ where $R_j^2$ is the coefficient of determination when regressing $X_j$ on the o
 \section{Multivariate Comparison by Generator}
 Figure~\ref{fig:linear-cio-method} compares CIO across the two main synthesis arms for linear regression.
 
-\clearpage
-\begin{figure}[p]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{figures/parts/03_Regression/03_Linear_Results/linear_cio_by_method.png}
+    \includegraphics[width=\textwidth]{figures/parts/03_Regression/03_Linear_Results/linear_cio_by_method.png}
     \caption[Comparison of CIO for Linear Regression]{Comparison of CIO across synthesis methods (CART vs. Parametric) for Linear Regression.}
     \label{fig:linear-cio-method}
     \source{Compiled by the author}
 \end{figure}
-\clearpage
 
 Figure~\ref{fig:linear-cio-method} indicates that the \textbf{Parametric (Normal)} generator tends to achieve slightly higher CIO than CART in the linear-regression scenarios, although both methods remain usable across much of the design space. This pattern is consistent with the fact that the original data were generated under a linear, normal-error framework that is well aligned with the parametric synthesis assumptions.
 

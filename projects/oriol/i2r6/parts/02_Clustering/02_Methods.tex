@@ -11,29 +11,126 @@ Clustering is the task of grouping a set of objects in such a way that objects i
 \subsection{K-Means Clustering}
 K-Means is a partition-based algorithm that aims to divide $N$ observations into $k$ non-overlapping clusters. It operates by minimizing the within-cluster sum of squares (WCSS), also known as inertia \cite{macqueen1967}.
 
-\textbf{Mathematical Formulation}
+\textbf{Formal Mathematical Definition}
 
-Given a dataset $X = \{x_1, x_2, ..., x_N\}$ where each $x_i \in \mathbb{R}^d$, the algorithm seeks to partition $X$ into $k$ sets $S = \{S_1, S_2, ..., S_k\}$ to minimize the objective function $J$:
+We define the K-Means procedure by the tuple
 \begin{equation}
-  J = \sum_{j=1}^{k} \sum_{x_i \in S_j} ||x_i - \mu_j||^2
+  \mathcal{M}_{KM} = \langle \mathcal{X}, k, \mathcal{P}, \boldsymbol{\mu}, \mathcal{A}, \mathcal{U}, J \rangle
 \end{equation}
-Where:
-\begin{itemize}
-  \item $||x_i - \mu_j||^2$ is the squared Euclidean distance between a data point $x_i$ and the centroid $\mu_j$.
-  \item $\mu_j$ is the mean of the points in cluster $S_j$.
-\end{itemize}
+where each component is defined as follows:
 
-The algorithm proceeds iteratively:
-\begin{enumerate}
-  \item \textbf{Initialization:} Select $k$ initial centroids randomly.
-  \item \textbf{Assignment:} Assign each observation to the cluster with the nearest centroid.
-  \item \textbf{Update:} Recalculate the centroids as the mean of all observations assigned to each cluster.
-  \item \textbf{Convergence:} Repeat steps 2 and 3 until the centroids do not change significantly or a maximum number of iterations is reached.
-\end{enumerate}
+\begin{itemize}
+  \item \textbf{Data Space ($\mathcal{X}$):} The observed sample is
+  \begin{equation}
+    \mathcal{X} = \{\mathbf{x}_1, \mathbf{x}_2, \dots, \mathbf{x}_N\}, \qquad \mathbf{x}_i \in \mathbb{R}^d
+  \end{equation}
+  with $N$ observations and feature dimension $d$.
+
+  \item \textbf{Number of Clusters ($k$):} A fixed integer satisfying
+  \begin{equation}
+    k \in \mathbb{N}, \qquad 1 < k < N
+  \end{equation}
+  that specifies the target cardinality of the partition.
+
+  \item \textbf{Partition Space ($\mathcal{P}$):} A feasible clustering is a partition
+  \begin{equation}
+    \mathcal{P} = \{S_1, S_2, \dots, S_k\}
+  \end{equation}
+  such that
+  \begin{equation}
+    S_a \cap S_b = \varnothing \quad (a \neq b), \qquad \bigcup_{j=1}^{k} S_j = \mathcal{X}, \qquad S_j \neq \varnothing
+  \end{equation}
+
+  \item \textbf{Centroid Set ($\boldsymbol{\mu}$):} Each cluster $S_j$ is represented by a centroid
+  \begin{equation}
+    \boldsymbol{\mu} = \{\boldsymbol{\mu}_1, \dots, \boldsymbol{\mu}_k\}, \qquad \boldsymbol{\mu}_j \in \mathbb{R}^d
+  \end{equation}
+  with
+  \begin{equation}
+    \boldsymbol{\mu}_j = \frac{1}{|S_j|}\sum_{\mathbf{x}_i \in S_j} \mathbf{x}_i
+  \end{equation}
+
+  \item \textbf{Assignment Operator ($\mathcal{A}$):} For fixed centroids $\boldsymbol{\mu}^{(t)}$ at iteration $t$, the assignment map is
+  \begin{equation}
+    \mathcal{A}_{\boldsymbol{\mu}^{(t)}} : \mathcal{X} \to \{1,\dots,k\}, \qquad
+    \mathcal{A}_{\boldsymbol{\mu}^{(t)}}(\mathbf{x}_i) = \arg\min_{1 \le j \le k} \|\mathbf{x}_i - \boldsymbol{\mu}^{(t)}_j\|_2^2
+  \end{equation}
+  and therefore induces the partition
+  \begin{equation}
+    S_j^{(t)} = \left\{\mathbf{x}_i \in \mathcal{X} : \mathcal{A}_{\boldsymbol{\mu}^{(t)}}(\mathbf{x}_i) = j \right\}
+  \end{equation}
+
+  \item \textbf{Update Operator ($\mathcal{U}$):} For a fixed partition $\mathcal{P}^{(t)} = \{S_1^{(t)}, \dots, S_k^{(t)}\}$, the centroid update is
+  \begin{equation}
+    \mathcal{U}_{\mathcal{P}^{(t)}}(S_j^{(t)}) = \boldsymbol{\mu}^{(t+1)}_j
+    = \frac{1}{|S_j^{(t)}|}\sum_{\mathbf{x}_i \in S_j^{(t)}} \mathbf{x}_i, \qquad j = 1,\dots,k
+  \end{equation}
+
+  \item \textbf{Objective Function ($J$):} The algorithm minimizes the within-cluster sum of squares
+\end{itemize}
+\begin{equation}
+  J(\mathcal{P}, \boldsymbol{\mu}) = \sum_{j=1}^{k}\sum_{\mathbf{x}_i \in S_j}\|\mathbf{x}_i - \boldsymbol{\mu}_j\|_2^2
+\end{equation}
+which is equivalently the inertia of the partition.
+
+The iterative state of the algorithm can be written as
+\begin{equation}
+  \left(\mathcal{P}^{(t)}, \boldsymbol{\mu}^{(t)}\right) \mapsto
+  \left(\mathcal{P}^{(t+1)}, \boldsymbol{\mu}^{(t+1)}\right)
+\end{equation}
+with the alternating minimization steps
+\begin{equation}
+  \mathcal{P}^{(t+1)} = \arg\min_{\mathcal{P}} J(\mathcal{P}, \boldsymbol{\mu}^{(t)}),
+  \qquad
+  \boldsymbol{\mu}^{(t+1)} = \arg\min_{\boldsymbol{\mu}} J(\mathcal{P}^{(t+1)}, \boldsymbol{\mu})
+\end{equation}
+
+The convergence criterion can be written as either
+\begin{equation}
+  \mathcal{P}^{(t+1)} = \mathcal{P}^{(t)}
+  \qquad \text{or} \qquad
+  \|\boldsymbol{\mu}^{(t+1)} - \boldsymbol{\mu}^{(t)}\|_F \le \varepsilon
+\end{equation}
+for some tolerance $\varepsilon > 0$, where $\|\cdot\|_F$ denotes the Frobenius norm.
+
+\textbf{Time and Space Complexity}
+
+Let $I$ denote the number of iterations until convergence. The main computational blocks are:
+\begin{equation}
+  T_{\text{init}} = O(kd)
+\end{equation}
+for selecting or storing the initial centroids,
+\begin{equation}
+  T_{\text{assign}}^{(t)} = O(Nkd)
+\end{equation}
+for computing the distances from all $N$ points to all $k$ centroids at iteration $t$, and
+\begin{equation}
+  T_{\text{update}}^{(t)} = O(Nd)
+\end{equation}
+for recomputing all centroids once the assignments are known.
+
+Hence the total running time is
+\begin{equation}
+  T_{KM}(N,k,d,I) = T_{\text{init}} + \sum_{t=1}^{I}\left(T_{\text{assign}}^{(t)} + T_{\text{update}}^{(t)}\right)
+  = O(kd) + O\!\left(I(Nkd + Nd)\right)
+\end{equation}
+which is dominated by
+\begin{equation}
+  T_{KM}(N,k,d,I) = O(NkId)
+\end{equation}
+
+The corresponding memory requirement is
+\begin{equation}
+  S_{KM}(N,k,d) = O(Nd) + O(kd) + O(N)
+\end{equation}
+for the data matrix, the centroid matrix, and the assignment vector, which simplifies to
+\begin{equation}
+  S_{KM}(N,k,d) = O(Nd + kd)
+\end{equation}
 
 \textbf{Practical Considerations}
 
-K-Means is highly efficient with a time complexity of $O(N \cdot k \cdot I \cdot d)$, where $I$ is the number of iterations. However, it has significant limitations relevant to this study:
+K-Means is highly efficient in practice, but it has significant limitations relevant to this study:
 \begin{itemize}
   \item It assumes clusters are spherical and of similar size.
   \item It is sensitive to outliers and the initial placement of centroids.
@@ -45,11 +142,33 @@ Unlike K-Means, Hierarchical Clustering does not require a pre-specified number 
 
 \textbf{Formal Mathematical Definition (Ward's Linkage)}
 
-Agglomerative Hierarchical Clustering with Ward's linkage is a deterministic, greedy, bottom-up agglomerative framework. It can be formally defined by the tuple $\mathcal{M}_{HC} = \langle \mathcal{X}, \mathcal{T}, \Delta, \mathcal{L} \rangle$, where:
+Agglomerative Hierarchical Clustering with Ward's linkage is a deterministic, greedy, bottom-up agglomerative framework. It can be formally defined by the tuple
+\begin{equation}
+  \mathcal{M}_{HC} = \langle \mathcal{X}, \mathcal{P}^{(0)}, \mathcal{T}, \Delta, \mathcal{L}, \mathcal{M} \rangle
+\end{equation}
+where:
 
 \begin{itemize}
-  \item \textbf{Data Space ($\mathcal{X}$):} An input set of $N$ observations $\mathcal{X} = \{\mathbf{x}_1, \dots, \mathbf{x}_N\} \subset \mathbb{R}^d$. The initial state (step $t=0$) is a partition $P^{(0)}$ consisting of $N$ singleton clusters: $S_i^{(0)} = \{\mathbf{x}_i\}$.
-  \item \textbf{Hierarchy ($\mathcal{T}$):} A tree structure (dendrogram) representing a sequence of nested partitions $\mathcal{T} = \{P^{(0)}, P^{(1)}, \dots, P^{(N-1)}\}$. At each step $t \in [1, N-1]$, the partition $P^{(t)}$ is formed by merging exactly two clusters from $P^{(t-1)}$.
+  \item \textbf{Data Space ($\mathcal{X}$):} An input set of $N$ observations
+  \begin{equation}
+    \mathcal{X} = \{\mathbf{x}_1, \dots, \mathbf{x}_N\} \subset \mathbb{R}^d
+  \end{equation}
+
+  \item \textbf{Initial Partition ($\mathcal{P}^{(0)}$):} The algorithm starts from the singleton partition
+  \begin{equation}
+    \mathcal{P}^{(0)} = \left\{ \{\mathbf{x}_1\}, \{\mathbf{x}_2\}, \dots, \{\mathbf{x}_N\} \right\}
+  \end{equation}
+
+  \item \textbf{Hierarchy ($\mathcal{T}$):} A dendrogram represented as a sequence of nested partitions
+  \begin{equation}
+    \mathcal{T} = \{\mathcal{P}^{(0)}, \mathcal{P}^{(1)}, \dots, \mathcal{P}^{(N-1)}\}
+  \end{equation}
+  satisfying
+  \begin{equation}
+    |\mathcal{P}^{(t)}| = N - t, \qquad t = 0,1,\dots,N-1
+  \end{equation}
+  and each $\mathcal{P}^{(t+1)}$ is obtained by merging exactly two blocks from $\mathcal{P}^{(t)}$.
+
   \item \textbf{Error Sum of Squares ($\Delta$):} The spatial dispersion within any candidate cluster $C \subset \mathcal{X}$ is quantified by the Error Sum of Squares (ESS), defining the function $\Delta(C)$:
   \begin{equation}
     \Delta(C) = \text{ESS}(C) = \sum_{\mathbf{x} \in C} ||\mathbf{x} - \boldsymbol{\mu}_C||_2^2 \quad \text{where} \quad \boldsymbol{\mu}_C = \frac{1}{|C|}\sum_{\mathbf{x} \in C} \mathbf{x}
@@ -58,15 +177,85 @@ Agglomerative Hierarchical Clustering with Ward's linkage is a deterministic, gr
   \begin{equation}
     \mathcal{L}(A, B) = \Delta(A \cup B) - \left[\Delta(A) + \Delta(B)\right] = \frac{|A||B|}{|A| + |B|} ||\boldsymbol{\mu}_A - \boldsymbol{\mu}_B||_2^2
   \end{equation}
-  At each agglomerative step $t$, the transition $P^{(t-1)} \rightarrow P^{(t)}$ operates via:
+  At each agglomerative step $t$, the transition $\mathcal{P}^{(t-1)} \rightarrow \mathcal{P}^{(t)}$ operates via:
   \begin{equation}
-      (A^*, B^*) = \arg\min_{A, B \in P^{(t-1)}, A \neq B} \mathcal{L}(A, B)
+      (A_t^*, B_t^*) = \arg\min_{A, B \in \mathcal{P}^{(t-1)}, A \neq B} \mathcal{L}(A, B)
   \end{equation}
+  and the merged partition becomes
+  \begin{equation}
+    \mathcal{P}^{(t)} =
+    \left(\mathcal{P}^{(t-1)} \setminus \{A_t^*, B_t^*\}\right) \cup \{A_t^* \cup B_t^*\}
+  \end{equation}
+
+  \item \textbf{Merge Operator ($\mathcal{M}$):} The agglomeration rule may be written as
+  \begin{equation}
+    \mathcal{M}(\mathcal{P}^{(t-1)}) = \mathcal{P}^{(t)}
+  \end{equation}
+  so that the full algorithm is the recursive application of $\mathcal{M}$ for $t=1,\dots,N-1$.
 \end{itemize}
+
+\textbf{Equivalent Lance--Williams Update for Ward's Linkage}
+
+If $A$ and $B$ are merged into $A \cup B$, then for any other active cluster $C$, the updated Ward distance can be written in Lance--Williams form as
+\begin{multline}
+  d_{W}(A \cup B, C)
+  =
+  \frac{|A| + |C|}{|A| + |B| + |C|}d_W(A,C)
+  +
+  \frac{|B| + |C|}{|A| + |B| + |C|}d_W(B,C) \\
+  -
+  \frac{|C|}{|A| + |B| + |C|}d_W(A,B)
+\end{multline}
+which shows explicitly how the pairwise merge costs are updated after each agglomerative step.
+
+\textbf{Time and Space Complexity}
+
+Let $m_t = N - t + 1$ denote the number of active clusters at step $t$. In a naive implementation, the dominant tasks are:
+\begin{equation}
+  T_{\text{dist}} = O(N^2 d)
+\end{equation}
+to construct the initial pairwise dissimilarity structure,
+\begin{equation}
+  T_{\text{search}}^{(t)} = O(m_t^2)
+\end{equation}
+to search for the minimum merge cost among all active cluster pairs, and
+\begin{equation}
+  T_{\text{update}}^{(t)} = O(m_t)
+\end{equation}
+to update the linkage values after a merge.
+
+Therefore, the total cost can be expressed as
+\begin{equation}
+  T_{HC}(N,d)
+  =
+  O(N^2 d)
+  +
+  \sum_{t=1}^{N-1}\left(O(m_t^2) + O(m_t)\right)
+\end{equation}
+and since $\sum_{t=1}^{N-1} m_t^2 = O(N^3)$, this yields
+\begin{equation}
+  T_{HC}(N,d) = O(N^2 d + N^3) = O(N^3)
+\end{equation}
+in the standard naive formulation.
+
+With optimized data structures, the practical running time can be reduced to approximately
+\begin{equation}
+  T_{HC}^{\text{opt}}(N,d) = O(N^2 \log N) \quad \text{or} \quad O(N^2)
+\end{equation}
+depending on the specific implementation.
+
+The storage requirement is dominated by the pairwise dissimilarity representation:
+\begin{equation}
+  S_{HC}(N,d) = O(Nd) + O(N^2)
+\end{equation}
+which simplifies asymptotically to
+\begin{equation}
+  S_{HC}(N,d) = O(N^2)
+\end{equation}
 
 \textbf{Practical Considerations}
 
-Hierarchical clustering is computationally expensive, with a time complexity of approximately $O(N^3)$ (or $O(N^2)$ with optimized implementations), making it less suitable for massive datasets. However, it offers distinct advantages:
+Hierarchical clustering is computationally expensive, making it less suitable for massive datasets. However, it offers distinct advantages:
 \begin{itemize}
   \item It captures hierarchical structures and does not assume strictly spherical clusters.
   \item It is deterministic (produces the same result every time), unlike K-Means which depends on random initialization.
@@ -77,9 +266,21 @@ Hierarchical clustering is computationally expensive, with a time complexity of 
 
 When selecting a clustering algorithm for synthetic data evaluation, understanding the computational constraints is as critical as understanding the geometric assumptions.
 
-\textbf{Time Complexity:} K-Means is highly efficient, with a time complexity of $O(N \cdot k \cdot I \cdot d)$, where $N$ is the number of samples, $k$ is the number of clusters, $I$ is the number of iterations, and $d$ is the dimensionality. Since $k$, $I$, and $d$ are usually much smaller than $N$, it is often considered to have linear time complexity. In contrast, standard Agglomerative Hierarchical Clustering requires computing a distance matrix between all pairs of points, resulting in a time complexity of $O(N^3)$ in the worst case, though optimized implementations (like those using priority queues for Ward's linkage) can reduce this to $O(N^2 \log N)$.
+\textbf{Time Complexity:} The asymptotic contrast between the two methods can be summarized as
+\begin{equation}
+  T_{KM}(N,k,d,I) = O(NkId)
+  \qquad \text{versus} \qquad
+  T_{HC}(N,d) = O(N^3)
+\end{equation}
+for the standard forms of the algorithms. Since $k$, $I$, and $d$ are usually much smaller than $N$ in our simulation settings, K-Means is often treated as effectively linear in $N$, whereas Hierarchical Clustering remains superlinear because it must maintain and update inter-cluster dissimilarities throughout the agglomerative process.
 
-\textbf{Computational (Space) Complexity:} The space complexity of K-Means is $O(N \cdot d + k \cdot d)$ to store the data and the centroids, making its memory requirement grow linearly with the number of samples. Hierarchical Clustering, however, requires $O(N^2)$ space to store the pairwise distance matrix. This quadratic memory requirement makes it computationally prohibitive for very large datasets, presenting a practical tradeoff between its geometric robustness and its resource consumption.
+\textbf{Computational (Space) Complexity:} The corresponding memory requirements are
+\begin{equation}
+  S_{KM}(N,k,d) = O(Nd + kd)
+  \qquad \text{and} \qquad
+  S_{HC}(N,d) = O(N^2)
+\end{equation}
+so K-Means scales linearly with the sample representation, while Hierarchical Clustering is dominated by the quadratic cost of storing and updating pairwise distances. This creates the main computational tradeoff between the two methods.
 
 Table~\ref{tab:kmeans_vs_hc} summarizes the key computational, structural, and operational differences between the two algorithms evaluated in this study.
 

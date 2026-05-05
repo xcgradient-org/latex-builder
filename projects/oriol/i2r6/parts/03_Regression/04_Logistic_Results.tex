@@ -47,15 +47,13 @@ Correlation remains a negative driver, but its effect is compounded by the ``sig
 \section{Multivariate Comparison by Generator}
 Figure~\ref{fig:logistic-cio-method} compares CIO across the two main synthesis arms for logistic regression.
 
-\clearpage
-\begin{figure}[p]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth,height=0.88\textheight,keepaspectratio]{figures/parts/03_Regression/04_Logistic_Results/logistic_cio_by_method.png}
+    \includegraphics[width=\textwidth]{figures/parts/03_Regression/04_Logistic_Results/logistic_cio_by_method.png}
     \caption[Multivariate comparison of CIO for Logistic Regression]{Comparison of CIO across synthesis methods (CART vs. Parametric) for Logistic Regression.}
     \label{fig:logistic-cio-method}
     \source{Compiled by the author}
 \end{figure}
-\clearpage
 
 As seen in Figure~\ref{fig:logistic-cio-method}, the \textbf{Parametric (LogReg)} arm tends to achieve higher CIO than \textbf{CART} in the binary-outcome case. A plausible explanation is that CART generators can produce ``blocky'' artifacts in the probability space, which makes it harder to reproduce the smooth S-curve associated with the logistic model.
 
